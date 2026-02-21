@@ -258,7 +258,7 @@ export default function RealizationsSection() {
 		if (viewportWidth < 720) {
 			return {
 				width: Math.max(274, Math.min(340, viewportWidth - 44)),
-				height: 292,
+				height: 312,
 				cardDistance: 24,
 				verticalDistance: 18,
 			};
@@ -267,7 +267,7 @@ export default function RealizationsSection() {
 		if (viewportWidth < 900) {
 			return {
 				width: Math.max(336, Math.min(396, viewportWidth - 88)),
-				height: 302,
+				height: 320,
 				cardDistance: 26,
 				verticalDistance: 20,
 			};
@@ -338,7 +338,6 @@ export default function RealizationsSection() {
 
 									<div className={styles.cardBottom}>
 										<div>
-											<p className={styles.stackTag}>{project.stack}</p>
 											<h3 className={styles.cardTitle}>{project.name}</h3>
 											<p className={styles.cardShort}>{project.short}</p>
 										</div>
