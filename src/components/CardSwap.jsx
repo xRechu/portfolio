@@ -14,6 +14,8 @@ const makeSlot = (i, distX, distY, total) => ({
   zIndex: total - i
 });
 
+const MAX_QUEUED_STEPS = 6;
+
 const placeNow = (el, slot, skew) =>
   gsap.set(el, {
     x: slot.x,
@@ -45,23 +47,23 @@ const CardSwap = ({
     easing === 'elastic'
       ? {
           ease: 'elastic.out(0.6,0.9)',
-          durDrop: 0.96,
-          durMove: 0.88,
-          durReturn: 0.94,
+          durDrop: 0.82,
+          durMove: 0.74,
+          durReturn: 0.8,
           promoteOverlap: 0.6,
-          returnDelay: 0.12,
-          durLift: 0.3,
-          promoteStagger: 0.11
+          returnDelay: 0.1,
+          durLift: 0.24,
+          promoteStagger: 0.09
         }
       : {
           ease: 'power1.inOut',
-          durDrop: 0.8,
-          durMove: 0.74,
-          durReturn: 0.8,
+          durDrop: 0.66,
+          durMove: 0.62,
+          durReturn: 0.66,
           promoteOverlap: 0.46,
-          returnDelay: 0.2,
-          durLift: 0.24,
-          promoteStagger: 0.1
+          returnDelay: 0.16,
+          durLift: 0.2,
+          promoteStagger: 0.08
         };
 
   const childArr = useMemo(() => Children.toArray(children), [children]);
@@ -73,6 +75,8 @@ const CardSwap = ({
 
   const order = useRef(Array.from({ length: childArr.length }, (_, i) => i));
   const tlRef = useRef(null);
+  const queueRef = useRef([]);
+  const isAnimatingRef = useRef(false);
   const intervalRef = useRef();
   const isHoveringRef = useRef(false);
   const isInViewRef = useRef(true);
@@ -91,9 +95,12 @@ const CardSwap = ({
   }, [onFrontCardChange]);
 
   useEffect(() => {
+    let isDisposed = false;
     const total = refs.length;
     isPageVisibleRef.current = !document.hidden;
     order.current = Array.from({ length: total }, (_, i) => i);
+    queueRef.current = [];
+    isAnimatingRef.current = false;
     refs.forEach((r, i) => placeNow(r.current, makeSlot(i, cardDistance, verticalDistance, total), skewAmount));
 
     const shouldRun = () => isPageVisibleRef.current && isInViewRef.current && (!pauseOnHover || !isHoveringRef.current);
@@ -113,6 +120,8 @@ const CardSwap = ({
     const stopAllTweens = () => {
       tlRef.current?.kill();
       tlRef.current = null;
+      queueRef.current = [];
+      isAnimatingRef.current = false;
       refs.forEach(r => {
         if (!r.current) return;
         gsap.killTweensOf(r.current);
@@ -147,23 +156,14 @@ const CardSwap = ({
       });
     };
 
-    const animateToCurrentOrder = (direction, movedCardIndex) => {
-      stopAllTweens();
-      const timeline = gsap.timeline({
-        onComplete: () => {
-          if (tlRef.current === timeline) tlRef.current = null;
-        },
-        onInterrupt: () => {
-          if (tlRef.current === timeline) tlRef.current = null;
-        }
-      });
-      tlRef.current = timeline;
+    const createTimelineForCurrentOrder = (direction, movedCardIndex) => {
+      const timeline = gsap.timeline();
 
       if (direction === 'next' && typeof movedCardIndex === 'number') {
         const movedEl = refs[movedCardIndex]?.current;
         if (!movedEl) {
           moveCardsToCurrentOrder({ timeline, startAt: 0, stagger: motion.promoteStagger * 0.85 });
-          return;
+          return timeline;
         }
 
         const dropDistance = Math.max(height * 1.45, 420);
@@ -202,7 +202,7 @@ const CardSwap = ({
           },
           'return'
         );
-        return;
+        return timeline;
       }
 
       if (direction === 'prev' && typeof movedCardIndex === 'number') {
@@ -224,10 +224,11 @@ const CardSwap = ({
           startAt: 'reflow',
           stagger: motion.promoteStagger * 0.8
         });
-        return;
+        return timeline;
       }
 
       moveCardsToCurrentOrder({ timeline, startAt: 0, stagger: motion.promoteStagger * 0.85 });
+      return timeline;
     };
 
     const rotateOrder = direction => {
@@ -249,24 +250,59 @@ const CardSwap = ({
     const startAutoSwap = () => {
       stopAutoSwap();
       if (!shouldRun()) return;
-      intervalRef.current = window.setInterval(() => step('next', { restartAuto: false }), delay);
+      intervalRef.current = window.setInterval(() => requestStep('next', { restartAuto: false }), delay);
     };
 
-    const step = (direction, options = { restartAuto: true }) => {
+    const runStep = direction => {
       const movedCardIndex = rotateOrder(direction);
-      if (movedCardIndex === null) return;
+      if (movedCardIndex === null) return false;
 
       emitFrontCardChange();
-      animateToCurrentOrder(direction, movedCardIndex);
+      const timeline = createTimelineForCurrentOrder(direction, movedCardIndex);
+      tlRef.current = timeline;
+      isAnimatingRef.current = true;
+
+      const onTimelineFinish = () => {
+        if (isDisposed) return;
+        if (tlRef.current === timeline) {
+          tlRef.current = null;
+        }
+        isAnimatingRef.current = false;
+        processQueuedSteps();
+      };
+
+      timeline.eventCallback('onComplete', onTimelineFinish);
+      timeline.eventCallback('onInterrupt', onTimelineFinish);
+      return true;
+    };
+
+    const processQueuedSteps = () => {
+      if (isDisposed || isAnimatingRef.current) return;
+      const queuedDirection = queueRef.current.shift();
+      if (!queuedDirection) return;
+      runStep(queuedDirection);
+    };
+
+    const requestStep = (direction, options = { restartAuto: true }) => {
+      if (!direction) return;
 
       if (options.restartAuto && shouldRun()) {
         startAutoSwap();
       }
+
+      if (isAnimatingRef.current) {
+        if (queueRef.current.length < MAX_QUEUED_STEPS) {
+          queueRef.current.push(direction);
+        }
+        return;
+      }
+
+      runStep(direction);
     };
 
     onReadyRef.current({
-      next: () => step('next'),
-      prev: () => step('prev')
+      next: () => requestStep('next'),
+      prev: () => requestStep('prev')
     });
 
     emitFrontCardChange();
@@ -275,6 +311,7 @@ const CardSwap = ({
     const node = container.current;
     if (!node) {
       return () => {
+        isDisposed = true;
         stopAutoSwap();
         stopAllTweens();
       };
@@ -291,6 +328,7 @@ const CardSwap = ({
         }
         tlRef.current?.play();
         startAutoSwap();
+        processQueuedSteps();
       },
       { threshold: 0.1 }
     );
@@ -305,6 +343,7 @@ const CardSwap = ({
       }
       tlRef.current?.play();
       startAutoSwap();
+      processQueuedSteps();
     };
     document.addEventListener('visibilitychange', onVisibilityChange);
 
@@ -335,10 +374,10 @@ const CardSwap = ({
       if (!isHorizontalSwipe) return;
 
       if (deltaX < 0) {
-        step('next');
+        requestStep('next');
         return;
       }
-      step('prev');
+      requestStep('prev');
     };
 
     const onTouchCancel = () => {
@@ -358,12 +397,14 @@ const CardSwap = ({
         isHoveringRef.current = false;
         tlRef.current?.play();
         startAutoSwap();
+        processQueuedSteps();
       };
 
       node.addEventListener('mouseenter', pause);
       node.addEventListener('mouseleave', resume);
 
       return () => {
+        isDisposed = true;
         isHoveringRef.current = false;
         observer.disconnect();
         document.removeEventListener('visibilitychange', onVisibilityChange);
@@ -378,6 +419,7 @@ const CardSwap = ({
     }
 
     return () => {
+      isDisposed = true;
       observer.disconnect();
       document.removeEventListener('visibilitychange', onVisibilityChange);
       node.removeEventListener('touchstart', onTouchStart);
