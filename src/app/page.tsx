@@ -1,4 +1,5 @@
 import Hero from "@/components/Hero";
+import RealizationsSection from "@/components/RealizationsSection";
 import SectionRail from "@/components/SectionRail";
 
 const sectionNavigation = [
@@ -12,13 +13,6 @@ const sectionNavigation = [
 ];
 
 const contentSections = [
-	{
-		id: "realizacje",
-		eyebrow: "Realizacje",
-		title: "Showcase projektow i wdrozen",
-		description:
-			"W tej sekcji podepniesz CardSwap z projektami. Kazda karta moze prowadzic do szczegolow wdrozenia, feature'ow i efektow biznesowych.",
-	},
 	{
 		id: "uslugi",
 		eyebrow: "Uslugi",
@@ -67,6 +61,7 @@ export default function Home() {
 			<SectionRail sections={sectionNavigation} />
 
 			<Hero />
+			<RealizationsSection />
 
 			{contentSections.map((section) => (
 				<section key={section.id} id={section.id} className="page-section">

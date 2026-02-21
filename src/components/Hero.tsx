@@ -24,15 +24,15 @@ export default function Hero() {
 
             <div className="hero-content">
                 <h1 className="hero-title">
-                    <span className="hero-title-line">Tworze dla ciebie</span>
+                    <span className="hero-title-line">Tworzę dla Ciebie</span>
                     <TextType
                         as="span"
                         className="hero-title-line"
                         text={[
                             "szybkie strony internetowe",
-                            "sklepy e-commerce (Medusa / WooCommerce)",
-                            "automatyzacje procesow",
-                            "wdrozenia AI",
+                            "sklepy e-commerce",
+                            "automatyzacje procesów",
+                            "wdrożenia AI",
                         ]}
                         typingSpeed={60}
                         deletingSpeed={35}
