@@ -54,6 +54,8 @@ type ContactCopy = {
 const copyByLanguage: Record<AppLanguage, ContactCopy> = {
 	pl: {
 		eyebrow: "Kontakt",
+		title: "Darmowa konsultacja i wstępna wycena",
+		description: "Wypełnij krótki formularz. Otrzymasz rekomendowany kierunek i kolejne kroki dla swojego projektu.",
 		labels: {
 			name: "Imię i nazwisko",
 			email: "Adres e-mail",

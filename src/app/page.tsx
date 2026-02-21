@@ -47,6 +47,9 @@ const contentSectionsByLanguage: Record<AppLanguage, ContentSection[]> = {
 		{
 			id: "dlaczego-ja",
 			eyebrow: "Dlaczego ja",
+			title: "Partner technologiczny skupiony na wynikach",
+			description:
+				"Łączę strategię, design i development w jeden proces, żeby Twoja strona generowała leady, a nie tylko robiła wrażenie wizualne.",
 			points: [
 				"Szybka realizacja: działam sprawnie i dowożę projekt bez przeciągania terminów.",
 				"Zaawansowane strony i sklepy: Next.js, Medusa.js, WooCommerce oraz custom rozwiązania.",
@@ -118,8 +121,6 @@ const faqByLanguage: Record<
 	},
 	en: {
 		eyebrow: "FAQ",
-		title: "Frequently asked questions before kickoff",
-		description: "Clear answers about scope, timeline, integrations, support and pricing.",
 		items: [
 			{
 				id: "design-only",
