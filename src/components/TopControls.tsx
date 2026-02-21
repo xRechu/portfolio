@@ -4,6 +4,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Globe } from "lucide-react";
 import { useLanguage, type AppLanguage } from "@/components/LanguageProvider";
 
+const THEME_STORAGE_KEY = "portfolio-theme";
+
 const languages = [
 	{ code: "pl", label: "Polski" },
 	{ code: "en", label: "English" },
@@ -52,7 +54,21 @@ export default function TopControls() {
 	}, []);
 
 	useEffect(() => {
-		document.documentElement.dataset.themePreview = isDarkPreview ? "dark" : "light";
+		const persistedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
+		if (persistedTheme === "dark" || persistedTheme === "light") {
+			setIsDarkPreview(persistedTheme === "dark");
+			return;
+		}
+
+		const prefersDarkTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+		setIsDarkPreview(prefersDarkTheme);
+	}, []);
+
+	useEffect(() => {
+		const theme = isDarkPreview ? "dark" : "light";
+		document.documentElement.dataset.themePreview = theme;
+		document.documentElement.style.colorScheme = theme;
+		window.localStorage.setItem(THEME_STORAGE_KEY, theme);
 	}, [isDarkPreview]);
 
 	useEffect(() => {

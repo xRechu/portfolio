@@ -1,6 +1,62 @@
 .section {
 	padding-top: clamp(4.5rem, 8vw, 7.5rem);
 	padding-bottom: clamp(4.5rem, 8vw, 7.5rem);
+
+	--srv-card-border: rgba(13, 15, 23, 0.13);
+	--srv-card-bg: linear-gradient(165deg, rgba(255, 255, 255, 0.96), rgba(247, 251, 255, 0.93));
+	--srv-card-shadow: 0 16px 36px rgba(13, 18, 30, 0.08);
+
+	--srv-scope: rgba(13, 15, 23, 0.56);
+	--srv-title: rgba(13, 15, 23, 0.96);
+	--srv-description: rgba(13, 15, 23, 0.74);
+	--srv-feature: rgba(13, 15, 23, 0.8);
+
+	--srv-hint-bg: rgba(255, 255, 255, 0.94);
+	--srv-hint-border: rgba(13, 15, 23, 0.22);
+	--srv-hint-text: rgba(13, 15, 23, 0.74);
+	--srv-tooltip-bg: rgba(8, 12, 20, 0.94);
+	--srv-tooltip-text: rgba(255, 255, 255, 0.93);
+	--srv-tooltip-shadow: 0 14px 30px rgba(8, 12, 20, 0.3);
+
+	--srv-badge-border: rgba(13, 15, 23, 0.16);
+	--srv-badge-text: rgba(13, 15, 23, 0.72);
+
+	--srv-cta-border: rgba(13, 15, 23, 0.1);
+	--srv-cta-bg: rgba(255, 255, 255, 0.72);
+	--srv-cta-button-bg: #0f172a;
+	--srv-cta-button-hover: #1e293b;
+	--srv-cta-button-text: #ffffff;
+	--srv-cta-text: rgba(13, 15, 23, 0.74);
+	--srv-cta-shadow: 0 10px 22px rgba(13, 15, 23, 0.18);
+}
+
+:global(html[data-theme-preview="dark"]) .section {
+	--srv-card-border: rgba(148, 163, 184, 0.24);
+	--srv-card-bg: linear-gradient(165deg, rgba(11, 21, 34, 0.94), rgba(13, 24, 38, 0.9));
+	--srv-card-shadow: 0 20px 44px rgba(0, 7, 16, 0.55);
+
+	--srv-scope: rgba(203, 213, 225, 0.68);
+	--srv-title: rgba(241, 245, 249, 0.96);
+	--srv-description: rgba(226, 232, 240, 0.8);
+	--srv-feature: rgba(226, 232, 240, 0.86);
+
+	--srv-hint-bg: rgba(10, 20, 32, 0.86);
+	--srv-hint-border: rgba(148, 163, 184, 0.34);
+	--srv-hint-text: rgba(226, 232, 240, 0.82);
+	--srv-tooltip-bg: rgba(2, 9, 18, 0.96);
+	--srv-tooltip-text: rgba(226, 232, 240, 0.92);
+	--srv-tooltip-shadow: 0 16px 34px rgba(0, 6, 14, 0.62);
+
+	--srv-badge-border: rgba(148, 163, 184, 0.32);
+	--srv-badge-text: rgba(226, 232, 240, 0.8);
+
+	--srv-cta-border: rgba(148, 163, 184, 0.26);
+	--srv-cta-bg: rgba(11, 21, 34, 0.8);
+	--srv-cta-button-bg: #10b981;
+	--srv-cta-button-hover: #34d399;
+	--srv-cta-button-text: #032013;
+	--srv-cta-text: rgba(226, 232, 240, 0.82);
+	--srv-cta-shadow: 0 10px 24px rgba(0, 8, 18, 0.56);
 }
 
 .inner {
@@ -19,9 +75,9 @@
 	position: relative;
 	padding: 1.08rem;
 	border-radius: 18px;
-	border: 1px solid rgba(13, 15, 23, 0.13);
-	background: linear-gradient(165deg, rgba(255, 255, 255, 0.96), rgba(247, 251, 255, 0.93));
-	box-shadow: 0 16px 36px rgba(13, 18, 30, 0.08);
+	border: 1px solid var(--srv-card-border);
+	background: var(--srv-card-bg);
+	box-shadow: var(--srv-card-shadow);
 	display: flex;
 	flex-direction: column;
 	gap: 0.7rem;
@@ -33,6 +89,7 @@
 	font-size: 1.18rem;
 	line-height: 1.2;
 	letter-spacing: -0.02em;
+	color: var(--srv-title);
 }
 
 .cardScope {
@@ -41,14 +98,14 @@
 	font-weight: 700;
 	letter-spacing: 0.08em;
 	text-transform: uppercase;
-	color: rgba(13, 15, 23, 0.56);
+	color: var(--srv-scope);
 }
 
 .cardDescription {
 	margin: 0;
 	font-size: 0.85rem;
 	line-height: 1.55;
-	color: rgba(13, 15, 23, 0.74);
+	color: var(--srv-description);
 }
 
 .featureList {
@@ -71,7 +128,7 @@
 	flex: 1;
 	font-size: 0.8rem;
 	line-height: 1.45;
-	color: rgba(13, 15, 23, 0.8);
+	color: var(--srv-feature);
 }
 
 .hintWrap {
@@ -83,9 +140,9 @@
 	width: 1.15rem;
 	height: 1.15rem;
 	border-radius: 999px;
-	border: 1px solid rgba(13, 15, 23, 0.22);
-	background: rgba(255, 255, 255, 0.94);
-	color: rgba(13, 15, 23, 0.74);
+	border: 1px solid var(--srv-hint-border);
+	background: var(--srv-hint-bg);
+	color: var(--srv-hint-text);
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -103,11 +160,11 @@
 	width: min(248px, 68vw);
 	padding: 0.62rem 0.68rem;
 	border-radius: 12px;
-	background: rgba(8, 12, 20, 0.94);
-	color: rgba(255, 255, 255, 0.93);
+	background: var(--srv-tooltip-bg);
+	color: var(--srv-tooltip-text);
 	font-size: 0.74rem;
 	line-height: 1.5;
-	box-shadow: 0 14px 30px rgba(8, 12, 20, 0.3);
+	box-shadow: var(--srv-tooltip-shadow);
 	opacity: 0;
 	visibility: hidden;
 	transform: translateY(6px);
@@ -129,12 +186,12 @@
 	margin-top: auto;
 	padding: 0.3rem 0.65rem;
 	border-radius: 999px;
-	border: 1px solid rgba(13, 15, 23, 0.16);
+	border: 1px solid var(--srv-badge-border);
 	font-size: 0.66rem;
 	font-weight: 700;
 	letter-spacing: 0.05em;
 	text-transform: uppercase;
-	color: rgba(13, 15, 23, 0.72);
+	color: var(--srv-badge-text);
 }
 
 .ctaRow {
@@ -144,8 +201,8 @@
 	gap: 1rem;
 	padding: 1rem;
 	border-radius: 16px;
-	border: 1px solid rgba(13, 15, 23, 0.1);
-	background: rgba(255, 255, 255, 0.72);
+	border: 1px solid var(--srv-cta-border);
+	background: var(--srv-cta-bg);
 }
 
 .ctaButton {
@@ -155,8 +212,8 @@
 	padding: 0.75rem 1.25rem;
 	border-radius: 999px;
 	text-decoration: none;
-	background: #0f172a;
-	color: #ffffff;
+	background: var(--srv-cta-button-bg);
+	color: var(--srv-cta-button-text);
 	font-size: 0.85rem;
 	font-weight: 600;
 	letter-spacing: 0.01em;
@@ -165,16 +222,16 @@
 }
 
 .ctaButton:hover {
-	background: #1e293b;
+	background: var(--srv-cta-button-hover);
 	transform: translateY(-1px);
-	box-shadow: 0 10px 22px rgba(13, 15, 23, 0.18);
+	box-shadow: var(--srv-cta-shadow);
 }
 
 .ctaRow p {
 	margin: 0;
 	font-size: 0.86rem;
 	line-height: 1.55;
-	color: rgba(13, 15, 23, 0.74);
+	color: var(--srv-cta-text);
 }
 
 @media (max-width: 960px) {

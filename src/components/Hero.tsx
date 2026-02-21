@@ -1,11 +1,27 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 import TextType from "@/components/TextType";
 import Waves from "@/components/Waves";
 
 export default function Hero() {
     const { language } = useLanguage();
+    const [isDarkTheme, setIsDarkTheme] = useState(false);
+
+    useEffect(() => {
+        const rootElement = document.documentElement;
+        const syncThemeState = () => {
+            setIsDarkTheme(rootElement.dataset.themePreview === "dark");
+        };
+
+        syncThemeState();
+
+        const observer = new MutationObserver(syncThemeState);
+        observer.observe(rootElement, { attributes: true, attributeFilter: ["data-theme-preview"] });
+
+        return () => observer.disconnect();
+    }, []);
 
     const copy =
         language === "pl"
@@ -36,7 +52,7 @@ export default function Hero() {
         <section id="start" className="hero">
             <div className="hero-waves">
                 <Waves
-                    lineColor="rgba(0, 0, 0, 0.08)"
+                    lineColor={isDarkTheme ? "rgba(148, 163, 184, 0.32)" : "rgba(0, 0, 0, 0.08)"}
                     backgroundColor="transparent"
                     waveSpeedX={0.02}
                     waveSpeedY={0.01}

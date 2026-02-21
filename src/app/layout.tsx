@@ -37,7 +37,7 @@ export default async function RootLayout({
 	const initialLanguage = resolveInitialLanguage(headersList.get("accept-language"));
 
 	return (
-		<html lang={initialLanguage}>
+		<html lang={initialLanguage} data-theme-preview="light">
 			<head>
 				<link rel="icon" href="/favicon.svg" type="image/svg+xml"></link>
 			</head>
