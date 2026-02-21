@@ -4,10 +4,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Hero from "@/components/Hero";
 import { useLanguage, type AppLanguage } from "@/components/LanguageProvider";
-import ContactSection from "@/components/ContactSection";
-import RealizationsSection from "@/components/RealizationsSection";
+import DeferredClientSection from "@/components/DeferredClientSection";
 import SectionRail from "@/components/SectionRail";
-import ServicesSection from "@/components/ServicesSection";
 import TopControls from "@/components/TopControls";
 import { clearStoredConsent } from "@/lib/consent";
 
@@ -180,12 +178,37 @@ const footerCopyByLanguage: Record<
 	},
 };
 
+const deferredSectionFallbackByLanguage: Record<
+	AppLanguage,
+	{
+		realizations: string;
+		services: string;
+		contact: string;
+	}
+> = {
+	pl: {
+		realizations: "Realizacje",
+		services: "Usługi",
+		contact: "Kontakt",
+	},
+	en: {
+		realizations: "Projects",
+		services: "Services",
+		contact: "Contact",
+	},
+};
+
+const loadRealizationsSection = () => import("@/components/RealizationsSection");
+const loadServicesSection = () => import("@/components/ServicesSection");
+const loadContactSection = () => import("@/components/ContactSection");
+
 export default function Home() {
 	const { language } = useLanguage();
 	const sectionNavigation = sectionNavigationByLanguage[language];
 	const contentSections = contentSectionsByLanguage[language];
 	const faq = faqByLanguage[language];
 	const footerCopy = footerCopyByLanguage[language];
+	const deferredSectionFallback = deferredSectionFallbackByLanguage[language];
 	const [openFaqId, setOpenFaqId] = useState<string | null>(null);
 
 	useEffect(() => {
@@ -211,10 +234,20 @@ export default function Home() {
 			<SectionRail sections={sectionNavigation} />
 
 			<Hero />
-			<RealizationsSection />
-			<ServicesSection />
+			<DeferredClientSection
+				sectionId="realizacje"
+				loader={loadRealizationsSection}
+				fallbackEyebrow={deferredSectionFallback.realizations}
+				minHeight={860}
+			/>
+			<DeferredClientSection
+				sectionId="uslugi"
+				loader={loadServicesSection}
+				fallbackEyebrow={deferredSectionFallback.services}
+				minHeight={760}
+			/>
 
-				{contentSections.map((section) => (
+			{contentSections.map((section) => (
 				<section key={section.id} id={section.id} className="page-section">
 					<div className="page-section-inner">
 						<p className="page-section-eyebrow">{section.eyebrow}</p>
@@ -229,46 +262,51 @@ export default function Home() {
 						) : null}
 					</div>
 				</section>
-				))}
+			))}
 
-				<section id="faq" className="page-section faq-section">
-					<div className="page-section-inner">
-						<p className="page-section-eyebrow">{faq.eyebrow}</p>
-						{faq.title ? <h2 className="page-section-title">{faq.title}</h2> : null}
-						{faq.description ? <p className="page-section-description">{faq.description}</p> : null}
+			<section id="faq" className="page-section faq-section">
+				<div className="page-section-inner">
+					<p className="page-section-eyebrow">{faq.eyebrow}</p>
+					{faq.title ? <h2 className="page-section-title">{faq.title}</h2> : null}
+					{faq.description ? <p className="page-section-description">{faq.description}</p> : null}
 
-						<div className="faq-list">
-							{faq.items.map((item) => {
-								const isOpen = openFaqId === item.id;
-								const answerId = `faq-answer-${item.id}`;
+					<div className="faq-list">
+						{faq.items.map((item) => {
+							const isOpen = openFaqId === item.id;
+							const answerId = `faq-answer-${item.id}`;
 
-								return (
-									<article key={item.id} className={`faq-item ${isOpen ? "is-open" : ""}`}>
-										<h3 className="faq-question-wrap">
-											<button
-												type="button"
-												className="faq-question"
-												aria-expanded={isOpen}
-												aria-controls={answerId}
-												onClick={() => setOpenFaqId((current) => (current === item.id ? null : item.id))}
-											>
-												<span>{item.question}</span>
-												<span className={`faq-toggle ${isOpen ? "is-open" : ""}`} aria-hidden="true">
-													{isOpen ? "−" : "+"}
-												</span>
-											</button>
-										</h3>
-										<div id={answerId} className="faq-answer" hidden={!isOpen}>
-											<p>{item.answer}</p>
-										</div>
-									</article>
-								);
-							})}
-						</div>
+							return (
+								<article key={item.id} className={`faq-item ${isOpen ? "is-open" : ""}`}>
+									<h3 className="faq-question-wrap">
+										<button
+											type="button"
+											className="faq-question"
+											aria-expanded={isOpen}
+											aria-controls={answerId}
+											onClick={() => setOpenFaqId((current) => (current === item.id ? null : item.id))}
+										>
+											<span>{item.question}</span>
+											<span className={`faq-toggle ${isOpen ? "is-open" : ""}`} aria-hidden="true">
+												{isOpen ? "−" : "+"}
+											</span>
+										</button>
+									</h3>
+									<div id={answerId} className="faq-answer" hidden={!isOpen}>
+										<p>{item.answer}</p>
+									</div>
+								</article>
+							);
+						})}
 					</div>
-				</section>
+				</div>
+			</section>
 
-				<ContactSection />
+			<DeferredClientSection
+				sectionId="kontakt"
+				loader={loadContactSection}
+				fallbackEyebrow={deferredSectionFallback.contact}
+				minHeight={760}
+			/>
 
 			<footer className="site-legal-footer">
 				<p className="site-legal-footer-copy">

@@ -1,0 +1,150 @@
+.legalPage {
+	min-height: 100svh;
+	padding: 6.6rem 1.1rem 3rem;
+	background: var(--main-bg);
+}
+
+.legalPageInner {
+	width: min(100%, 920px);
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.legalBackLink {
+	align-self: flex-start;
+	font-size: 0.82rem;
+	text-decoration: none;
+	color: var(--text-secondary);
+}
+
+.legalBackLink:hover {
+	color: var(--text-primary);
+}
+
+.legalPageHeader {
+	display: flex;
+	flex-direction: column;
+	gap: 0.45rem;
+}
+
+.legalPageEyebrow {
+	margin: 0;
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--text-muted);
+}
+
+.legalPageTitle {
+	margin: 0;
+	font-size: clamp(2rem, 5vw, 3rem);
+	line-height: 1.04;
+	letter-spacing: -0.03em;
+	color: var(--text-primary);
+}
+
+.legalPageUpdated {
+	margin: 0;
+	font-size: 0.84rem;
+	color: var(--text-muted);
+}
+
+.legalPageAlert {
+	padding: 0.72rem 0.82rem;
+	border-radius: 12px;
+	font-size: 0.8rem;
+	line-height: 1.5;
+	color: var(--text-secondary);
+	border: 1px solid var(--surface-border);
+	background: var(--surface-glass);
+}
+
+.legalSections {
+	display: grid;
+	gap: 0.68rem;
+}
+
+.legalSection {
+	padding: 1rem;
+	border-radius: 16px;
+	border: 1px solid var(--surface-border);
+	background: var(--surface-glass);
+}
+
+.legalSection h2 {
+	margin: 0;
+	font-size: 1.02rem;
+	line-height: 1.3;
+	letter-spacing: -0.01em;
+	color: var(--text-primary);
+}
+
+.legalSection p {
+	margin: 0.62rem 0 0;
+	font-size: 0.9rem;
+	line-height: 1.58;
+	color: var(--text-secondary);
+}
+
+.legalSection ul {
+	margin: 0.62rem 0 0;
+	padding-left: 1.1rem;
+	display: grid;
+	gap: 0.36rem;
+}
+
+.legalSection li {
+	font-size: 0.9rem;
+	line-height: 1.56;
+	color: var(--text-secondary);
+}
+
+@media (min-width: 641px) and (max-width: 1023px) {
+	.legalPage {
+		padding-top: 6.25rem;
+	}
+
+	.legalPageInner {
+		gap: 0.9rem;
+	}
+
+	.legalSection {
+		padding: 0.9rem 0.92rem;
+	}
+}
+
+@media (max-width: 640px) {
+	.legalPage {
+		padding-top: 5.8rem;
+		padding-bottom: 5rem;
+	}
+
+	.legalBackLink {
+		font-size: 0.78rem;
+	}
+
+	.legalPageUpdated {
+		font-size: 0.78rem;
+	}
+
+	.legalPageAlert {
+		font-size: 0.76rem;
+	}
+
+	.legalSection {
+		padding: 0.85rem 0.82rem;
+	}
+
+	.legalSection h2 {
+		font-size: 0.94rem;
+	}
+
+	.legalSection p,
+	.legalSection li {
+		font-size: 0.84rem;
+		line-height: 1.52;
+	}
+}

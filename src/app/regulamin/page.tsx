@@ -3,6 +3,7 @@
 import Link from "next/link";
 import TopControls from "@/components/TopControls";
 import { useLanguage, type AppLanguage } from "@/components/LanguageProvider";
+import styles from "@/app/legal-pages.module.css";
 
 type LegalSection = {
 	title: string;
@@ -184,29 +185,29 @@ export default function TermsPage() {
 	const copy = termsContentByLanguage[language];
 
 	return (
-		<main className="legal-page">
+		<main className={styles.legalPage}>
 			<a href="/" className="brand-wordmark" aria-label={copy.back}>
 				<span className="brand-wordmark-name">JAKUB RESZKA</span>
 				<span className="brand-wordmark-role">Next.js · E-commerce · AI</span>
 			</a>
 			<TopControls />
 
-			<div className="legal-page-inner">
-				<Link href="/" className="legal-back-link">
+			<div className={styles.legalPageInner}>
+				<Link href="/" className={styles.legalBackLink}>
 					{copy.back}
 				</Link>
 
-				<header className="legal-page-header">
-					<p className="legal-page-eyebrow">{copy.eyebrow}</p>
-					<h1 className="legal-page-title">{copy.title}</h1>
-					<p className="legal-page-updated">{copy.updatedAt}</p>
+				<header className={styles.legalPageHeader}>
+					<p className={styles.legalPageEyebrow}>{copy.eyebrow}</p>
+					<h1 className={styles.legalPageTitle}>{copy.title}</h1>
+					<p className={styles.legalPageUpdated}>{copy.updatedAt}</p>
 				</header>
 
-				<div className="legal-page-alert">{copy.notice}</div>
+				<div className={styles.legalPageAlert}>{copy.notice}</div>
 
-				<div className="legal-sections">
+				<div className={styles.legalSections}>
 					{copy.sections.map((section) => (
-						<section key={section.title} className="legal-section">
+						<section key={section.title} className={styles.legalSection}>
 							<h2>{section.title}</h2>
 							{section.paragraphs?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
 							{section.points && section.points.length > 0 ? (

@@ -154,7 +154,7 @@ const CardSwap = ({
     const createTimelineForCurrentOrder = (direction, movedCardIndex) => {
       const timeline = gsap.timeline();
 
-      if (direction === 'next' && typeof movedCardIndex === 'number') {
+      if ((direction === 'next' || direction === 'prev') && typeof movedCardIndex === 'number') {
         const movedEl = refs[movedCardIndex]?.current;
         if (!movedEl) {
           moveCardsToCurrentOrder({ timeline, startAt: 0, stagger: motion.promoteStagger * 0.85 });
@@ -197,28 +197,6 @@ const CardSwap = ({
           },
           'return'
         );
-        return timeline;
-      }
-
-      if (direction === 'prev' && typeof movedCardIndex === 'number') {
-        const movedEl = refs[movedCardIndex]?.current;
-        if (movedEl) {
-          timeline.to(
-            movedEl,
-            {
-              y: '-=120',
-              duration: motion.durLift,
-              ease: motion.ease
-            },
-            0
-          );
-        }
-        timeline.addLabel('reflow', `-=${Math.max(0.1, motion.durLift * 0.25)}`);
-        moveCardsToCurrentOrder({
-          timeline,
-          startAt: 'reflow',
-          stagger: motion.promoteStagger * 0.8
-        });
         return timeline;
       }
 
