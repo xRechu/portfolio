@@ -123,9 +123,18 @@ const CardSwap = ({
       });
     };
 
-    const moveCardsToCurrentOrder = ({ timeline, startAt = 0, skipCardIndex = null, stagger = motion.promoteStagger }) => {
+    const moveCardsToCurrentOrder = ({
+      timeline,
+      startAt = 0,
+      skipCardIndex = null,
+      stagger = motion.promoteStagger,
+      reverseStagger = false
+    }) => {
+      const entries = order.current.map((cardIndex, slotIndex) => ({ cardIndex, slotIndex }));
+      const animationOrder = reverseStagger ? [...entries].reverse() : entries;
       let animatedIndex = 0;
-      order.current.forEach((cardIndex, slotIndex) => {
+
+      animationOrder.forEach(({ cardIndex, slotIndex }) => {
         if (skipCardIndex !== null && cardIndex === skipCardIndex) return;
 
         const el = refs[cardIndex]?.current;
@@ -180,7 +189,8 @@ const CardSwap = ({
           timeline,
           startAt: 'promote',
           skipCardIndex: movedCardIndex,
-          stagger: motion.promoteStagger
+          stagger: motion.promoteStagger,
+          reverseStagger: direction === 'prev'
         });
 
         timeline.addLabel('return', `promote+=${motion.durMove * motion.returnDelay}`);
