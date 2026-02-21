@@ -37,7 +37,7 @@ export default function Hero() {
                 secondaryCta: "Zobacz realizacje",
             }
             : {
-                titleStatic: "I build for you",
+                titleStatic: "I build your",
                 titleDynamic: [
                     "fast business websites",
                     "e-commerce stores",
