@@ -70,8 +70,11 @@ const CardSwap = ({
   const tlRef = useRef(null);
   const intervalRef = useRef();
   const isHoveringRef = useRef(false);
+  const isAnimatingRef = useRef(false);
   const isInViewRef = useRef(true);
   const isPageVisibleRef = useRef(true);
+  const queueRef = useRef([]);
+  const touchStartRef = useRef({ x: 0, y: 0, active: false });
   const container = useRef(null);
   const onReadyRef = useRef(onReady);
 
@@ -83,6 +86,8 @@ const CardSwap = ({
     const total = refs.length;
     isPageVisibleRef.current = !document.hidden;
     order.current = Array.from({ length: total }, (_, i) => i);
+    queueRef.current = [];
+    isAnimatingRef.current = false;
     refs.forEach((r, i) => placeNow(r.current, makeSlot(i, cardDistance, verticalDistance, total), skewAmount));
 
     const shouldRun = () => isPageVisibleRef.current && isInViewRef.current && (!pauseOnHover || !isHoveringRef.current);
@@ -96,16 +101,15 @@ const CardSwap = ({
     const startAutoSwap = () => {
       stopAutoSwap();
       if (!shouldRun()) return;
-      intervalRef.current = window.setInterval(() => swap('next'), delay);
+      intervalRef.current = window.setInterval(() => enqueueSwap('next'), delay);
     };
 
-    const animateNext = () => {
-      if (order.current.length < 2) return;
+    const createNextTimeline = () => {
+      if (order.current.length < 2) return null;
 
       const [front, ...rest] = order.current;
       const elFront = refs[front].current;
       const tl = gsap.timeline();
-      tlRef.current = tl;
 
       tl.to(elFront, {
         y: '+=500',
@@ -155,10 +159,11 @@ const CardSwap = ({
       tl.call(() => {
         order.current = [...rest, front];
       });
+      return tl;
     };
 
-    const animatePrev = () => {
-      if (order.current.length < 2) return;
+    const createPrevTimeline = () => {
+      if (order.current.length < 2) return null;
 
       const currentOrder = order.current;
       const back = currentOrder[currentOrder.length - 1];
@@ -167,7 +172,6 @@ const CardSwap = ({
 
       const elBack = refs[back].current;
       const tl = gsap.timeline();
-      tlRef.current = tl;
 
       tl.to(elBack, {
         y: '-=120',
@@ -196,21 +200,52 @@ const CardSwap = ({
       tl.call(() => {
         order.current = nextOrder;
       });
+      return tl;
     };
 
-    const swap = direction => {
-      tlRef.current?.kill();
-      if (direction === 'prev') {
-        animatePrev();
+    const processQueue = () => {
+      if (isAnimatingRef.current) {
         return;
       }
-      animateNext();
+
+      const direction = queueRef.current.shift();
+      if (!direction) {
+        return;
+      }
+
+      const nextTimeline = direction === 'prev' ? createPrevTimeline() : createNextTimeline();
+      if (!nextTimeline) {
+        return;
+      }
+
+      isAnimatingRef.current = true;
+      tlRef.current = nextTimeline;
+
+      const onTimelineFinish = () => {
+        if (tlRef.current === nextTimeline) {
+          tlRef.current = null;
+        }
+        isAnimatingRef.current = false;
+        processQueue();
+      };
+
+      nextTimeline.eventCallback('onComplete', onTimelineFinish);
+      nextTimeline.eventCallback('onInterrupt', onTimelineFinish);
     };
 
-    const step = direction => {
-      swap(direction);
+    const enqueueSwap = direction => {
+      if (!direction) return;
+      if (queueRef.current.length >= 16) return;
+      queueRef.current.push(direction);
+      processQueue();
+    };
+
+    const step = (direction, options = { restartAuto: true }) => {
+      enqueueSwap(direction);
       if (shouldRun()) {
-        startAutoSwap();
+        if (options.restartAuto) {
+          startAutoSwap();
+        }
       }
     };
 
@@ -219,10 +254,18 @@ const CardSwap = ({
       prev: () => step('prev')
     });
 
-    swap('next');
+    step('next', { restartAuto: false });
     startAutoSwap();
 
     const node = container.current;
+    if (!node) {
+      return () => {
+        stopAutoSwap();
+        tlRef.current?.kill();
+        isAnimatingRef.current = false;
+        queueRef.current = [];
+      };
+    }
     const observer = new IntersectionObserver(
       entries => {
         const entry = entries[0];
@@ -234,6 +277,7 @@ const CardSwap = ({
         }
         tlRef.current?.play();
         startAutoSwap();
+        processQueue();
       },
       { threshold: 0.1 }
     );
@@ -248,10 +292,51 @@ const CardSwap = ({
       }
       tlRef.current?.play();
       startAutoSwap();
+      processQueue();
     };
     document.addEventListener('visibilitychange', onVisibilityChange);
 
-    if (pauseOnHover && node) {
+    const onTouchStart = event => {
+      if (event.touches.length !== 1) {
+        touchStartRef.current.active = false;
+        return;
+      }
+      const touch = event.touches[0];
+      touchStartRef.current = {
+        x: touch.clientX,
+        y: touch.clientY,
+        active: true
+      };
+    };
+
+    const onTouchEnd = event => {
+      const touchStart = touchStartRef.current;
+      if (!touchStart.active || event.changedTouches.length === 0) return;
+      touchStartRef.current.active = false;
+
+      const touch = event.changedTouches[0];
+      const deltaX = touch.clientX - touchStart.x;
+      const deltaY = touch.clientY - touchStart.y;
+      const absX = Math.abs(deltaX);
+      const absY = Math.abs(deltaY);
+      const isHorizontalSwipe = absX > 42 && absX > absY * 1.2;
+      if (!isHorizontalSwipe) return;
+
+      if (deltaX < 0) {
+        step('next');
+        return;
+      }
+      step('prev');
+    };
+
+    const onTouchCancel = () => {
+      touchStartRef.current.active = false;
+    };
+    node.addEventListener('touchstart', onTouchStart, { passive: true });
+    node.addEventListener('touchend', onTouchEnd, { passive: true });
+    node.addEventListener('touchcancel', onTouchCancel, { passive: true });
+
+    if (pauseOnHover) {
       const pause = () => {
         isHoveringRef.current = true;
         tlRef.current?.pause();
@@ -268,18 +353,28 @@ const CardSwap = ({
         isHoveringRef.current = false;
         observer.disconnect();
         document.removeEventListener('visibilitychange', onVisibilityChange);
+        node.removeEventListener('touchstart', onTouchStart);
+        node.removeEventListener('touchend', onTouchEnd);
+        node.removeEventListener('touchcancel', onTouchCancel);
         node.removeEventListener('mouseenter', pause);
         node.removeEventListener('mouseleave', resume);
         stopAutoSwap();
         tlRef.current?.kill();
+        isAnimatingRef.current = false;
+        queueRef.current = [];
       };
     }
 
     return () => {
       observer.disconnect();
       document.removeEventListener('visibilitychange', onVisibilityChange);
+      node.removeEventListener('touchstart', onTouchStart);
+      node.removeEventListener('touchend', onTouchEnd);
+      node.removeEventListener('touchcancel', onTouchCancel);
       stopAutoSwap();
       tlRef.current?.kill();
+      isAnimatingRef.current = false;
+      queueRef.current = [];
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing]);
