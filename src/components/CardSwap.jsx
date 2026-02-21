@@ -14,8 +14,6 @@ const makeSlot = (i, distX, distY, total) => ({
   zIndex: total - i
 });
 
-const MAX_QUEUED_STEPS = 6;
-
 const placeNow = (el, slot, skew) =>
   gsap.set(el, {
     x: slot.x,
@@ -75,7 +73,6 @@ const CardSwap = ({
 
   const order = useRef(Array.from({ length: childArr.length }, (_, i) => i));
   const tlRef = useRef(null);
-  const queueRef = useRef([]);
   const isAnimatingRef = useRef(false);
   const intervalRef = useRef();
   const isHoveringRef = useRef(false);
@@ -99,7 +96,6 @@ const CardSwap = ({
     const total = refs.length;
     isPageVisibleRef.current = !document.hidden;
     order.current = Array.from({ length: total }, (_, i) => i);
-    queueRef.current = [];
     isAnimatingRef.current = false;
     refs.forEach((r, i) => placeNow(r.current, makeSlot(i, cardDistance, verticalDistance, total), skewAmount));
 
@@ -120,7 +116,6 @@ const CardSwap = ({
     const stopAllTweens = () => {
       tlRef.current?.kill();
       tlRef.current = null;
-      queueRef.current = [];
       isAnimatingRef.current = false;
       refs.forEach(r => {
         if (!r.current) return;
@@ -268,19 +263,11 @@ const CardSwap = ({
           tlRef.current = null;
         }
         isAnimatingRef.current = false;
-        processQueuedSteps();
       };
 
       timeline.eventCallback('onComplete', onTimelineFinish);
       timeline.eventCallback('onInterrupt', onTimelineFinish);
       return true;
-    };
-
-    const processQueuedSteps = () => {
-      if (isDisposed || isAnimatingRef.current) return;
-      const queuedDirection = queueRef.current.shift();
-      if (!queuedDirection) return;
-      runStep(queuedDirection);
     };
 
     const requestStep = (direction, options = { restartAuto: true }) => {
@@ -291,10 +278,7 @@ const CardSwap = ({
       }
 
       if (isAnimatingRef.current) {
-        if (queueRef.current.length < MAX_QUEUED_STEPS) {
-          queueRef.current.push(direction);
-        }
-        return;
+        stopAllTweens();
       }
 
       runStep(direction);
@@ -328,7 +312,6 @@ const CardSwap = ({
         }
         tlRef.current?.play();
         startAutoSwap();
-        processQueuedSteps();
       },
       { threshold: 0.1 }
     );
@@ -343,7 +326,6 @@ const CardSwap = ({
       }
       tlRef.current?.play();
       startAutoSwap();
-      processQueuedSteps();
     };
     document.addEventListener('visibilitychange', onVisibilityChange);
 
@@ -397,7 +379,6 @@ const CardSwap = ({
         isHoveringRef.current = false;
         tlRef.current?.play();
         startAutoSwap();
-        processQueuedSteps();
       };
 
       node.addEventListener('mouseenter', pause);
