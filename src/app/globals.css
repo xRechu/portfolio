@@ -22,6 +22,8 @@
 	--accent-green: #065f46;
 	--accent-green-strong: #047857;
 	--hero-gradient: linear-gradient(96deg, #064e3b 0%, #047857 46%, #10b981 100%);
+	--hero-dynamic-gradient: linear-gradient(96deg, #044735 0%, #065f46 46%, #047857 100%);
+	--hero-dynamic-cursor: #065f46;
 
 	--btn-primary-bg: #0a0a0a;
 	--btn-primary-border: #0a0a0a;
@@ -84,6 +86,8 @@ html[data-theme-preview="dark"] {
 	--accent-green: #34d399;
 	--accent-green-strong: #10b981;
 	--hero-gradient: linear-gradient(96deg, #34d399 0%, #10b981 42%, #6ee7b7 100%);
+	--hero-dynamic-gradient: linear-gradient(96deg, #044735 0%, #065f46 46%, #047857 100%);
+	--hero-dynamic-cursor: #065f46;
 
 	--btn-primary-bg: #ffffff;
 	--btn-primary-border: #ffffff;
@@ -202,16 +206,17 @@ main {
 }
 
 .hero-title-line-dynamic .text-type__content {
-	background: none;
-	-webkit-text-fill-color: currentColor;
-	background-clip: border-box;
-	color: var(--hero-dynamic-color);
+	background: var(--hero-dynamic-gradient);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: transparent;
 	filter: none;
 }
 
 .hero-title-cursor {
-	color: var(--hero-dynamic-color);
-	-webkit-text-fill-color: var(--hero-dynamic-color);
+	color: var(--hero-dynamic-cursor);
+	-webkit-text-fill-color: var(--hero-dynamic-cursor);
 	text-shadow: none;
 }
 
