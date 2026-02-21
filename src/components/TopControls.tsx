@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Globe } from "lucide-react";
 
 const languages = [
 	{ code: "PL", label: "Polski" },
@@ -8,6 +9,38 @@ const languages = [
 ] as const;
 
 type LanguageCode = (typeof languages)[number]["code"];
+
+type IconProps = {
+	className?: string;
+};
+
+function SunIcon({ className = "" }: IconProps) {
+	return (
+		<svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
+			<circle cx="12" cy="12" r="4.2" stroke="currentColor" strokeWidth="1.8" />
+			<path
+				d="M12 2.6v2.3M12 19.1v2.3M21.4 12h-2.3M4.9 12H2.6M18.65 5.35l-1.6 1.6M6.95 17.05l-1.6 1.6M18.65 18.65l-1.6-1.6M6.95 6.95l-1.6-1.6"
+				stroke="currentColor"
+				strokeWidth="1.8"
+				strokeLinecap="round"
+			/>
+		</svg>
+	);
+}
+
+function MoonIcon({ className = "" }: IconProps) {
+	return (
+		<svg viewBox="0 0 24 24" className={className} fill="none" aria-hidden="true">
+			<path
+				d="M20.2 14.2A8.7 8.7 0 1 1 9.8 3.8a7 7 0 1 0 10.4 10.4Z"
+				stroke="currentColor"
+				strokeWidth="1.8"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+			/>
+		</svg>
+	);
+}
 
 export default function TopControls() {
 	const [isDarkPreview, setIsDarkPreview] = useState(false);
@@ -66,15 +99,21 @@ export default function TopControls() {
 		<div className="top-controls" aria-label="Ustawienia strony">
 			<button
 				type="button"
-				className={`top-icon-button theme-toggle ${isDarkPreview ? "is-dark" : ""}`}
+				className={`theme-switch ${isDarkPreview ? "is-dark" : ""}`}
 				onClick={toggleThemePreview}
 				aria-pressed={isDarkPreview}
 				aria-label={isDarkPreview ? "Przelacz na jasny motyw" : "Przelacz na ciemny motyw"}
 				title={isDarkPreview ? "Jasny motyw" : "Ciemny motyw"}
 			>
-				<span className="theme-icon" aria-hidden="true">
-					<span className="theme-sun" />
-					<span className="theme-moon" />
+				<span className="theme-switch-track" aria-hidden="true">
+					<SunIcon className="theme-track-icon theme-track-icon-sun" />
+					<MoonIcon className="theme-track-icon theme-track-icon-moon" />
+				</span>
+				<span className="theme-switch-thumb" aria-hidden="true">
+					<span className="theme-switch-thumb-inner">
+						<SunIcon className="theme-thumb-icon theme-thumb-icon-sun" />
+						<MoonIcon className="theme-thumb-icon theme-thumb-icon-moon" />
+					</span>
 				</span>
 			</button>
 
@@ -88,7 +127,7 @@ export default function TopControls() {
 					aria-label="Wybierz jezyk"
 					title="Wybierz jezyk"
 				>
-					<span className="language-globe" aria-hidden="true" />
+					<Globe className="language-globe-icon" aria-hidden="true" />
 					<span className="language-code" aria-hidden="true">
 						{activeLanguage}
 					</span>
