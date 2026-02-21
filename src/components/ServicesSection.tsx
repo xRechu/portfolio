@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useLanguage, type AppLanguage } from "@/components/LanguageProvider";
 import styles from "./ServicesSection.module.css";
 
@@ -214,6 +215,15 @@ export default function ServicesSection() {
 	const { language } = useLanguage();
 	const sectionCopy = sectionCopyByLanguage[language];
 	const serviceOffers = offersByLanguage[language];
+	const [openHintId, setOpenHintId] = useState<string | null>(null);
+
+	const toggleHint = (hintId: string) => {
+		setOpenHintId((current) => (current === hintId ? null : hintId));
+	};
+
+	useEffect(() => {
+		setOpenHintId(null);
+	}, [language]);
 
 	return (
 		<section id="uslugi" className={`page-section ${styles.section}`}>
@@ -228,17 +238,31 @@ export default function ServicesSection() {
 							<p className={styles.cardDescription}>{offer.description}</p>
 
 							<ul className={styles.featureList}>
-								{offer.features.map((feature) => (
-									<li key={feature.summary} className={styles.featureItem}>
-										<span className={styles.featureText}>{feature.summary}</span>
-										<span className={styles.hintWrap}>
-											<span className={styles.featureHint} tabIndex={0} aria-label={sectionCopy.showDetails}>
-												i
+								{offer.features.map((feature) => {
+									const hintId = `${offer.name}-${feature.summary}`.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+									const isOpen = openHintId === hintId;
+
+									return (
+										<li key={feature.summary} className={styles.featureItem}>
+											<span className={styles.featureText}>{feature.summary}</span>
+											<span className={`${styles.hintWrap} ${isOpen ? styles.isOpen : ""}`}>
+												<button
+													type="button"
+													className={styles.featureHint}
+													aria-label={sectionCopy.showDetails}
+													aria-expanded={isOpen}
+													aria-controls={`feature-tip-${hintId}`}
+													onClick={() => toggleHint(hintId)}
+												>
+													i
+												</button>
+												<span id={`feature-tip-${hintId}`} className={styles.featureTooltip} role="tooltip">
+													{feature.detail}
+												</span>
 											</span>
-											<span className={styles.featureTooltip}>{feature.detail}</span>
-										</span>
-									</li>
-								))}
+										</li>
+									);
+								})}
 							</ul>
 
 							<span className={styles.cardBadge}>{sectionCopy.badge}</span>

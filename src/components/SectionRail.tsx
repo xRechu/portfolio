@@ -88,29 +88,46 @@ export default function SectionRail({ sections }: SectionRailProps) {
 	}
 
 	return (
-		<nav
-			className={`section-rail ${isVisible ? "section-rail-visible" : ""}`}
-			aria-label={language === "pl" ? "Nawigacja sekcji" : "Section navigation"}
-		>
-			<div className="section-rail-track" />
-			<ul className="section-rail-list">
-				{sections.map((section) => {
-					const isActive = section.id === activeId;
+		<>
+			<nav
+				className={`section-rail ${isVisible ? "section-rail-visible" : ""}`}
+				aria-label={language === "pl" ? "Nawigacja sekcji" : "Section navigation"}
+			>
+				<div className="section-rail-track" />
+				<ul className="section-rail-list">
+					{sections.map((section) => {
+						const isActive = section.id === activeId;
 
-					return (
-						<li key={section.id} className="section-rail-item">
-							<a
-								href={`#${section.id}`}
-								className={`section-rail-link ${isActive ? "is-active" : ""}`}
-								aria-label={section.label}
-							>
-								<span className="section-rail-dot" />
-								<span className="section-rail-label">{section.label}</span>
-							</a>
-						</li>
-					);
-				})}
-			</ul>
-		</nav>
+						return (
+							<li key={section.id} className="section-rail-item">
+								<a
+									href={`#${section.id}`}
+									className={`section-rail-link ${isActive ? "is-active" : ""}`}
+									aria-label={section.label}
+								>
+									<span className="section-rail-dot" />
+									<span className="section-rail-label">{section.label}</span>
+								</a>
+							</li>
+						);
+					})}
+				</ul>
+			</nav>
+
+			<nav className="section-dock" aria-label={language === "pl" ? "Nawigacja mobilna" : "Mobile navigation"}>
+				<ul className="section-dock-list">
+					{sections.map((section) => {
+						const isActive = section.id === activeId;
+						return (
+							<li key={`dock-${section.id}`} className="section-dock-item">
+								<a href={`#${section.id}`} className={`section-dock-link ${isActive ? "is-active" : ""}`}>
+									{section.label}
+								</a>
+							</li>
+						);
+					})}
+				</ul>
+			</nav>
+		</>
 	);
 }

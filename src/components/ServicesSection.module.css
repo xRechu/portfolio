@@ -151,6 +151,7 @@
 	line-height: 1;
 	cursor: help;
 	outline: none;
+	touch-action: manipulation;
 }
 
 .featureTooltip {
@@ -174,7 +175,8 @@
 }
 
 .hintWrap:hover .featureTooltip,
-.hintWrap:focus-within .featureTooltip {
+.hintWrap:focus-within .featureTooltip,
+.hintWrap.isOpen .featureTooltip {
 	opacity: 1;
 	visibility: visible;
 	transform: translateY(0);
@@ -245,14 +247,46 @@
 		grid-template-columns: 1fr;
 	}
 
+	.pricingCard {
+		padding: 1rem;
+	}
+
+	.cardDescription {
+		font-size: 0.83rem;
+	}
+
+	.featureItem {
+		flex-direction: row;
+		align-items: center;
+	}
+
+	.featureHint {
+		width: 1.45rem;
+		height: 1.45rem;
+		font-size: 0.72rem;
+	}
+
 	.featureTooltip {
 		right: auto;
 		left: 0;
-		width: min(260px, 74vw);
+		width: min(286px, 84vw);
+		padding: 0.66rem 0.72rem;
+		font-size: 0.78rem;
+		line-height: 1.45;
 	}
 
 	.ctaRow {
 		flex-direction: column;
 		align-items: flex-start;
+		padding: 0.9rem;
+	}
+
+	.ctaButton {
+		width: 100%;
+		min-height: 2.8rem;
+	}
+
+	.ctaRow p {
+		font-size: 0.82rem;
 	}
 }

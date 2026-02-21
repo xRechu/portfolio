@@ -216,12 +216,20 @@ export default function RealizationsSection() {
 
 	const [activeProjectId, setActiveProjectId] = useState(projects[0]?.id ?? "");
 	const [controls, setControls] = useState<SwapControls | null>(null);
+	const [viewportWidth, setViewportWidth] = useState(1280);
 
 	useEffect(() => {
 		setActiveProjectId((current) =>
 			projects.some((project) => project.id === current) ? current : (projects[0]?.id ?? "")
 		);
 	}, [projects]);
+
+	useEffect(() => {
+		const syncViewportWidth = () => setViewportWidth(window.innerWidth);
+		syncViewportWidth();
+		window.addEventListener("resize", syncViewportWidth);
+		return () => window.removeEventListener("resize", syncViewportWidth);
+	}, []);
 
 	const handleSwapReady = useCallback((api?: SwapControls) => {
 		if (!api) {
@@ -246,6 +254,33 @@ export default function RealizationsSection() {
 		[activeProjectId, projects]
 	);
 
+	const cardLayout = useMemo(() => {
+		if (viewportWidth < 720) {
+			return {
+				width: Math.max(262, Math.min(322, viewportWidth - 52)),
+				height: 246,
+				cardDistance: 22,
+				verticalDistance: 18,
+			};
+		}
+
+		if (viewportWidth < 1024) {
+			return {
+				width: 360,
+				height: 255,
+				cardDistance: 28,
+				verticalDistance: 22,
+			};
+		}
+
+		return {
+			width: 410,
+			height: 280,
+			cardDistance: 34,
+			verticalDistance: 28,
+		};
+	}, [viewportWidth]);
+
 	return (
 		<section id="realizacje" className={`page-section ${styles.section}`}>
 			<div className={`page-section-inner ${styles.inner}`}>
@@ -254,10 +289,10 @@ export default function RealizationsSection() {
 				<div className={styles.stageShell}>
 					<div className={styles.stage}>
 						<CardSwap
-							width={410}
-							height={280}
-							cardDistance={34}
-							verticalDistance={28}
+							width={cardLayout.width}
+							height={cardLayout.height}
+							cardDistance={cardLayout.cardDistance}
+							verticalDistance={cardLayout.verticalDistance}
 							delay={5200}
 							pauseOnHover
 							skewAmount={2}
