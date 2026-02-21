@@ -28,7 +28,7 @@ export default function Hero() {
             ? {
                 titleStatic: "Tworzę dla Ciebie",
                 titleDynamic: [
-                    "szybkie strony internetowe",
+                    "szybkie strony firmowe",
                     "sklepy e-commerce",
                     "automatyzacje procesów",
                     "wdrożenia AI",

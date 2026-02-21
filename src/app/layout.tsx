@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import CookieBanner from "@/components/CookieBanner";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import { headers } from "next/headers";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -42,7 +43,10 @@ export default async function RootLayout({
 				<link rel="icon" href="/favicon.svg" type="image/svg+xml"></link>
 			</head>
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-				<LanguageProvider initialLanguage={initialLanguage}>{children}</LanguageProvider>
+				<LanguageProvider initialLanguage={initialLanguage}>
+					{children}
+					<CookieBanner />
+				</LanguageProvider>
 			</body>
 		</html>
 	);

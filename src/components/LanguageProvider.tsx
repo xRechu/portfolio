@@ -1,10 +1,9 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { CONSENT_EVENT, LANGUAGE_STORAGE_KEY, hasFunctionalConsent } from "@/lib/consent";
 
 export type AppLanguage = "pl" | "en";
-
-const LANGUAGE_STORAGE_KEY = "portfolio-language";
 
 type LanguageContextValue = {
 	language: AppLanguage;
@@ -43,10 +42,12 @@ export function LanguageProvider({
 	const [language, setLanguageState] = useState<AppLanguage>(initialLanguage);
 
 	useEffect(() => {
-		const persisted = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
-		if (isKnownLanguage(persisted)) {
-			setLanguageState(persisted);
-			return;
+		if (hasFunctionalConsent()) {
+			const persisted = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+			if (isKnownLanguage(persisted)) {
+				setLanguageState(persisted);
+				return;
+			}
 		}
 
 		setLanguageState(initialLanguage || detectPreferredLanguage());
@@ -55,7 +56,24 @@ export function LanguageProvider({
 	useEffect(() => {
 		document.documentElement.lang = language;
 		document.documentElement.dataset.language = language;
-		window.localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
+		if (hasFunctionalConsent()) {
+			window.localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
+			return;
+		}
+		window.localStorage.removeItem(LANGUAGE_STORAGE_KEY);
+	}, [language]);
+
+	useEffect(() => {
+		const syncLanguageStorage = () => {
+			if (hasFunctionalConsent()) {
+				window.localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
+				return;
+			}
+			window.localStorage.removeItem(LANGUAGE_STORAGE_KEY);
+		};
+
+		window.addEventListener(CONSENT_EVENT, syncLanguageStorage as EventListener);
+		return () => window.removeEventListener(CONSENT_EVENT, syncLanguageStorage as EventListener);
 	}, [language]);
 
 	const setLanguage = useCallback((nextLanguage: AppLanguage) => {

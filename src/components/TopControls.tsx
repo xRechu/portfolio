@@ -3,8 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Globe } from "lucide-react";
 import { useLanguage, type AppLanguage } from "@/components/LanguageProvider";
-
-const THEME_STORAGE_KEY = "portfolio-theme";
+import { CONSENT_EVENT, THEME_STORAGE_KEY, hasFunctionalConsent } from "@/lib/consent";
 
 const languages = [
 	{ code: "pl", label: "Polski" },
@@ -54,7 +53,7 @@ export default function TopControls() {
 	}, []);
 
 	useEffect(() => {
-		const persistedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
+		const persistedTheme = hasFunctionalConsent() ? window.localStorage.getItem(THEME_STORAGE_KEY) : null;
 		if (persistedTheme === "dark" || persistedTheme === "light") {
 			setIsDarkPreview(persistedTheme === "dark");
 			return;
@@ -68,7 +67,25 @@ export default function TopControls() {
 		const theme = isDarkPreview ? "dark" : "light";
 		document.documentElement.dataset.themePreview = theme;
 		document.documentElement.style.colorScheme = theme;
-		window.localStorage.setItem(THEME_STORAGE_KEY, theme);
+		if (hasFunctionalConsent()) {
+			window.localStorage.setItem(THEME_STORAGE_KEY, theme);
+			return;
+		}
+		window.localStorage.removeItem(THEME_STORAGE_KEY);
+	}, [isDarkPreview]);
+
+	useEffect(() => {
+		const syncThemeStorage = () => {
+			const theme = isDarkPreview ? "dark" : "light";
+			if (hasFunctionalConsent()) {
+				window.localStorage.setItem(THEME_STORAGE_KEY, theme);
+				return;
+			}
+			window.localStorage.removeItem(THEME_STORAGE_KEY);
+		};
+
+		window.addEventListener(CONSENT_EVENT, syncThemeStorage as EventListener);
+		return () => window.removeEventListener(CONSENT_EVENT, syncThemeStorage as EventListener);
 	}, [isDarkPreview]);
 
 	useEffect(() => {

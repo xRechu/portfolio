@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Hero from "@/components/Hero";
 import { useLanguage, type AppLanguage } from "@/components/LanguageProvider";
 import ContactSection from "@/components/ContactSection";
@@ -7,6 +8,7 @@ import RealizationsSection from "@/components/RealizationsSection";
 import SectionRail from "@/components/SectionRail";
 import ServicesSection from "@/components/ServicesSection";
 import TopControls from "@/components/TopControls";
+import { clearStoredConsent } from "@/lib/consent";
 
 type ContentSection = {
 	id: string;
@@ -88,10 +90,38 @@ const contentSectionsByLanguage: Record<AppLanguage, ContentSection[]> = {
 	],
 };
 
+const footerCopyByLanguage: Record<
+	AppLanguage,
+	{
+		rights: string;
+		privacy: string;
+		terms: string;
+		cookies: string;
+	}
+> = {
+	pl: {
+		rights: "Wszelkie prawa zastrzeżone.",
+		privacy: "Polityka prywatności",
+		terms: "Regulamin",
+		cookies: "Ustawienia cookies",
+	},
+	en: {
+		rights: "All rights reserved.",
+		privacy: "Privacy policy",
+		terms: "Terms",
+		cookies: "Cookie settings",
+	},
+};
+
 export default function Home() {
 	const { language } = useLanguage();
 	const sectionNavigation = sectionNavigationByLanguage[language];
 	const contentSections = contentSectionsByLanguage[language];
+	const footerCopy = footerCopyByLanguage[language];
+
+	const handleCookieSettingsClick = () => {
+		clearStoredConsent();
+	};
 
 	return (
 		<main>
@@ -112,11 +142,11 @@ export default function Home() {
 			<ServicesSection />
 
 			{contentSections.map((section) => (
-					<section key={section.id} id={section.id} className="page-section">
-						<div className="page-section-inner">
-							<p className="page-section-eyebrow">{section.eyebrow}</p>
-							{section.title ? <h2 className="page-section-title">{section.title}</h2> : null}
-							{section.description ? <p className="page-section-description">{section.description}</p> : null}
+				<section key={section.id} id={section.id} className="page-section">
+					<div className="page-section-inner">
+						<p className="page-section-eyebrow">{section.eyebrow}</p>
+						{section.title ? <h2 className="page-section-title">{section.title}</h2> : null}
+						{section.description ? <p className="page-section-description">{section.description}</p> : null}
 						{section.points && section.points.length > 0 ? (
 							<ul className="page-section-points">
 								{section.points.map((point) => (
@@ -129,6 +159,19 @@ export default function Home() {
 			))}
 
 			<ContactSection />
+
+			<footer className="site-legal-footer">
+				<p className="site-legal-footer-copy">
+					© {new Date().getFullYear()} Jakub Reszka. {footerCopy.rights}
+				</p>
+				<div className="site-legal-footer-links">
+					<Link href="/polityka-prywatnosci">{footerCopy.privacy}</Link>
+					<Link href="/regulamin">{footerCopy.terms}</Link>
+					<button type="button" onClick={handleCookieSettingsClick}>
+						{footerCopy.cookies}
+					</button>
+				</div>
+			</footer>
 		</main>
 	);
 }
