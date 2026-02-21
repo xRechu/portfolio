@@ -5,7 +5,7 @@ import Waves from "@/components/Waves";
 
 export default function Hero() {
     return (
-        <section className="hero">
+        <section id="start" className="hero">
             <div className="hero-waves">
                 <Waves
                     lineColor="rgba(0, 0, 0, 0.08)"
@@ -43,11 +43,11 @@ export default function Hero() {
                 </h1>
 
                 <div className="hero-buttons">
-                    <a href="#contact" className="hero-btn hero-btn-primary">
-                        Get in touch
+                    <a href="#kontakt" className="hero-btn hero-btn-primary">
+                        Porozmawiajmy
                     </a>
-                    <a href="#work" className="hero-btn hero-btn-secondary">
-                        View work
+                    <a href="#realizacje" className="hero-btn hero-btn-secondary">
+                        Zobacz realizacje
                     </a>
                 </div>
             </div>
