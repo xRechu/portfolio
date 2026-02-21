@@ -34,6 +34,7 @@ const CardSwap = ({
   delay = 5000,
   pauseOnHover = false,
   onCardClick = _cardIndex => {},
+  onFrontCardChange = _cardIndex => {},
   onReady = _controls => {},
   skewAmount = 6,
   easing = 'elastic',
@@ -77,10 +78,15 @@ const CardSwap = ({
   const touchStartRef = useRef({ x: 0, y: 0, active: false });
   const container = useRef(null);
   const onReadyRef = useRef(onReady);
+  const onFrontCardChangeRef = useRef(onFrontCardChange);
 
   useEffect(() => {
     onReadyRef.current = onReady;
   }, [onReady]);
+
+  useEffect(() => {
+    onFrontCardChangeRef.current = onFrontCardChange;
+  }, [onFrontCardChange]);
 
   useEffect(() => {
     const total = refs.length;
@@ -91,6 +97,11 @@ const CardSwap = ({
     refs.forEach((r, i) => placeNow(r.current, makeSlot(i, cardDistance, verticalDistance, total), skewAmount));
 
     const shouldRun = () => isPageVisibleRef.current && isInViewRef.current && (!pauseOnHover || !isHoveringRef.current);
+    const emitFrontCardChange = () => {
+      const frontCardIndex = order.current[0];
+      if (typeof frontCardIndex !== 'number') return;
+      onFrontCardChangeRef.current(frontCardIndex);
+    };
 
     const stopAutoSwap = () => {
       if (!intervalRef.current) return;
@@ -158,6 +169,7 @@ const CardSwap = ({
 
       tl.call(() => {
         order.current = [...rest, front];
+        emitFrontCardChange();
       });
       return tl;
     };
@@ -199,6 +211,7 @@ const CardSwap = ({
 
       tl.call(() => {
         order.current = nextOrder;
+        emitFrontCardChange();
       });
       return tl;
     };
@@ -254,6 +267,7 @@ const CardSwap = ({
       prev: () => step('prev')
     });
 
+    emitFrontCardChange();
     step('next', { restartAuto: false });
     startAutoSwap();
 

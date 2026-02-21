@@ -104,6 +104,13 @@ export default function RealizationsSection() {
 		}
 		setControls((current) => current ?? api);
 	}, []);
+	const handleFrontCardChange = useCallback((cardIndex: number) => {
+		const project = projects[cardIndex];
+		if (!project) {
+			return;
+		}
+		setActiveProjectId(project.id);
+	}, []);
 
 	const activeProject = useMemo(
 		() => projects.find((project) => project.id === activeProjectId) ?? projects[0],
@@ -117,24 +124,18 @@ export default function RealizationsSection() {
 
 				<div className={styles.stageShell}>
 					<div className={styles.stage}>
-						<CardSwap
-							width={410}
-							height={280}
-							cardDistance={34}
-							verticalDistance={28}
-							delay={5200}
-							pauseOnHover
-							skewAmount={2}
-							easing="smooth"
-							onReady={handleSwapReady}
-							onCardClick={(cardIndex: number) => {
-								const clickedProject = projects[cardIndex];
-								if (!clickedProject) {
-									return;
-								}
-								setActiveProjectId(clickedProject.id);
-							}}
-						>
+							<CardSwap
+								width={410}
+								height={280}
+								cardDistance={34}
+								verticalDistance={28}
+								delay={5200}
+								pauseOnHover
+								skewAmount={2}
+								easing="smooth"
+								onReady={handleSwapReady}
+								onFrontCardChange={handleFrontCardChange}
+							>
 							{projects.map((project) => (
 								<div
 									key={project.id}
@@ -170,17 +171,14 @@ export default function RealizationsSection() {
 										</div>
 
 										<div className={styles.cardActions}>
-											<button
-												type="button"
+											<a
+												href="#realizacje-szczegoly"
 												className={styles.infoButton}
-												onClick={(event) => {
-													event.stopPropagation();
-													setActiveProjectId(project.id);
-												}}
+												onClick={(event) => event.stopPropagation()}
 											>
 												<span className={styles.questionMark}>?</span>
 												Dowiedz sie wiecej
-											</button>
+											</a>
 											<a
 												href={project.url}
 												target="_blank"
@@ -219,11 +217,11 @@ export default function RealizationsSection() {
 					</div>
 				</div>
 
-				{activeProject && (
-					<article className={styles.detailsPanel} aria-live="polite">
-						<div className={styles.detailsHeader}>
-							<p className={styles.detailsEyebrow}>Szczegoly projektu</p>
-							<h3 className={styles.detailsTitle}>{activeProject.name}</h3>
+					{activeProject && (
+						<article id="realizacje-szczegoly" className={styles.detailsPanel} aria-live="polite">
+							<div className={styles.detailsHeader}>
+								<p className={styles.detailsEyebrow}>Szczegoly projektu</p>
+								<h3 className={styles.detailsTitle}>{activeProject.name}</h3>
 						</div>
 						<p className={styles.detailsDescription}>{activeProject.description}</p>
 						<p className={styles.detailsStack}>
