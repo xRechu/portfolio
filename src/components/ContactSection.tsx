@@ -19,8 +19,8 @@ type FormErrors = Partial<Record<keyof FormValues, string>>;
 
 type ContactCopy = {
 	eyebrow: string;
-	title: string;
-	description: string;
+	title?: string;
+	description?: string;
 	labels: {
 		name: string;
 		email: string;
@@ -54,15 +54,12 @@ type ContactCopy = {
 const copyByLanguage: Record<AppLanguage, ContactCopy> = {
 	pl: {
 		eyebrow: "Kontakt",
-		title: "Darmowa konsultacja i wstepna wycena",
-		description:
-			"Wypelnij krotki formularz. Otrzymasz odpowiedz z rekomendowanym kierunkiem i kolejnymi krokami.",
 		labels: {
-			name: "Imie i nazwisko",
+			name: "Imię i nazwisko",
 			email: "Adres e-mail",
 			phone: "Numer telefonu",
-			reason: "W jakim celu sie kontaktujesz?",
-			message: "Wiadomosc",
+			reason: "W jakim celu się kontaktujesz?",
+			message: "Wiadomość",
 			messageOptional: "opcjonalnie",
 		},
 		placeholders: {
@@ -79,17 +76,17 @@ const copyByLanguage: Record<AppLanguage, ContactCopy> = {
 			{ value: "audit_improvements", label: "Audyt i poprawki" },
 			{ value: "other", label: "Inny temat" },
 		],
-		ctaIdle: "Wyslij zapytanie",
-		ctaLoading: "Wysylanie...",
-		success: "Dzieki. Wiadomosc wyslana - odezwe sie najszybciej jak to mozliwe.",
-		error: "Nie udalo sie wyslac formularza. Sprobuj ponownie za chwile.",
-		footer: "Formularz jest zabezpieczony. Dane sa uzywane wylacznie do kontaktu w sprawie zapytania.",
+		ctaIdle: "Wyślij zapytanie",
+		ctaLoading: "Wysyłanie...",
+		success: "Dzięki. Wiadomość wysłana - odezwę się najszybciej jak to możliwe.",
+		error: "Nie udało się wysłać formularza. Spróbuj ponownie za chwilę.",
+		footer: "Formularz jest zabezpieczony. Dane są używane wyłącznie do kontaktu w sprawie zapytania.",
 		validation: {
-			name: "Wpisz imie i nazwisko (min. 2 znaki).",
+			name: "Wpisz imię i nazwisko (min. 2 znaki).",
 			email: "Wpisz poprawny adres e-mail.",
 			phone: "Wpisz numer telefonu (min. 7 cyfr).",
 			reason: "Wybierz cel kontaktu.",
-			message: "Wiadomosc moze miec maksymalnie 1200 znakow.",
+			message: "Wiadomość może mieć maksymalnie 1200 znaków.",
 		},
 	},
 	en: {
@@ -250,8 +247,8 @@ export default function ContactSection() {
 		<section id="kontakt" className={`page-section ${styles.section}`}>
 			<div className={`page-section-inner ${styles.inner}`}>
 				<p className="page-section-eyebrow">{copy.eyebrow}</p>
-				<h2 className="page-section-title">{copy.title}</h2>
-				<p className="page-section-description">{copy.description}</p>
+				{copy.title ? <h2 className="page-section-title">{copy.title}</h2> : null}
+				{copy.description ? <p className="page-section-description">{copy.description}</p> : null}
 
 				<form className={styles.formCard} onSubmit={handleSubmit} noValidate>
 					<div className={styles.grid}>

@@ -20,81 +20,81 @@ const offersByLanguage: Record<AppLanguage, ServiceOffer[]> = {
 		{
 			name: "Strony firmowe",
 			scope: "Wizerunek + leady + SEO",
-			description: "Kompleksowa strona uslugowa od UX i tresci po wdrozenie i opieke.",
+			description: "Kompleksowa strona usługowa od UX i treści po wdrożenie i opiekę.",
 			features: [
 				{
 					summary: "Nowoczesny design i szybki frontend.",
 					detail:
-						"Projektuje i wdrazam w Next.js z naciskiem na szybkosc, czytelnosc i premium odbior marki.",
+						"Projektuję i wdrażam w Next.js z naciskiem na szybkość, czytelność i premium odbiór marki.",
 				},
 				{
 					summary: "Struktura podstron pod cel biznesowy.",
 					detail:
-						"Uklad planuje pod realny cel: pozyskanie leadow, prezentacja oferty, budowanie zaufania i kontakt.",
+						"Układ planuję pod realny cel: pozyskanie leadów, prezentacja oferty, budowanie zaufania i kontakt.",
 				},
 				{
-					summary: "Latwa edycja tresci i ofert.",
+					summary: "Łatwa edycja treści i ofert.",
 					detail:
-						"Wdrazam prosty panel, dzieki ktoremu mozesz samodzielnie aktualizowac tresci bez wsparcia developera.",
+						"Wdrażam prosty panel, dzięki któremu możesz samodzielnie aktualizować treści bez wsparcia developera.",
 				},
 				{
 					summary: "SEO techniczne, domena i SSL.",
 					detail:
-						"Konfiguruje podstawy widocznosci w Google oraz bezpieczne, poprawne dzialanie calej infrastruktury.",
+						"Konfiguruję podstawy widoczności w Google oraz bezpieczne, poprawne działanie całej infrastruktury.",
 				},
 			],
 		},
 		{
 			name: "Sklepy e-commerce",
 			scope: "Medusa.js / WooCommerce / custom",
-			description: "Sklep od MVP po bardziej zlozone wdrozenie, bez szablonowego podejscia.",
+			description: "Sklep od MVP po bardziej złożone wdrożenie, bez szablonowego podejścia.",
 			features: [
 				{
-					summary: "Checkout i koszyk pod Twoj model sprzedazy.",
+					summary: "Checkout i koszyk pod Twój model sprzedaży.",
 					detail:
-						"Tworze flow zakupowy dopasowany do produktu, marzy i strategii, zamiast gotowego szablonu 1:1.",
+						"Tworzę flow zakupowy dopasowany do produktu, marży i strategii, zamiast gotowego szablonu 1:1.",
 				},
 				{
-					summary: "Integracje platnosci, kurierow i narzedzi.",
+					summary: "Integracje płatności, kurierów i narzędzi.",
 					detail:
-						"Lacze sklep z systemami, z ktorych korzystasz: platnosci, logistyka, CRM, marketing i analityka.",
+						"Łączę sklep z systemami, z których korzystasz: płatności, logistyka, CRM, marketing i analityka.",
 				},
 				{
-					summary: "Wydajnosc i skalowanie katalogu.",
+					summary: "Wydajność i skalowanie katalogu.",
 					detail:
-						"Optymalizuje listingi, zdjecia i warstwe danych, aby sklep trzymal tempo przy wiekszym ruchu i ofercie.",
+						"Optymalizuję listingi, zdjęcia i warstwę danych, aby sklep trzymał tempo przy większym ruchu i ofercie.",
 				},
 				{
-					summary: "Przejecie opieki technicznej po starcie.",
+					summary: "Przejęcie opieki technicznej po starcie.",
 					detail:
-						"Moge przejac utrzymanie, poprawki i rozwoj, zeby Twoj zespol skupil sie na sprzedazy, nie na bugach.",
+						"Mogę przejąć utrzymanie, poprawki i rozwój, żeby Twój zespół skupił się na sprzedaży, nie na bugach.",
 				},
 			],
 		},
 		{
-			name: "Wdrozenia AI",
+			name: "Wdrożenia AI",
 			scope: "Automatyzacje + AI dla procesu",
-			description: "Automatyzuje powtarzalne zadania i wdrazam AI tam, gdzie daje realna oszczednosc czasu.",
+			description: "Automatyzuję powtarzalne zadania i wdrażam AI tam, gdzie daje realną oszczędność czasu.",
 			features: [
 				{
-					summary: "Automatyzacje zapytan i kwalifikacji leadow.",
+					summary: "Automatyzacje zapytań i kwalifikacji leadów.",
 					detail:
-						"Buduje scenariusze, ktore porzadkuja dane z formularzy, nadaja priorytet leadom i przyspieszaja odpowiedzi.",
+						"Buduję scenariusze, które porządkują dane z formularzy, nadają priorytet leadom i przyspieszają odpowiedzi.",
 				},
 				{
 					summary: "Asystenci AI pod konkretne use-case.",
 					detail:
-						"Wdrazam AI do zadan praktycznych: obsluga zapytan, pomoc sprzedazowa, drafty tresci i operacje wewnetrzne.",
+						"Wdrażam AI do zadań praktycznych: obsługa zapytań, pomoc sprzedażowa, drafty treści i operacje wewnętrzne.",
 				},
 				{
 					summary: "Integracje z Twoim obecnym stackiem.",
 					detail:
-						"Lacze automatyzacje z narzedziami, ktore juz masz, aby uniknac chaosu i dublowania pracy zespolu.",
+						"Łączę automatyzacje z narzędziami, które już masz, aby uniknąć chaosu i dublowania pracy zespołu.",
 				},
 				{
-					summary: "Bezpieczne wdrozenie i kontrola procesu.",
+					summary: "Bezpieczne wdrożenie i kontrola procesu.",
 					detail:
-						"Ustalam zasady, monitoring i ograniczenia, zeby AI wspieralo firme, a nie tworzylo ryzyko operacyjne.",
+						"Ustalam zasady, monitoring i ograniczenia, żeby AI wspierało firmę, a nie tworzyło ryzyko operacyjne.",
 				},
 			],
 		},
@@ -195,11 +195,11 @@ const sectionCopyByLanguage: Record<
 	}
 > = {
 	pl: {
-		eyebrow: "Uslugi",
+		eyebrow: "Usługi",
 		ctaButton: "Darmowa konsultacja i wycena",
-		ctaText: "Przestan tracic potencjalnych klientow przez zepsuty workflow.",
+		ctaText: "Przestań tracić potencjalnych klientów przez zepsuty workflow.",
 		badge: "Wycena indywidualna",
-		showDetails: "Pokaz szczegoly",
+		showDetails: "Pokaż szczegóły",
 	},
 	en: {
 		eyebrow: "Services",
@@ -256,4 +256,3 @@ export default function ServicesSection() {
 		</section>
 	);
 }
-

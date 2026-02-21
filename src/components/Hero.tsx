@@ -10,12 +10,12 @@ export default function Hero() {
     const copy =
         language === "pl"
             ? {
-                titleStatic: "Tworze dla Ciebie",
+                titleStatic: "Tworzę dla Ciebie",
                 titleDynamic: [
                     "szybkie strony internetowe",
                     "sklepy e-commerce",
-                    "automatyzacje procesow",
-                    "wdrozenia AI",
+                    "automatyzacje procesów",
+                    "wdrożenia AI",
                 ],
                 primaryCta: "Darmowa konsultacja",
                 secondaryCta: "Zobacz realizacje",

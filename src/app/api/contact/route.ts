@@ -41,10 +41,10 @@ const reasonsLabels: Record<AppLanguage, Record<ContactReason, string>> = {
 
 const responseMessages = {
 	pl: {
-		success: "Dzieki. Wiadomosc zostala wyslana.",
-		invalid: "Sprawdz pola formularza i sprobuj ponownie.",
-		rateLimit: "Wyslales zbyt wiele zapytan. Sprobuj ponownie za kilka minut.",
-		error: "Nie udalo sie wyslac formularza. Sprobuj ponownie za chwile.",
+		success: "Dzięki. Wiadomość została wysłana.",
+		invalid: "Sprawdź pola formularza i spróbuj ponownie.",
+		rateLimit: "Wysłałeś zbyt wiele zapytań. Spróbuj ponownie za kilka minut.",
+		error: "Nie udało się wysłać formularza. Spróbuj ponownie za chwilę.",
 	},
 	en: {
 		success: "Thanks. Your message has been sent.",
@@ -190,7 +190,7 @@ export async function POST(request: NextRequest) {
 
 	const resend = new Resend(resendApiKey);
 	const reasonLabel = reasonsLabels[language][parsed.reason];
-	const messageBody = parsed.message || (language === "pl" ? "Brak dodatkowej wiadomosci." : "No additional message.");
+	const messageBody = parsed.message || (language === "pl" ? "Brak dodatkowej wiadomości." : "No additional message.");
 
 	const safeName = escapeHtml(parsed.name);
 	const safeEmail = escapeHtml(parsed.email);
@@ -209,19 +209,19 @@ export async function POST(request: NextRequest) {
 				to: [toEmail],
 				replyTo: parsed.email,
 				subject,
-				text:
-					language === "pl"
-						? `Nowe zapytanie z formularza\n\nImie i nazwisko: ${parsed.name}\nE-mail: ${parsed.email}\nTelefon: ${parsed.phone}\nCel kontaktu: ${reasonLabel}\nJezyk: ${language.toUpperCase()}\n\nWiadomosc:\n${messageBody}`
-						: `New form inquiry\n\nName: ${parsed.name}\nEmail: ${parsed.email}\nPhone: ${parsed.phone}\nContact purpose: ${reasonLabel}\nLanguage: ${language.toUpperCase()}\n\nMessage:\n${messageBody}`,
+					text:
+						language === "pl"
+							? `Nowe zapytanie z formularza\n\nImię i nazwisko: ${parsed.name}\nE-mail: ${parsed.email}\nTelefon: ${parsed.phone}\nCel kontaktu: ${reasonLabel}\nJęzyk: ${language.toUpperCase()}\n\nWiadomość:\n${messageBody}`
+							: `New form inquiry\n\nName: ${parsed.name}\nEmail: ${parsed.email}\nPhone: ${parsed.phone}\nContact purpose: ${reasonLabel}\nLanguage: ${language.toUpperCase()}\n\nMessage:\n${messageBody}`,
 				html: `
 					<div style="font-family:Arial,sans-serif;line-height:1.6;color:#111827;">
 						<h2 style="margin:0 0 12px;">${language === "pl" ? "Nowe zapytanie z formularza" : "New form inquiry"}</h2>
-						<p><strong>${language === "pl" ? "Imie i nazwisko" : "Name"}:</strong> ${safeName}</p>
+						<p><strong>${language === "pl" ? "Imię i nazwisko" : "Name"}:</strong> ${safeName}</p>
 						<p><strong>E-mail:</strong> ${safeEmail}</p>
 						<p><strong>${language === "pl" ? "Telefon" : "Phone"}:</strong> ${safePhone}</p>
 						<p><strong>${language === "pl" ? "Cel kontaktu" : "Contact purpose"}:</strong> ${safeReason}</p>
-						<p><strong>${language === "pl" ? "Jezyk" : "Language"}:</strong> ${safeLanguage}</p>
-						<p style="margin:18px 0 6px;"><strong>${language === "pl" ? "Wiadomosc" : "Message"}:</strong></p>
+						<p><strong>${language === "pl" ? "Język" : "Language"}:</strong> ${safeLanguage}</p>
+						<p style="margin:18px 0 6px;"><strong>${language === "pl" ? "Wiadomość" : "Message"}:</strong></p>
 						<p style="white-space:pre-line;margin:0;">${safeMessage}</p>
 					</div>
 				`,
@@ -244,4 +244,3 @@ export async function POST(request: NextRequest) {
 		return NextResponse.json({ message: messages.error }, { status: 500 });
 	}
 }
-

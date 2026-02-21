@@ -11,8 +11,8 @@ import TopControls from "@/components/TopControls";
 type ContentSection = {
 	id: string;
 	eyebrow: string;
-	title: string;
-	description: string;
+	title?: string;
+	description?: string;
 	points?: string[];
 };
 
@@ -20,7 +20,7 @@ const sectionNavigationByLanguage: Record<AppLanguage, { id: string; label: stri
 	pl: [
 		{ id: "start", label: "Start" },
 		{ id: "realizacje", label: "Realizacje" },
-		{ id: "uslugi", label: "Uslugi" },
+		{ id: "uslugi", label: "Usługi" },
 		{ id: "dlaczego-ja", label: "Dlaczego ja" },
 		{ id: "faq", label: "FAQ" },
 		{ id: "kontakt", label: "Kontakt" },
@@ -40,27 +40,21 @@ const contentSectionsByLanguage: Record<AppLanguage, ContentSection[]> = {
 		{
 			id: "dlaczego-ja",
 			eyebrow: "Dlaczego ja",
-			title: "Partner techniczny, ktory dowozi wynik",
-			description:
-				"Lacze strategie, design i development w jeden proces, zeby strona realnie zdobywala zapytania, a nie tylko ladnie wygladala.",
 			points: [
-				"Buduje pod konwersje i leady, nie pod efekt wow na jeden dzien.",
-				"Lacze Next.js, e-commerce i automatyzacje AI w jednym wdrozeniu.",
-				"Ogarniam calosc end-to-end: domena, SEO techniczne, analityka, bezpieczenstwo.",
-				"Dostajesz konkret i szybkie decyzje, bez przeciagania projektu tygodniami.",
+				"Buduję pod konwersję i leady, nie pod efekt wow na jeden dzień.",
+				"Łączę Next.js, e-commerce i automatyzacje AI w jednym wdrożeniu.",
+				"Ogarniam całość end-to-end: domena, SEO techniczne, analityka, bezpieczeństwo.",
+				"Dostajesz konkret i szybkie decyzje, bez przeciągania projektu tygodniami.",
 			],
 		},
 		{
 			id: "faq",
 			eyebrow: "FAQ",
-			title: "Najczestsze pytania przed startem",
-			description:
-				"Zanim wydasz budzet, dostajesz jasne odpowiedzi o zakresie, terminie, kosztach i wsparciu po wdrozeniu.",
 			points: [
-				"Ile trwa realizacja? Najczesciej od 2 do 6 tygodni, zaleznie od zakresu.",
-				"Czy dostajesz panel do edycji tresci? Tak, wdrazam prosty i czytelny CMS.",
-				"Czy mozna zaczac od MVP? Tak, mozemy podzielic projekt na etapy.",
-				"Czy wspieram po starcie? Tak, moge przejac utrzymanie i dalszy rozwoj.",
+				"Ile trwa realizacja? Najczęściej od 2 do 6 tygodni, zależnie od zakresu.",
+				"Czy dostajesz panel do edycji treści? Tak, wdrażam prosty i czytelny CMS.",
+				"Czy można zacząć od MVP? Tak, możemy podzielić projekt na etapy.",
+				"Czy wspieram po starcie? Tak, mogę przejąć utrzymanie i dalszy rozwój.",
 			],
 		},
 	],
@@ -104,7 +98,7 @@ export default function Home() {
 			<a
 				href="#start"
 				className="brand-wordmark"
-				aria-label={language === "pl" ? "Przejdz do sekcji startowej" : "Go to hero section"}
+				aria-label={language === "pl" ? "Przejdź do sekcji startowej" : "Go to hero section"}
 			>
 				<span className="brand-wordmark-name">JAKUB RESZKA</span>
 				<span className="brand-wordmark-role">Next.js · E-commerce · AI</span>
@@ -118,11 +112,11 @@ export default function Home() {
 			<ServicesSection />
 
 			{contentSections.map((section) => (
-				<section key={section.id} id={section.id} className="page-section">
-					<div className="page-section-inner">
-						<p className="page-section-eyebrow">{section.eyebrow}</p>
-						<h2 className="page-section-title">{section.title}</h2>
-						<p className="page-section-description">{section.description}</p>
+					<section key={section.id} id={section.id} className="page-section">
+						<div className="page-section-inner">
+							<p className="page-section-eyebrow">{section.eyebrow}</p>
+							{section.title ? <h2 className="page-section-title">{section.title}</h2> : null}
+							{section.description ? <p className="page-section-description">{section.description}</p> : null}
 						{section.points && section.points.length > 0 ? (
 							<ul className="page-section-points">
 								{section.points.map((point) => (

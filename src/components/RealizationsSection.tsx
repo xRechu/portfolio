@@ -32,13 +32,13 @@ const projectsByLanguage: Record<AppLanguage, Project[]> = {
 			name: "Wellness Studio",
 			stack: "Next.js + Headless CMS",
 			url: "https://example.com",
-			short: "Szybka strona uslugowa z naciskiem na SEO i konwersje.",
+			short: "Szybka strona usługowa z naciskiem na SEO i konwersję.",
 			description:
-				"Projekt skupiony na lead generation. Strona ma lekki frontend, szybki TTFB i modularny edytor tresci dla klienta.",
+				"Projekt skupiony na lead generation. Strona ma lekki frontend, szybki TTFB i modularny edytor treści dla klienta.",
 			features: [
-				"Autorski system sekcji landing page z latwa edycja tresci",
-				"Optymalizacja Core Web Vitals pod kampanie platne i SEO",
-				"Integracja formularzy z automatycznym routingiem leadow",
+				"Autorski system sekcji landing page z łatwą edycją treści",
+				"Optymalizacja Core Web Vitals pod kampanie płatne i SEO",
+				"Integracja formularzy z automatycznym routingiem leadów",
 			],
 			tone: "ocean",
 			previewLabel: "Landing Page",
@@ -51,11 +51,11 @@ const projectsByLanguage: Record<AppLanguage, Project[]> = {
 			url: "https://example.com",
 			short: "Sklep e-commerce z custom checkout i automatyzacjami.",
 			description:
-				"Sklep budowany pod skalowanie. Backend Medusa obsluguje niestandardowe promocje i scenariusze koszyka.",
+				"Sklep budowany pod skalowanie. Backend Medusa obsługuje niestandardowe promocje i scenariusze koszyka.",
 			features: [
-				"Autorskie reguly rabatowe i bundle products",
+				"Autorskie reguły rabatowe i bundle products",
 				"Szybki storefront oparty o SSR + cache strategia",
-				"Integracje platnosci i panelu logistycznego",
+				"Integracje płatności i panelu logistycznego",
 			],
 			tone: "graphite",
 			previewLabel: "Storefront",
@@ -66,12 +66,12 @@ const projectsByLanguage: Record<AppLanguage, Project[]> = {
 			name: "Academy Platform",
 			stack: "Next.js + Supabase",
 			url: "https://example.com",
-			short: "Platforma contentowa z kontami i strefa premium.",
+			short: "Platforma contentowa z kontami i strefą premium.",
 			description:
-				"Rozwiazanie dla biznesu edukacyjnego. Obejmuje role userow, dostep warunkowy i skalowalna strukture tresci.",
+				"Rozwiązanie dla biznesu edukacyjnego. Obejmuje role userów, dostęp warunkowy i skalowalną strukturę treści.",
 			features: [
-				"Strefa klienta z podzialem uprawnien i subskrypcji",
-				"Panel zarzadzania materialami i postepem nauki",
+				"Strefa klienta z podziałem uprawnień i subskrypcji",
+				"Panel zarządzania materiałami i postępem nauki",
 				"Automatyczne scenariusze onboarding + e-mail follow-up",
 			],
 			tone: "mint",
@@ -85,11 +85,11 @@ const projectsByLanguage: Record<AppLanguage, Project[]> = {
 			url: "https://example.com",
 			short: "Hybrid commerce z naciskiem na UX katalogu i mobile.",
 			description:
-				"Wdrozenie dla marki meblowej. Kluczowe byly szybkie listingi produktow i wygodne filtry na urzadzeniach mobilnych.",
+				"Wdrożenie dla marki meblowej. Kluczowe były szybkie listingi produktów i wygodne filtry na urządzeniach mobilnych.",
 			features: [
 				"Custom warstwa frontend na WooCommerce API",
-				"Autorski konfigurator wariantow i zestawow",
-				"Integracja feedow marketingowych i analityki",
+				"Autorski konfigurator wariantów i zestawów",
+				"Integracja feedów marketingowych i analityki",
 			],
 			tone: "sand",
 			previewLabel: "Product Catalog",
@@ -186,13 +186,13 @@ const uiCopyByLanguage: Record<
 	pl: {
 		eyebrow: "Realizacje",
 		cardAriaPrefix: "Projekt",
-		previewPlaceholder: "Podmien na screenshot hero",
-		learnMore: "Dowiedz sie wiecej",
-		openSite: "Otworz strone",
+		previewPlaceholder: "Podmień na screenshot hero",
+		learnMore: "Dowiedz się więcej",
+		openSite: "Otwórz stronę",
 		controlsLabel: "Sterowanie realizacjami",
 		prevAria: "Poprzednia realizacja",
-		nextAria: "Nastepna realizacja",
-		detailsEyebrow: "Szczegoly projektu",
+		nextAria: "Następna realizacja",
+		detailsEyebrow: "Szczegóły projektu",
 		stackLabel: "Stack:",
 	},
 	en: {
@@ -367,4 +367,3 @@ export default function RealizationsSection() {
 		</section>
 	);
 }
-

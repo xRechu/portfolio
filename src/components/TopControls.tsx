@@ -97,9 +97,9 @@ export default function TopControls() {
 	const labels =
 		language === "pl"
 			? {
-					theme: isDarkPreview ? "Przelacz na jasny motyw" : "Przelacz na ciemny motyw",
+					theme: isDarkPreview ? "Przełącz na jasny motyw" : "Przełącz na ciemny motyw",
 					themeTitle: isDarkPreview ? "Jasny motyw" : "Ciemny motyw",
-					language: "Wybierz jezyk",
+					language: "Wybierz język",
 			  }
 			: {
 					theme: isDarkPreview ? "Switch to light theme" : "Switch to dark theme",
