@@ -2,6 +2,7 @@ import Hero from "@/components/Hero";
 import RealizationsSection from "@/components/RealizationsSection";
 import SectionRail from "@/components/SectionRail";
 import ServicesSection from "@/components/ServicesSection";
+import TopControls from "@/components/TopControls";
 
 type ContentSection = {
 	id: string;
@@ -37,16 +38,28 @@ const contentSections: ContentSection[] = [
 	{
 		id: "faq",
 		eyebrow: "FAQ",
-		title: "Najczestsze pytania klientow",
+		title: "Najczestsze pytania przed startem",
 		description:
-			"Stawki, terminy, zakres wsparcia, CMS, prawa autorskie i utrzymanie. Dobre FAQ zmniejsza opor przed kontaktem.",
+			"Zanim wydasz budzet, dostajesz jasne odpowiedzi o zakresie, terminie, kosztach i wsparciu po wdrozeniu.",
+		points: [
+			"Ile trwa realizacja? Najczesciej od 2 do 6 tygodni, zaleznie od zakresu.",
+			"Czy dostajesz panel do edycji tresci? Tak, wdrazam prosty i czytelny CMS.",
+			"Czy mozna zaczac od MVP? Tak, mozemy podzielic projekt na etapy.",
+			"Czy wspieram po starcie? Tak, moge przejac utrzymanie i dalszy rozwoj.",
+		],
 	},
 	{
 		id: "kontakt",
 		eyebrow: "Kontakt",
-		title: "Call to action i formularz",
+		title: "Umow darmowa konsultacje i rusz z projektem",
 		description:
-			"Prosty formularz + szybka obietnica odpowiedzi. Mozesz dodac tez opcje kontaktu przez e-mail i LinkedIn.",
+			"Napisz, co chcesz zbudowac, a dostaniesz konkretny plan dzialania i wycene pod Twoj przypadek.",
+		points: [
+			"Ty opisujesz cel i problem, ktory blokuje sprzedaz lub leady.",
+			"Ja proponuje najlepszy wariant technologii i zakres wdrozenia.",
+			"Dostajesz estymacje czasu i kosztu bez zadnych zobowiazan.",
+			"Startujemy dopiero, gdy wszystko jest jasne po obu stronach.",
+		],
 	},
 ];
 
@@ -57,6 +70,7 @@ export default function Home() {
 				<span className="brand-wordmark-name">JAKUB RESZKA</span>
 				<span className="brand-wordmark-role">Next.js · E-commerce · AI</span>
 			</a>
+			<TopControls />
 
 			<SectionRail sections={sectionNavigation} />
 
