@@ -103,7 +103,7 @@ const faqByLanguage: Record<
 			},
 			{
 				id: "integrations",
-				question: "Czy oferujecie integracje z narzędziami zewnętrznymi?",
+				question: "Czy oferujesz integracje z narzędziami zewnętrznymi?",
 				answer: "Tak. Integruję m.in. płatności, logistykę, CRM, newsletter, analitykę i automatyzacje AI.",
 			},
 			{
@@ -186,10 +186,10 @@ export default function Home() {
 	const contentSections = contentSectionsByLanguage[language];
 	const faq = faqByLanguage[language];
 	const footerCopy = footerCopyByLanguage[language];
-	const [openFaqId, setOpenFaqId] = useState<string | null>(faq.items[0]?.id ?? null);
+	const [openFaqId, setOpenFaqId] = useState<string | null>(null);
 
 	useEffect(() => {
-		setOpenFaqId(faq.items[0]?.id ?? null);
+		setOpenFaqId(null);
 	}, [faq]);
 
 	const handleCookieSettingsClick = () => {
