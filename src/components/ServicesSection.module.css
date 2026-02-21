@@ -310,8 +310,8 @@
 	}
 
 	.featureTooltip {
-		right: auto;
-		left: 0;
+		right: 0;
+		left: auto;
 		width: min(286px, 84vw);
 		padding: 0.66rem 0.72rem;
 		font-size: 0.78rem;
