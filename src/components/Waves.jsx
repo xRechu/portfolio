@@ -140,15 +140,22 @@ const Waves = ({
   }, [lineColor, waveSpeedX, waveSpeedY, waveAmpX, waveAmpY, friction, tension, maxCursorMove, xGap, yGap]);
 
   useEffect(() => {
-    console.log('Waves mounted');
     const canvas = canvasRef.current;
     const container = containerRef.current;
     ctxRef.current = canvas.getContext('2d');
 
     function setSize() {
+      const bounds = container.getBoundingClientRect();
+      const widthChanged = canvas.width !== bounds.width;
+      const heightChanged = canvas.height !== bounds.height;
+      boundingRef.current = bounds;
+      if (widthChanged) canvas.width = bounds.width;
+      if (heightChanged) canvas.height = bounds.height;
+      return widthChanged || heightChanged;
+    }
+
+    function refreshBounds() {
       boundingRef.current = container.getBoundingClientRect();
-      canvas.width = boundingRef.current.width;
-      canvas.height = boundingRef.current.height;
     }
 
     function setLines() {
@@ -257,10 +264,15 @@ const Waves = ({
     }
 
     function onResize() {
-      setSize();
-      setLines();
+      const didChangeSize = setSize();
+      if (didChangeSize) {
+        setLines();
+      }
     }
-    function onMouseMove(e) {
+    function onScroll() {
+      refreshBounds();
+    }
+    function onPointerMove(e) {
       updateMouse(e.clientX, e.clientY);
     }
     function onTouchMove(e) {
@@ -268,8 +280,9 @@ const Waves = ({
       updateMouse(touch.clientX, touch.clientY);
     }
     function updateMouse(x, y) {
-      const mouse = mouseRef.current,
-        b = boundingRef.current;
+      const mouse = mouseRef.current;
+      const b = container.getBoundingClientRect();
+      boundingRef.current = b;
       mouse.x = x - b.left;
       mouse.y = y - b.top;
       if (!mouse.set) {
@@ -285,12 +298,14 @@ const Waves = ({
     setLines();
     frameIdRef.current = requestAnimationFrame(tick);
     window.addEventListener('resize', onResize);
-    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('pointermove', onPointerMove, { passive: true });
     window.addEventListener('touchmove', onTouchMove, { passive: false });
 
     return () => {
       window.removeEventListener('resize', onResize);
-      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('touchmove', onTouchMove);
       cancelAnimationFrame(frameIdRef.current);
     };
