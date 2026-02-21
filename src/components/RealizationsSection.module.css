@@ -39,7 +39,6 @@
 	--rz-visit-border: #111827;
 	--rz-visit-text: #ffffff;
 	--rz-action-shadow: 0 6px 18px rgba(10, 12, 20, 0.16);
-	--rz-question-bg: rgba(10, 12, 20, 0.12);
 
 	--rz-details-bg: rgba(255, 255, 255, 0.85);
 	--rz-details-border: rgba(10, 12, 18, 0.12);
@@ -96,7 +95,6 @@
 	--rz-visit-border: #ffffff;
 	--rz-visit-text: #111111;
 	--rz-action-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-	--rz-question-bg: rgba(255, 255, 255, 0.22);
 
 	--rz-details-bg: rgba(11, 11, 13, 0.86);
 	--rz-details-border: rgba(255, 255, 255, 0.3);
@@ -405,19 +403,6 @@
 .visitButton:hover {
 	transform: translateY(-1px);
 	box-shadow: var(--rz-action-shadow);
-}
-
-.questionMark {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	width: 1rem;
-	height: 1rem;
-	margin-right: 0.35rem;
-	border-radius: 999px;
-	font-size: 0.65rem;
-	line-height: 1;
-	background: var(--rz-question-bg);
 }
 
 .detailsPanel {

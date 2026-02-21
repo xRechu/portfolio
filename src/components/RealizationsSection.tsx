@@ -30,7 +30,7 @@ const projectsByLanguage: Record<AppLanguage, Project[]> = {
 		{
 			id: "falko-project",
 			name: "Falko Project",
-			url: "https://example.com",
+			url: "https://falkoprojects.com",
 			stack: "Medusa.js + Next.js + Admin",
 			short: "Sklep modowy z automatyzacją wysyłek, zwrotów i księgowości.",
 			description:
@@ -47,7 +47,7 @@ const projectsByLanguage: Record<AppLanguage, Project[]> = {
 		{
 			id: "concierge-art",
 			name: "Concierge Art",
-			url: "https://example.com",
+			url: "https://concierge.reszka-jakub.workers.dev",
 			stack: "Medusa.js + Next.js + Admin",
 			short: "E-commerce dla galerii sztuki z naciskiem na sprawną obsługę zamówień.",
 			description:
@@ -64,7 +64,7 @@ const projectsByLanguage: Record<AppLanguage, Project[]> = {
 		{
 			id: "mudlaffi",
 			name: "Mudlaffi",
-			url: "https://example.com",
+			url: "https://mudlaffi.pl",
 			stack: "WooCommerce + WordPress + Admin",
 			short: "Sklep z treningami online dla marki influencerki sportowej.",
 			description:
@@ -81,7 +81,7 @@ const projectsByLanguage: Record<AppLanguage, Project[]> = {
 		{
 			id: "blueprint",
 			name: "Blueprint",
-			url: "https://example.com",
+			url: "https://blueprintstudio.pl",
 			stack: "WordPress",
 			short: "Landing page dla producentów odzieży nastawiony na zapytania ofertowe.",
 			description:
@@ -100,7 +100,7 @@ const projectsByLanguage: Record<AppLanguage, Project[]> = {
 		{
 			id: "falko-project",
 			name: "Falko Project",
-			url: "https://example.com",
+			url: "https://falkoprojects.com",
 			stack: "Medusa.js + Next.js + Admin",
 			short: "Fashion e-commerce with custom shipping, returns and finance automation.",
 			description:
@@ -117,7 +117,7 @@ const projectsByLanguage: Record<AppLanguage, Project[]> = {
 		{
 			id: "concierge-art",
 			name: "Concierge Art",
-			url: "https://example.com",
+			url: "https://concierge.reszka-jakub.workers.dev",
 			stack: "Medusa.js + Next.js + Admin",
 			short: "Online store for an art gallery with reliable order operations.",
 			description:
@@ -134,7 +134,7 @@ const projectsByLanguage: Record<AppLanguage, Project[]> = {
 		{
 			id: "mudlaffi",
 			name: "Mudlaffi",
-			url: "https://example.com",
+			url: "https://mudlaffi.pl",
 			stack: "WooCommerce + WordPress + Admin",
 			short: "Store with online training access for a sports influencer brand.",
 			description:
@@ -151,7 +151,7 @@ const projectsByLanguage: Record<AppLanguage, Project[]> = {
 		{
 			id: "blueprint",
 			name: "Blueprint",
-			url: "https://example.com",
+			url: "https://blueprintstudio.pl",
 			stack: "WordPress",
 			short: "Landing page for apparel manufacturers focused on lead capture.",
 			description:
@@ -349,7 +349,6 @@ export default function RealizationsSection() {
 												className={styles.infoButton}
 												onClick={(event) => event.stopPropagation()}
 											>
-												<span className={styles.questionMark}>?</span>
 												{ui.learnMore}
 											</a>
 											<a
