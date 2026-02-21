@@ -6,65 +6,36 @@
 .inner {
 	display: flex;
 	flex-direction: column;
-	gap: 2rem;
+	gap: 1.6rem;
 }
 
-.notice {
-	padding: 1rem 1.1rem;
-	border-radius: 16px;
-	border: 1px solid rgba(13, 15, 23, 0.12);
-	background: linear-gradient(120deg, rgba(236, 245, 255, 0.75), rgba(243, 255, 250, 0.78));
-}
-
-.notice p {
-	margin: 0;
-	font-size: 0.93rem;
-	line-height: 1.6;
-	color: rgba(13, 15, 23, 0.84);
-}
-
-.pillarGrid {
+.pricingGrid {
 	display: grid;
 	grid-template-columns: repeat(3, minmax(0, 1fr));
-	gap: 0.9rem;
+	gap: 0.95rem;
 }
 
-.pillarCard {
-	padding: 1rem;
-	border-radius: 16px;
-	border: 1px solid rgba(13, 15, 23, 0.1);
-	background: rgba(255, 255, 255, 0.82);
-}
-
-.pillarCard h3 {
-	margin: 0;
-	font-size: 1.03rem;
-	line-height: 1.2;
-	letter-spacing: -0.015em;
-}
-
-.pillarCard p {
-	margin: 0.58rem 0 0;
-	font-size: 0.86rem;
-	line-height: 1.55;
-	color: rgba(13, 15, 23, 0.74);
-}
-
-.packageGrid {
-	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
-	gap: 0.9rem;
-}
-
-.packageCard {
-	padding: 1rem;
-	border-radius: 16px;
+.pricingCard {
+	position: relative;
+	padding: 1.08rem;
+	border-radius: 18px;
 	border: 1px solid rgba(13, 15, 23, 0.13);
-	background: rgba(255, 255, 255, 0.9);
-	box-shadow: 0 12px 26px rgba(13, 18, 30, 0.08);
+	background: linear-gradient(165deg, rgba(255, 255, 255, 0.96), rgba(247, 251, 255, 0.93));
+	box-shadow: 0 16px 36px rgba(13, 18, 30, 0.08);
+	display: flex;
+	flex-direction: column;
+	gap: 0.7rem;
+	overflow: visible;
 }
 
-.packageScope {
+.pricingCard h3 {
+	margin: 0;
+	font-size: 1.18rem;
+	line-height: 1.2;
+	letter-spacing: -0.02em;
+}
+
+.cardScope {
 	margin: 0;
 	font-size: 0.67rem;
 	font-weight: 700;
@@ -73,26 +44,92 @@
 	color: rgba(13, 15, 23, 0.56);
 }
 
-.packageCard h3 {
-	margin: 0.35rem 0 0;
-	font-size: 1.15rem;
-	line-height: 1.2;
-}
-
-.packageCard p {
-	margin: 0.55rem 0 0;
+.cardDescription {
+	margin: 0;
 	font-size: 0.85rem;
 	line-height: 1.55;
 	color: rgba(13, 15, 23, 0.74);
 }
 
-.packageBadge {
+.featureList {
+	margin: 0.15rem 0 0;
+	padding: 0;
+	list-style: none;
+	display: grid;
+	gap: 0.5rem;
+}
+
+.featureItem {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 0.55rem;
+}
+
+.featureText {
+	flex: 1;
+	font-size: 0.8rem;
+	line-height: 1.45;
+	color: rgba(13, 15, 23, 0.8);
+}
+
+.hintWrap {
+	position: relative;
+	flex-shrink: 0;
+}
+
+.featureHint {
+	width: 1.15rem;
+	height: 1.15rem;
+	border-radius: 999px;
+	border: 1px solid rgba(13, 15, 23, 0.22);
+	background: rgba(255, 255, 255, 0.94);
+	color: rgba(13, 15, 23, 0.74);
 	display: inline-flex;
-	margin-top: 0.85rem;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.66rem;
+	font-weight: 700;
+	line-height: 1;
+	cursor: help;
+	outline: none;
+}
+
+.featureTooltip {
+	position: absolute;
+	right: 0;
+	top: calc(100% + 0.45rem);
+	width: min(248px, 68vw);
+	padding: 0.62rem 0.68rem;
+	border-radius: 12px;
+	background: rgba(8, 12, 20, 0.94);
+	color: rgba(255, 255, 255, 0.93);
+	font-size: 0.74rem;
+	line-height: 1.5;
+	box-shadow: 0 14px 30px rgba(8, 12, 20, 0.3);
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(6px);
+	transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+	pointer-events: none;
+	z-index: 8;
+}
+
+.hintWrap:hover .featureTooltip,
+.hintWrap:focus-within .featureTooltip {
+	opacity: 1;
+	visibility: visible;
+	transform: translateY(0);
+}
+
+.cardBadge {
+	align-self: flex-start;
+	display: inline-flex;
+	margin-top: 0.1rem;
 	padding: 0.3rem 0.65rem;
 	border-radius: 999px;
-	border: 1px solid rgba(13, 15, 23, 0.15);
-	font-size: 0.67rem;
+	border: 1px solid rgba(13, 15, 23, 0.16);
+	font-size: 0.66rem;
 	font-weight: 700;
 	letter-spacing: 0.05em;
 	text-transform: uppercase;
@@ -140,16 +177,20 @@
 }
 
 @media (max-width: 960px) {
-	.pillarGrid,
-	.packageGrid {
+	.pricingGrid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 
 @media (max-width: 700px) {
-	.pillarGrid,
-	.packageGrid {
+	.pricingGrid {
 		grid-template-columns: 1fr;
+	}
+
+	.featureTooltip {
+		right: auto;
+		left: 0;
+		width: min(260px, 74vw);
 	}
 
 	.ctaRow {

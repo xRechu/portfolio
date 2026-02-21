@@ -2,54 +2,102 @@
 
 import styles from "./ServicesSection.module.css";
 
-const servicePillars = [
-	{
-		title: "Nowoczesna technologia i UX",
-		description:
-			"Next.js, responsywny design i przemyślana struktura podstron. Projekt jest szybki, czytelny i gotowy na rozwój.",
-	},
-	{
-		title: "Łatwe zarządzanie treścią",
-		description:
-			"Wdrażam prosty panel do ofert, treści i zdjęć. Możesz działać samodzielnie albo delegować to do mnie w modelu opieki.",
-	},
-	{
-		title: "Bezpieczeństwo i infrastruktura",
-		description:
-			"Konfiguracja domeny, SSL, ochrona i stabilny hosting. Strona działa niezawodnie i jest gotowa na większy ruch.",
-	},
-	{
-		title: "Widoczność i wydajność",
-		description:
-			"Podstawy SEO technicznego, szybkie ładowanie i optymalizacja zdjęć. Dzięki temu użytkownik i Google widzą jakość.",
-	},
-	{
-		title: "Leady, kontakt i wymogi prawne",
-		description:
-			"Formularze kontaktowe, integracje map i wdrożenie banera cookies. Strona wspiera sprzedaż i spełnia standardy.",
-	},
-	{
-		title: "Wdrożenie i opieka po starcie",
-		description:
-			"Terminowa publikacja, szkolenie z obsługi i wsparcie po uruchomieniu. Możesz rosnąć bez chaosu technicznego.",
-	},
-];
+type OfferFeature = {
+	summary: string;
+	detail: string;
+};
 
-const servicePackages = [
+type ServiceOffer = {
+	name: string;
+	scope: string;
+	description: string;
+	features: OfferFeature[];
+};
+
+const serviceOffers: ServiceOffer[] = [
 	{
-		name: "Strona firmowa",
+		name: "Strony firmowe",
 		scope: "Wizerunek + leady + SEO",
-		notes: "Dla usług lokalnych i marek osobistych.",
+		description:
+			"Kompleksowa strona uslugowa od UX i tresci po wdrozenie i opieke.",
+		features: [
+			{
+				summary: "Nowoczesny design i szybki frontend.",
+				detail:
+					"Projektuje i wdrazam w Next.js z naciskiem na szybkość, czytelnosc i premium odbior marki.",
+			},
+			{
+				summary: "Struktura podstron pod cel biznesowy.",
+				detail:
+					"Uklad planuje pod realny cel: pozyskanie leadow, prezentacja oferty, budowanie zaufania i kontakt.",
+			},
+			{
+				summary: "Latwa edycja tresci i ofert.",
+				detail:
+					"Wdrazam prosty panel, dzieki ktoremu mozesz samodzielnie aktualizowac tresci bez wsparcia developera.",
+			},
+			{
+				summary: "SEO techniczne, domena i SSL.",
+				detail:
+					"Konfiguruję podstawy widocznosci w Google oraz bezpieczne, poprawne dzialanie calej infrastruktury.",
+			},
+		],
 	},
 	{
-		name: "E-commerce",
+		name: "Sklepy e-commerce",
 		scope: "Medusa.js / WooCommerce / custom",
-		notes: "Sklepy od MVP po bardziej złożone wdrożenia.",
+		description:
+			"Sklep od MVP po bardziej zlozone wdrozenie, bez szablonowego podejscia.",
+		features: [
+			{
+				summary: "Checkout i koszyk pod Twoj model sprzedazy.",
+				detail:
+					"Tworze flow zakupowy dopasowany do produktu, marzy i strategii, zamiast gotowego szablonu 1:1.",
+			},
+			{
+				summary: "Integracje platnosci, kurierow i narzedzi.",
+				detail:
+					"Lacze sklep z systemami, z ktorych korzystasz: platnosci, logistyka, CRM, marketing i analityka.",
+			},
+			{
+				summary: "Wydajnosc i skalowanie katalogu.",
+				detail:
+					"Optymalizuje listingi, zdjecia i warstwe danych, aby sklep trzymal tempo przy wiekszym ruchu i ofercie.",
+			},
+			{
+				summary: "Przejecie opieki technicznej po starcie.",
+				detail:
+					"Moge przejac utrzymanie, poprawki i rozwoj, zeby Twoj zespol skupil sie na sprzedazy, nie na bugach.",
+			},
+		],
 	},
 	{
-		name: "Automatyzacje i AI",
-		scope: "Procesy, integracje i oszczędność czasu",
-		notes: "Rozwiązania szyte pod konkretny workflow.",
+		name: "Wdrozenia AI",
+		scope: "Automatyzacje + AI dla procesu",
+		description:
+			"Automatyzuje powtarzalne zadania i wdrazam AI tam, gdzie daje realna oszczednosc czasu.",
+		features: [
+			{
+				summary: "Automatyzacje zapytan i kwalifikacji leadow.",
+				detail:
+					"Buduje scenariusze, ktore porzadkuja dane z formularzy, nadaja priorytet leadom i przyspieszaja odpowiedzi.",
+			},
+			{
+				summary: "Asystenci AI pod konkretne use-case.",
+				detail:
+					"Wdrazam AI do zadan praktycznych: obsluga zapytan, pomoc sprzedazowa, drafty tresci i operacje wewnetrzne.",
+			},
+			{
+				summary: "Integracje z Twoim obecnym stackiem.",
+				detail:
+					"Lacze automatyzacje z narzedziami, ktore juz masz, aby uniknac chaosu i dublowania pracy zespolu.",
+			},
+			{
+				summary: "Bezpieczne wdrozenie i kontrola procesu.",
+				detail:
+					"Ustalam zasady, monitoring i ograniczenia, zeby AI wspieralo firme, a nie tworzylo ryzyko operacyjne.",
+			},
+		],
 	},
 ];
 
@@ -58,35 +106,33 @@ export default function ServicesSection() {
 		<section id="uslugi" className={`page-section ${styles.section}`}>
 			<div className={`page-section-inner ${styles.inner}`}>
 				<p className="page-section-eyebrow">Uslugi</p>
-				<h2 className="page-section-title">Kompleksowo: od pomyslu po wdrozenie i opieke</h2>
+				<h2 className="page-section-title">3 kierunki wspolpracy</h2>
 				<p className="page-section-description">
-					Nie pracuje na sztywnym cenniku, bo kazdy projekt ma inny zakres. Zamiast tego dostajesz konkretna
-					propozycje: zakres, etapy i realna wycene pod Twoj cel.
+					Zamiast sztywnego cennika dostajesz precyzyjny zakres i wycene pod projekt.
 				</p>
 
-				<div className={styles.notice}>
-					<p>
-						Wycena jest indywidualna, ale realizacja zawsze obejmuje kwestie techniczne, biznesowe i
-						utrzymaniowe, zebys nie musial skladac projektu z kilku wykonawcow.
-					</p>
-				</div>
+				<div className={styles.pricingGrid}>
+					{serviceOffers.map((offer) => (
+						<article key={offer.name} className={styles.pricingCard}>
+							<p className={styles.cardScope}>{offer.scope}</p>
+							<h3>{offer.name}</h3>
+							<p className={styles.cardDescription}>{offer.description}</p>
 
-				<div className={styles.pillarGrid}>
-					{servicePillars.map((pillar) => (
-						<article key={pillar.title} className={styles.pillarCard}>
-							<h3>{pillar.title}</h3>
-							<p>{pillar.description}</p>
-						</article>
-					))}
-				</div>
+							<ul className={styles.featureList}>
+								{offer.features.map((feature) => (
+									<li key={feature.summary} className={styles.featureItem}>
+										<span className={styles.featureText}>{feature.summary}</span>
+										<span className={styles.hintWrap}>
+											<span className={styles.featureHint} tabIndex={0} aria-label="Pokaz szczegoly">
+												i
+											</span>
+											<span className={styles.featureTooltip}>{feature.detail}</span>
+										</span>
+									</li>
+								))}
+							</ul>
 
-				<div className={styles.packageGrid}>
-					{servicePackages.map((servicePackage) => (
-						<article key={servicePackage.name} className={styles.packageCard}>
-							<p className={styles.packageScope}>{servicePackage.scope}</p>
-							<h3>{servicePackage.name}</h3>
-							<p>{servicePackage.notes}</p>
-							<span className={styles.packageBadge}>Wycena indywidualna</span>
+							<span className={styles.cardBadge}>Wycena indywidualna</span>
 						</article>
 					))}
 				</div>
@@ -95,7 +141,7 @@ export default function ServicesSection() {
 					<a href="#kontakt" className={styles.ctaButton}>
 						Umow bezplatna konsultacje
 					</a>
-					<p>Po rozmowie dostajesz jasny plan i estymacje bez zobowiazan.</p>
+					<p>Po rozmowie dostajesz zakres, estymacje i rekomendowany wariant wdrozenia.</p>
 				</div>
 			</div>
 		</section>
