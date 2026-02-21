@@ -33,7 +33,8 @@ const CardSwap = ({
   verticalDistance = 70,
   delay = 5000,
   pauseOnHover = false,
-  onCardClick = () => {},
+  onCardClick = _cardIndex => {},
+  onReady = _controls => {},
   skewAmount = 6,
   easing = 'elastic',
   children
@@ -68,13 +69,26 @@ const CardSwap = ({
 
   const tlRef = useRef(null);
   const intervalRef = useRef();
+  const isHoveringRef = useRef(false);
   const container = useRef(null);
 
   useEffect(() => {
     const total = refs.length;
+    order.current = Array.from({ length: total }, (_, i) => i);
     refs.forEach((r, i) => placeNow(r.current, makeSlot(i, cardDistance, verticalDistance, total), skewAmount));
 
-    const swap = () => {
+    const stopAutoSwap = () => {
+      if (!intervalRef.current) return;
+      clearInterval(intervalRef.current);
+      intervalRef.current = undefined;
+    };
+
+    const startAutoSwap = () => {
+      stopAutoSwap();
+      intervalRef.current = window.setInterval(() => swap('next'), delay);
+    };
+
+    const animateNext = () => {
       if (order.current.length < 2) return;
 
       const [front, ...rest] = order.current;
@@ -132,30 +146,99 @@ const CardSwap = ({
       });
     };
 
-    swap();
-    intervalRef.current = window.setInterval(swap, delay);
+    const animatePrev = () => {
+      if (order.current.length < 2) return;
+
+      const currentOrder = order.current;
+      const back = currentOrder[currentOrder.length - 1];
+      const rest = currentOrder.slice(0, -1);
+      const nextOrder = [back, ...rest];
+
+      const elBack = refs[back].current;
+      const tl = gsap.timeline();
+      tlRef.current = tl;
+
+      tl.to(elBack, {
+        y: '-=120',
+        duration: Math.max(0.25, config.durDrop * 0.45),
+        ease: config.ease
+      });
+
+      tl.addLabel('reflow', `-=${Math.max(0.1, config.durDrop * 0.2)}`);
+      nextOrder.forEach((idx, i) => {
+        const el = refs[idx].current;
+        const slot = makeSlot(i, cardDistance, verticalDistance, refs.length);
+        tl.set(el, { zIndex: slot.zIndex }, 'reflow');
+        tl.to(
+          el,
+          {
+            x: slot.x,
+            y: slot.y,
+            z: slot.z,
+            duration: config.durMove,
+            ease: config.ease
+          },
+          `reflow+=${i * 0.08}`
+        );
+      });
+
+      tl.call(() => {
+        order.current = nextOrder;
+      });
+    };
+
+    const swap = direction => {
+      tlRef.current?.kill();
+      if (direction === 'prev') {
+        animatePrev();
+        return;
+      }
+      animateNext();
+    };
+
+    const step = direction => {
+      swap(direction);
+      if (!pauseOnHover || !isHoveringRef.current) {
+        startAutoSwap();
+      }
+    };
+
+    onReady({
+      next: () => step('next'),
+      prev: () => step('prev')
+    });
+
+    swap('next');
+    startAutoSwap();
 
     if (pauseOnHover) {
       const node = container.current;
       const pause = () => {
+        isHoveringRef.current = true;
         tlRef.current?.pause();
-        clearInterval(intervalRef.current);
+        stopAutoSwap();
       };
       const resume = () => {
+        isHoveringRef.current = false;
         tlRef.current?.play();
-        intervalRef.current = window.setInterval(swap, delay);
+        startAutoSwap();
       };
       node.addEventListener('mouseenter', pause);
       node.addEventListener('mouseleave', resume);
       return () => {
+        isHoveringRef.current = false;
         node.removeEventListener('mouseenter', pause);
         node.removeEventListener('mouseleave', resume);
-        clearInterval(intervalRef.current);
+        stopAutoSwap();
+        tlRef.current?.kill();
       };
     }
-    return () => clearInterval(intervalRef.current);
+    return () => {
+      stopAutoSwap();
+      tlRef.current?.kill();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing]);
+  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, onReady]);
 
   const rendered = childArr.map((child, i) =>
     isValidElement(child)

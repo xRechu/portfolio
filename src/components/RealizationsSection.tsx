@@ -19,6 +19,11 @@ type Project = {
 	previewImage: string | null;
 };
 
+type SwapControls = {
+	next: () => void;
+	prev: () => void;
+};
+
 const projects: Project[] = [
 	{
 		id: "wellness-studio",
@@ -92,6 +97,7 @@ const projects: Project[] = [
 
 export default function RealizationsSection() {
 	const [activeProjectId, setActiveProjectId] = useState(projects[0]?.id ?? "");
+	const [controls, setControls] = useState<SwapControls | null>(null);
 
 	const activeProject = useMemo(
 		() => projects.find((project) => project.id === activeProjectId) ?? projects[0],
@@ -102,11 +108,6 @@ export default function RealizationsSection() {
 		<section id="realizacje" className={`page-section ${styles.section}`}>
 			<div className={`page-section-inner ${styles.inner}`}>
 				<p className="page-section-eyebrow">Realizacje</p>
-				<h2 className="page-section-title">Showcase stron i sklepow, ktore dowoza wynik</h2>
-				<p className="page-section-description">
-					Kazda karta to osobny projekt. Kliknij <strong>? Dowiedz sie wiecej</strong>, aby zobaczyc stack,
-					feature i autorskie rozwiazania.
-				</p>
 
 				<div className={styles.stageShell}>
 					<div className={styles.stage}>
@@ -119,7 +120,14 @@ export default function RealizationsSection() {
 							pauseOnHover
 							skewAmount={2}
 							easing="smooth"
-							onCardClick={() => {}}
+							onReady={(api?: SwapControls) => setControls(api ?? null)}
+							onCardClick={(cardIndex: number) => {
+								const clickedProject = projects[cardIndex];
+								if (!clickedProject) {
+									return;
+								}
+								setActiveProjectId(clickedProject.id);
+							}}
 						>
 							{projects.map((project) => (
 								<div
@@ -181,6 +189,27 @@ export default function RealizationsSection() {
 								</div>
 							))}
 						</CardSwap>
+					</div>
+
+					<div className={styles.swapControls} aria-label="Sterowanie realizacjami">
+						<button
+							type="button"
+							className={styles.swapArrow}
+							onClick={() => controls?.prev()}
+							disabled={!controls}
+							aria-label="Poprzednia realizacja"
+						>
+							<span aria-hidden="true">←</span>
+						</button>
+						<button
+							type="button"
+							className={styles.swapArrow}
+							onClick={() => controls?.next()}
+							disabled={!controls}
+							aria-label="Nastepna realizacja"
+						>
+							<span aria-hidden="true">→</span>
+						</button>
 					</div>
 				</div>
 
