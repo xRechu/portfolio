@@ -123,6 +123,8 @@ const Waves = ({
     yGap
   });
   const frameIdRef = useRef(null);
+  const isInViewRef = useRef(true);
+  const isPageVisibleRef = useRef(true);
 
   useEffect(() => {
     configRef.current = {
@@ -143,6 +145,22 @@ const Waves = ({
     const canvas = canvasRef.current;
     const container = containerRef.current;
     ctxRef.current = canvas.getContext('2d');
+    isPageVisibleRef.current = !document.hidden;
+
+    function shouldAnimate() {
+      return isInViewRef.current && isPageVisibleRef.current;
+    }
+
+    function stopAnimation() {
+      if (frameIdRef.current === null) return;
+      cancelAnimationFrame(frameIdRef.current);
+      frameIdRef.current = null;
+    }
+
+    function startAnimation() {
+      if (frameIdRef.current !== null || !shouldAnimate()) return;
+      frameIdRef.current = requestAnimationFrame(tick);
+    }
 
     function setSize() {
       const bounds = container.getBoundingClientRect();
@@ -260,6 +278,10 @@ const Waves = ({
 
       movePoints(t);
       drawLines();
+      if (!shouldAnimate()) {
+        frameIdRef.current = null;
+        return;
+      }
       frameIdRef.current = requestAnimationFrame(tick);
     }
 
@@ -272,6 +294,14 @@ const Waves = ({
     function onScroll() {
       refreshBounds();
     }
+    function onVisibilityChange() {
+      isPageVisibleRef.current = !document.hidden;
+      if (shouldAnimate()) {
+        startAnimation();
+        return;
+      }
+      stopAnimation();
+    }
     function onPointerMove(e) {
       updateMouse(e.clientX, e.clientY);
     }
@@ -281,8 +311,7 @@ const Waves = ({
     }
     function updateMouse(x, y) {
       const mouse = mouseRef.current;
-      const b = container.getBoundingClientRect();
-      boundingRef.current = b;
+      const b = boundingRef.current;
       mouse.x = x - b.left;
       mouse.y = y - b.top;
       if (!mouse.set) {
@@ -294,20 +323,37 @@ const Waves = ({
       }
     }
 
+    const observer = new IntersectionObserver(
+      entries => {
+        const entry = entries[0];
+        isInViewRef.current = entry?.isIntersecting ?? true;
+        if (shouldAnimate()) {
+          startAnimation();
+          return;
+        }
+        stopAnimation();
+      },
+      { threshold: 0.01 }
+    );
+    observer.observe(container);
+
     setSize();
     setLines();
-    frameIdRef.current = requestAnimationFrame(tick);
+    startAnimation();
     window.addEventListener('resize', onResize);
     window.addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('visibilitychange', onVisibilityChange);
     window.addEventListener('pointermove', onPointerMove, { passive: true });
-    window.addEventListener('touchmove', onTouchMove, { passive: false });
+    window.addEventListener('touchmove', onTouchMove, { passive: true });
 
     return () => {
+      observer.disconnect();
       window.removeEventListener('resize', onResize);
       window.removeEventListener('scroll', onScroll);
+      document.removeEventListener('visibilitychange', onVisibilityChange);
       window.removeEventListener('pointermove', onPointerMove);
       window.removeEventListener('touchmove', onTouchMove);
-      cancelAnimationFrame(frameIdRef.current);
+      stopAnimation();
     };
   }, []);
 

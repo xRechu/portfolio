@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import CardSwap from "@/components/CardSwap";
 import styles from "./RealizationsSection.module.css";
 
@@ -98,6 +98,12 @@ const projects: Project[] = [
 export default function RealizationsSection() {
 	const [activeProjectId, setActiveProjectId] = useState(projects[0]?.id ?? "");
 	const [controls, setControls] = useState<SwapControls | null>(null);
+	const handleSwapReady = useCallback((api?: SwapControls) => {
+		if (!api) {
+			return;
+		}
+		setControls((current) => current ?? api);
+	}, []);
 
 	const activeProject = useMemo(
 		() => projects.find((project) => project.id === activeProjectId) ?? projects[0],
@@ -120,7 +126,7 @@ export default function RealizationsSection() {
 							pauseOnHover
 							skewAmount={2}
 							easing="smooth"
-							onReady={(api?: SwapControls) => setControls(api ?? null)}
+							onReady={handleSwapReady}
 							onCardClick={(cardIndex: number) => {
 								const clickedProject = projects[cardIndex];
 								if (!clickedProject) {

@@ -15,15 +15,19 @@
 	place-items: center;
 	padding: 2rem 1rem 2.4rem;
 	isolation: isolate;
+	border-radius: 30px;
+	overflow: hidden;
+	background: rgba(255, 255, 255, 0.76);
+	border: 1px solid rgba(10, 12, 18, 0.05);
 }
 
 .stageShell::before {
 	content: "";
 	position: absolute;
-	inset: -4% 8%;
-	border-radius: 30px;
-	background: radial-gradient(circle at 50% 48%, rgba(16, 29, 63, 0.2), rgba(16, 29, 63, 0.05) 42%, transparent 74%);
-	z-index: -2;
+	inset: 6% 12%;
+	border-radius: 24px;
+	background: radial-gradient(circle at 50% 50%, rgba(16, 29, 63, 0.16), rgba(16, 29, 63, 0.03) 45%, transparent 74%);
+	z-index: 0;
 	pointer-events: none;
 }
 
@@ -45,6 +49,7 @@
 
 .stage {
 	position: relative;
+	z-index: 1;
 	width: min(100%, 680px);
 	min-height: 360px;
 	display: grid;
@@ -53,21 +58,24 @@
 }
 
 .swapControls {
-	position: relative;
-	z-index: 4;
-	display: inline-flex;
+	position: absolute;
+	inset-inline: clamp(0.35rem, 1.25vw, 0.85rem);
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 5;
+	width: calc(100% - clamp(0.7rem, 2.5vw, 1.7rem));
+	display: flex;
 	align-items: center;
-	justify-content: center;
-	gap: 0.55rem;
-	margin-top: 0.9rem;
+	justify-content: space-between;
+	pointer-events: none;
 }
 
 .swapArrow {
-	width: 2.25rem;
-	height: 2.25rem;
+	width: 2.35rem;
+	height: 2.35rem;
 	border: 1px solid rgba(10, 12, 18, 0.2);
 	border-radius: 999px;
-	background: rgba(255, 255, 255, 0.9);
+	background: rgba(255, 255, 255, 0.92);
 	color: rgba(10, 12, 18, 0.86);
 	display: inline-flex;
 	align-items: center;
@@ -75,6 +83,8 @@
 	font-size: 1.02rem;
 	line-height: 1;
 	cursor: pointer;
+	pointer-events: auto;
+	backdrop-filter: blur(5px);
 	transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -99,7 +109,7 @@
 	border-radius: 22px;
 	border: 1px solid rgba(11, 14, 24, 0.14);
 	background: #ffffff;
-	box-shadow: 0 30px 75px rgba(11, 18, 40, 0.17);
+	box-shadow: 0 20px 48px rgba(11, 18, 40, 0.12);
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;

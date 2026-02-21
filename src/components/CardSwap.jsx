@@ -70,12 +70,22 @@ const CardSwap = ({
   const tlRef = useRef(null);
   const intervalRef = useRef();
   const isHoveringRef = useRef(false);
+  const isInViewRef = useRef(true);
+  const isPageVisibleRef = useRef(true);
   const container = useRef(null);
+  const onReadyRef = useRef(onReady);
+
+  useEffect(() => {
+    onReadyRef.current = onReady;
+  }, [onReady]);
 
   useEffect(() => {
     const total = refs.length;
+    isPageVisibleRef.current = !document.hidden;
     order.current = Array.from({ length: total }, (_, i) => i);
     refs.forEach((r, i) => placeNow(r.current, makeSlot(i, cardDistance, verticalDistance, total), skewAmount));
+
+    const shouldRun = () => isPageVisibleRef.current && isInViewRef.current && (!pauseOnHover || !isHoveringRef.current);
 
     const stopAutoSwap = () => {
       if (!intervalRef.current) return;
@@ -85,6 +95,7 @@ const CardSwap = ({
 
     const startAutoSwap = () => {
       stopAutoSwap();
+      if (!shouldRun()) return;
       intervalRef.current = window.setInterval(() => swap('next'), delay);
     };
 
@@ -198,12 +209,12 @@ const CardSwap = ({
 
     const step = direction => {
       swap(direction);
-      if (!pauseOnHover || !isHoveringRef.current) {
+      if (shouldRun()) {
         startAutoSwap();
       }
     };
 
-    onReady({
+    onReadyRef.current({
       next: () => step('next'),
       prev: () => step('prev')
     });
@@ -211,8 +222,36 @@ const CardSwap = ({
     swap('next');
     startAutoSwap();
 
-    if (pauseOnHover) {
-      const node = container.current;
+    const node = container.current;
+    const observer = new IntersectionObserver(
+      entries => {
+        const entry = entries[0];
+        isInViewRef.current = entry?.isIntersecting ?? true;
+        if (!shouldRun()) {
+          tlRef.current?.pause();
+          stopAutoSwap();
+          return;
+        }
+        tlRef.current?.play();
+        startAutoSwap();
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(node);
+
+    const onVisibilityChange = () => {
+      isPageVisibleRef.current = !document.hidden;
+      if (!shouldRun()) {
+        tlRef.current?.pause();
+        stopAutoSwap();
+        return;
+      }
+      tlRef.current?.play();
+      startAutoSwap();
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
+    if (pauseOnHover && node) {
       const pause = () => {
         isHoveringRef.current = true;
         tlRef.current?.pause();
@@ -227,18 +266,23 @@ const CardSwap = ({
       node.addEventListener('mouseleave', resume);
       return () => {
         isHoveringRef.current = false;
+        observer.disconnect();
+        document.removeEventListener('visibilitychange', onVisibilityChange);
         node.removeEventListener('mouseenter', pause);
         node.removeEventListener('mouseleave', resume);
         stopAutoSwap();
         tlRef.current?.kill();
       };
     }
+
     return () => {
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', onVisibilityChange);
       stopAutoSwap();
       tlRef.current?.kill();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing, onReady]);
+  }, [cardDistance, verticalDistance, delay, pauseOnHover, skewAmount, easing]);
 
   const rendered = childArr.map((child, i) =>
     isValidElement(child)
