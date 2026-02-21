@@ -2,13 +2,12 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Globe } from "lucide-react";
+import { useLanguage, type AppLanguage } from "@/components/LanguageProvider";
 
 const languages = [
-	{ code: "PL", label: "Polski" },
-	{ code: "EN", label: "English" },
+	{ code: "pl", label: "Polski" },
+	{ code: "en", label: "English" },
 ] as const;
-
-type LanguageCode = (typeof languages)[number]["code"];
 
 type IconProps = {
 	className?: string;
@@ -43,8 +42,8 @@ function MoonIcon({ className = "" }: IconProps) {
 }
 
 export default function TopControls() {
+	const { language, setLanguage } = useLanguage();
 	const [isDarkPreview, setIsDarkPreview] = useState(false);
-	const [activeLanguage, setActiveLanguage] = useState<LanguageCode>("PL");
 	const [isLanguageOpen, setIsLanguageOpen] = useState(false);
 	const languageRef = useRef<HTMLDivElement | null>(null);
 
@@ -90,20 +89,33 @@ export default function TopControls() {
 		setIsLanguageOpen((current) => !current);
 	}, []);
 
-	const handleLanguageSelect = useCallback((code: LanguageCode) => {
-		setActiveLanguage(code);
+	const handleLanguageSelect = useCallback((code: AppLanguage) => {
+		setLanguage(code);
 		setIsLanguageOpen(false);
-	}, []);
+	}, [setLanguage]);
+
+	const labels =
+		language === "pl"
+			? {
+					theme: isDarkPreview ? "Przelacz na jasny motyw" : "Przelacz na ciemny motyw",
+					themeTitle: isDarkPreview ? "Jasny motyw" : "Ciemny motyw",
+					language: "Wybierz jezyk",
+			  }
+			: {
+					theme: isDarkPreview ? "Switch to light theme" : "Switch to dark theme",
+					themeTitle: isDarkPreview ? "Light theme" : "Dark theme",
+					language: "Select language",
+			  };
 
 	return (
-		<div className="top-controls" aria-label="Ustawienia strony">
+		<div className="top-controls" aria-label={language === "pl" ? "Ustawienia strony" : "Website settings"}>
 			<button
 				type="button"
 				className={`theme-switch ${isDarkPreview ? "is-dark" : ""}`}
 				onClick={toggleThemePreview}
 				aria-pressed={isDarkPreview}
-				aria-label={isDarkPreview ? "Przelacz na jasny motyw" : "Przelacz na ciemny motyw"}
-				title={isDarkPreview ? "Jasny motyw" : "Ciemny motyw"}
+				aria-label={labels.theme}
+				title={labels.themeTitle}
 			>
 				<span className="theme-switch-track" aria-hidden="true">
 					<SunIcon className="theme-track-icon theme-track-icon-sun" />
@@ -124,29 +136,29 @@ export default function TopControls() {
 					onClick={toggleLanguageMenu}
 					aria-haspopup="menu"
 					aria-expanded={isLanguageOpen}
-					aria-label="Wybierz jezyk"
-					title="Wybierz jezyk"
+					aria-label={labels.language}
+					title={labels.language}
 				>
 					<Globe className="language-globe-icon" aria-hidden="true" />
 					<span className="language-code" aria-hidden="true">
-						{activeLanguage}
+						{language.toUpperCase()}
 					</span>
 				</button>
 
-				<div className={`language-menu ${isLanguageOpen ? "is-open" : ""}`} role="menu" aria-label="Wybierz jezyk">
-					{languages.map((language) => {
-						const isActive = language.code === activeLanguage;
+				<div className={`language-menu ${isLanguageOpen ? "is-open" : ""}`} role="menu" aria-label={labels.language}>
+					{languages.map((option) => {
+						const isActive = option.code === language;
 						return (
 							<button
-								key={language.code}
+								key={option.code}
 								type="button"
 								role="menuitemradio"
 								aria-checked={isActive}
 								className={`language-option ${isActive ? "is-active" : ""}`}
-								onClick={() => handleLanguageSelect(language.code)}
+								onClick={() => handleLanguageSelect(option.code)}
 							>
-								<span>{language.label}</span>
-								<span className="language-option-code">{language.code}</span>
+								<span>{option.label}</span>
+								<span className="language-option-code">{option.code.toUpperCase()}</span>
 							</button>
 						);
 					})}

@@ -37,6 +37,19 @@ npm run deploy
 # or similar package manager command
 ```
 
+## Contact Form (Resend)
+
+The contact form sends inquiries through the `POST /api/contact` route and Resend.
+
+Set these environment variables (see `.env.example`):
+
+- `RESEND_API_KEY`
+- `RESEND_FROM_EMAIL`
+- `CONTACT_TO_EMAIL`
+
+For local Cloudflare runtime, add them to `.dev.vars`.
+For production, add them in your Cloudflare environment configuration.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { LanguageProvider } from "@/components/LanguageProvider";
+import { headers } from "next/headers";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -17,17 +19,31 @@ export const metadata: Metadata = {
 	description: "Portfolio",
 };
 
-export default function RootLayout({
+function resolveInitialLanguage(acceptLanguageHeader: string | null) {
+	if (!acceptLanguageHeader) {
+		return "en";
+	}
+
+	const normalizedHeader = acceptLanguageHeader.toLowerCase();
+	return /(?:^|,)\s*pl(?:-|;|,|$)/.test(normalizedHeader) ? "pl" : "en";
+}
+
+export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const headersList = await headers();
+	const initialLanguage = resolveInitialLanguage(headersList.get("accept-language"));
+
 	return (
-		<html lang="en">
+		<html lang={initialLanguage}>
 			<head>
 				<link rel="icon" href="/favicon.svg" type="image/svg+xml"></link>
 			</head>
-			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+				<LanguageProvider initialLanguage={initialLanguage}>{children}</LanguageProvider>
+			</body>
 		</html>
 	);
 }

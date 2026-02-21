@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useLanguage } from "@/components/LanguageProvider";
 
 type SectionItem = {
 	id: string;
@@ -14,6 +15,7 @@ type SectionRailProps = {
 const MOBILE_BREAKPOINT = 1024;
 
 export default function SectionRail({ sections }: SectionRailProps) {
+	const { language } = useLanguage();
 	const [activeId, setActiveId] = useState(sections[0]?.id ?? "");
 	const [isVisible, setIsVisible] = useState(false);
 	const sectionIds = useMemo(() => sections.map((section) => section.id), [sections]);
@@ -86,7 +88,10 @@ export default function SectionRail({ sections }: SectionRailProps) {
 	}
 
 	return (
-		<nav className={`section-rail ${isVisible ? "section-rail-visible" : ""}`} aria-label="Nawigacja sekcji">
+		<nav
+			className={`section-rail ${isVisible ? "section-rail-visible" : ""}`}
+			aria-label={language === "pl" ? "Nawigacja sekcji" : "Section navigation"}
+		>
 			<div className="section-rail-track" />
 			<ul className="section-rail-list">
 				{sections.map((section) => {

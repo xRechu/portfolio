@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import CardSwap from "@/components/CardSwap";
+import { useLanguage, type AppLanguage } from "@/components/LanguageProvider";
 import styles from "./RealizationsSection.module.css";
 
 type ProjectTone = "ocean" | "graphite" | "mint" | "sand";
@@ -24,124 +25,252 @@ type SwapControls = {
 	prev: () => void;
 };
 
-const projects: Project[] = [
+const projectsByLanguage: Record<AppLanguage, Project[]> = {
+	pl: [
+		{
+			id: "wellness-studio",
+			name: "Wellness Studio",
+			stack: "Next.js + Headless CMS",
+			url: "https://example.com",
+			short: "Szybka strona uslugowa z naciskiem na SEO i konwersje.",
+			description:
+				"Projekt skupiony na lead generation. Strona ma lekki frontend, szybki TTFB i modularny edytor tresci dla klienta.",
+			features: [
+				"Autorski system sekcji landing page z latwa edycja tresci",
+				"Optymalizacja Core Web Vitals pod kampanie platne i SEO",
+				"Integracja formularzy z automatycznym routingiem leadow",
+			],
+			tone: "ocean",
+			previewLabel: "Landing Page",
+			previewImage: null,
+		},
+		{
+			id: "fashion-store",
+			name: "Fashion Commerce",
+			stack: "Medusa.js + Next.js",
+			url: "https://example.com",
+			short: "Sklep e-commerce z custom checkout i automatyzacjami.",
+			description:
+				"Sklep budowany pod skalowanie. Backend Medusa obsluguje niestandardowe promocje i scenariusze koszyka.",
+			features: [
+				"Autorskie reguly rabatowe i bundle products",
+				"Szybki storefront oparty o SSR + cache strategia",
+				"Integracje platnosci i panelu logistycznego",
+			],
+			tone: "graphite",
+			previewLabel: "Storefront",
+			previewImage: null,
+		},
+		{
+			id: "academy-pro",
+			name: "Academy Platform",
+			stack: "Next.js + Supabase",
+			url: "https://example.com",
+			short: "Platforma contentowa z kontami i strefa premium.",
+			description:
+				"Rozwiazanie dla biznesu edukacyjnego. Obejmuje role userow, dostep warunkowy i skalowalna strukture tresci.",
+			features: [
+				"Strefa klienta z podzialem uprawnien i subskrypcji",
+				"Panel zarzadzania materialami i postepem nauki",
+				"Automatyczne scenariusze onboarding + e-mail follow-up",
+			],
+			tone: "mint",
+			previewLabel: "Web App",
+			previewImage: null,
+		},
+		{
+			id: "furniture-brand",
+			name: "Furniture Brand",
+			stack: "WooCommerce + Next.js",
+			url: "https://example.com",
+			short: "Hybrid commerce z naciskiem na UX katalogu i mobile.",
+			description:
+				"Wdrozenie dla marki meblowej. Kluczowe byly szybkie listingi produktow i wygodne filtry na urzadzeniach mobilnych.",
+			features: [
+				"Custom warstwa frontend na WooCommerce API",
+				"Autorski konfigurator wariantow i zestawow",
+				"Integracja feedow marketingowych i analityki",
+			],
+			tone: "sand",
+			previewLabel: "Product Catalog",
+			previewImage: null,
+		},
+	],
+	en: [
+		{
+			id: "wellness-studio",
+			name: "Wellness Studio",
+			stack: "Next.js + Headless CMS",
+			url: "https://example.com",
+			short: "Fast business website focused on SEO and conversion.",
+			description:
+				"Lead-generation focused build with lightweight frontend, low TTFB and modular content editing.",
+			features: [
+				"Custom landing section system with easy editing",
+				"Core Web Vitals optimization for paid campaigns and SEO",
+				"Form integrations with automatic lead routing",
+			],
+			tone: "ocean",
+			previewLabel: "Landing Page",
+			previewImage: null,
+		},
+		{
+			id: "fashion-store",
+			name: "Fashion Commerce",
+			stack: "Medusa.js + Next.js",
+			url: "https://example.com",
+			short: "E-commerce store with custom checkout and automations.",
+			description:
+				"Built for scale. Medusa backend handles custom promotion logic and non-standard cart scenarios.",
+			features: [
+				"Custom discount logic and bundled products",
+				"Fast storefront powered by SSR and cache strategy",
+				"Payment and logistics dashboard integrations",
+			],
+			tone: "graphite",
+			previewLabel: "Storefront",
+			previewImage: null,
+		},
+		{
+			id: "academy-pro",
+			name: "Academy Platform",
+			stack: "Next.js + Supabase",
+			url: "https://example.com",
+			short: "Content platform with accounts and premium access.",
+			description:
+				"Education-oriented platform with roles, gated access and scalable content structure.",
+			features: [
+				"Client zone with role-based access and subscriptions",
+				"Content and progress management dashboard",
+				"Automated onboarding and email follow-up flows",
+			],
+			tone: "mint",
+			previewLabel: "Web App",
+			previewImage: null,
+		},
+		{
+			id: "furniture-brand",
+			name: "Furniture Brand",
+			stack: "WooCommerce + Next.js",
+			url: "https://example.com",
+			short: "Hybrid commerce focused on catalog UX and mobile performance.",
+			description:
+				"Implementation for a furniture brand with priority on fast listings and smooth mobile filtering.",
+			features: [
+				"Custom frontend layer on WooCommerce API",
+				"Custom product variant and bundle configurator",
+				"Marketing feeds and analytics integrations",
+			],
+			tone: "sand",
+			previewLabel: "Product Catalog",
+			previewImage: null,
+		},
+	],
+};
+
+const uiCopyByLanguage: Record<
+	AppLanguage,
 	{
-		id: "wellness-studio",
-		name: "Wellness Studio",
-		stack: "Next.js + Headless CMS",
-		url: "https://example.com",
-		short: "Szybka strona uslugowa z naciskiem na SEO i konwersje.",
-		description:
-			"Projekt skupiony na lead generation. Strona ma lekki frontend, szybki TTFB i modularny edytor tresci dla klienta.",
-		features: [
-			"Autorski system sekcji landing page z latwa edycja tresci",
-			"Optymalizacja Core Web Vitals pod kampanie platne i SEO",
-			"Integracja formularzy z automatycznym routingiem leadow",
-		],
-		tone: "ocean",
-		previewLabel: "Landing Page",
-		previewImage: null,
+		eyebrow: string;
+		cardAriaPrefix: string;
+		previewPlaceholder: string;
+		learnMore: string;
+		openSite: string;
+		controlsLabel: string;
+		prevAria: string;
+		nextAria: string;
+		detailsEyebrow: string;
+		stackLabel: string;
+	}
+> = {
+	pl: {
+		eyebrow: "Realizacje",
+		cardAriaPrefix: "Projekt",
+		previewPlaceholder: "Podmien na screenshot hero",
+		learnMore: "Dowiedz sie wiecej",
+		openSite: "Otworz strone",
+		controlsLabel: "Sterowanie realizacjami",
+		prevAria: "Poprzednia realizacja",
+		nextAria: "Nastepna realizacja",
+		detailsEyebrow: "Szczegoly projektu",
+		stackLabel: "Stack:",
 	},
-	{
-		id: "fashion-store",
-		name: "Fashion Commerce",
-		stack: "Medusa.js + Next.js",
-		url: "https://example.com",
-		short: "Sklep e-commerce z custom checkout i automatyzacjami.",
-		description:
-			"Sklep budowany pod skalowanie. Backend Medusa obsluguje niestandardowe promocje i scenariusze koszyka.",
-		features: [
-			"Autorskie reguly rabatowe i bundle products",
-			"Szybki storefront oparty o SSR + cache strategia",
-			"Integracje platnosci i panelu logistycznego",
-		],
-		tone: "graphite",
-		previewLabel: "Storefront",
-		previewImage: null,
+	en: {
+		eyebrow: "Projects",
+		cardAriaPrefix: "Project",
+		previewPlaceholder: "Replace with hero screenshot",
+		learnMore: "Learn more",
+		openSite: "Open website",
+		controlsLabel: "Projects navigation",
+		prevAria: "Previous project",
+		nextAria: "Next project",
+		detailsEyebrow: "Project details",
+		stackLabel: "Stack:",
 	},
-	{
-		id: "academy-pro",
-		name: "Academy Platform",
-		stack: "Next.js + Supabase",
-		url: "https://example.com",
-		short: "Platforma contentowa z kontami i strefa premium.",
-		description:
-			"Rozwiazanie dla biznesu edukacyjnego. Obejmuje role userow, dostep warunkowy i skalowalna strukture tresci.",
-		features: [
-			"Strefa klienta z podzialem uprawnien i subskrypcji",
-			"Panel zarzadzania materialami i postepem nauki",
-			"Automatyczne scenariusze onboarding + e-mail follow-up",
-		],
-		tone: "mint",
-		previewLabel: "Web App",
-		previewImage: null,
-	},
-	{
-		id: "furniture-brand",
-		name: "Furniture Brand",
-		stack: "WooCommerce + Next.js",
-		url: "https://example.com",
-		short: "Hybrid commerce z naciskiem na UX katalogu i mobile.",
-		description:
-			"Wdrozenie dla marki meblowej. Kluczowe byly szybkie listingi produktow i wygodne filtry na urzadzeniach mobilnych.",
-		features: [
-			"Custom warstwa frontend na WooCommerce API",
-			"Autorski konfigurator wariantow i zestawow",
-			"Integracja feedow marketingowych i analityki",
-		],
-		tone: "sand",
-		previewLabel: "Product Catalog",
-		previewImage: null,
-	},
-];
+};
 
 export default function RealizationsSection() {
+	const { language } = useLanguage();
+	const projects = projectsByLanguage[language];
+	const ui = uiCopyByLanguage[language];
+
 	const [activeProjectId, setActiveProjectId] = useState(projects[0]?.id ?? "");
 	const [controls, setControls] = useState<SwapControls | null>(null);
+
+	useEffect(() => {
+		setActiveProjectId((current) =>
+			projects.some((project) => project.id === current) ? current : (projects[0]?.id ?? "")
+		);
+	}, [projects]);
+
 	const handleSwapReady = useCallback((api?: SwapControls) => {
 		if (!api) {
 			return;
 		}
 		setControls((current) => current ?? api);
 	}, []);
-	const handleFrontCardChange = useCallback((cardIndex: number) => {
-		const project = projects[cardIndex];
-		if (!project) {
-			return;
-		}
-		setActiveProjectId(project.id);
-	}, []);
+
+	const handleFrontCardChange = useCallback(
+		(cardIndex: number) => {
+			const project = projects[cardIndex];
+			if (!project) {
+				return;
+			}
+			setActiveProjectId(project.id);
+		},
+		[projects]
+	);
 
 	const activeProject = useMemo(
 		() => projects.find((project) => project.id === activeProjectId) ?? projects[0],
-		[activeProjectId]
+		[activeProjectId, projects]
 	);
 
 	return (
 		<section id="realizacje" className={`page-section ${styles.section}`}>
 			<div className={`page-section-inner ${styles.inner}`}>
-				<p className="page-section-eyebrow">Realizacje</p>
+				<p className="page-section-eyebrow">{ui.eyebrow}</p>
 
 				<div className={styles.stageShell}>
 					<div className={styles.stage}>
-							<CardSwap
-								width={410}
-								height={280}
-								cardDistance={34}
-								verticalDistance={28}
-								delay={5200}
-								pauseOnHover
-								skewAmount={2}
-								easing="smooth"
-								onReady={handleSwapReady}
-								onFrontCardChange={handleFrontCardChange}
-							>
+						<CardSwap
+							width={410}
+							height={280}
+							cardDistance={34}
+							verticalDistance={28}
+							delay={5200}
+							pauseOnHover
+							skewAmount={2}
+							easing="smooth"
+							onReady={handleSwapReady}
+							onFrontCardChange={handleFrontCardChange}
+						>
 							{projects.map((project) => (
 								<div
 									key={project.id}
 									className={`card ${styles.projectCard}`}
 									data-tone={project.tone}
-									aria-label={`Projekt ${project.name}`}
+									aria-label={`${ui.cardAriaPrefix} ${project.name}`}
 								>
 									<div className={styles.previewFrame}>
 										<div className={styles.previewTopBar}>
@@ -151,7 +280,7 @@ export default function RealizationsSection() {
 										</div>
 										<div className={styles.previewBody}>
 											{project.previewImage ? (
-												<span className={styles.previewImageLabel}>Podmien na screenshot hero</span>
+												<span className={styles.previewImageLabel}>{ui.previewPlaceholder}</span>
 											) : (
 												<>
 													<span className={styles.previewPill}>{project.previewLabel}</span>
@@ -177,7 +306,7 @@ export default function RealizationsSection() {
 												onClick={(event) => event.stopPropagation()}
 											>
 												<span className={styles.questionMark}>?</span>
-												Dowiedz sie wiecej
+												{ui.learnMore}
 											</a>
 											<a
 												href={project.url}
@@ -186,7 +315,7 @@ export default function RealizationsSection() {
 												className={styles.visitButton}
 												onClick={(event) => event.stopPropagation()}
 											>
-												Otworz strone
+												{ui.openSite}
 											</a>
 										</div>
 									</div>
@@ -195,13 +324,13 @@ export default function RealizationsSection() {
 						</CardSwap>
 					</div>
 
-					<div className={styles.swapControls} aria-label="Sterowanie realizacjami">
+					<div className={styles.swapControls} aria-label={ui.controlsLabel}>
 						<button
 							type="button"
 							className={styles.swapArrow}
 							onClick={() => controls?.prev()}
 							disabled={!controls}
-							aria-label="Poprzednia realizacja"
+							aria-label={ui.prevAria}
 						>
 							<span aria-hidden="true">←</span>
 						</button>
@@ -210,22 +339,22 @@ export default function RealizationsSection() {
 							className={styles.swapArrow}
 							onClick={() => controls?.next()}
 							disabled={!controls}
-							aria-label="Nastepna realizacja"
+							aria-label={ui.nextAria}
 						>
 							<span aria-hidden="true">→</span>
 						</button>
 					</div>
 				</div>
 
-					{activeProject && (
-						<article id="realizacje-szczegoly" className={styles.detailsPanel} aria-live="polite">
-							<div className={styles.detailsHeader}>
-								<p className={styles.detailsEyebrow}>Szczegoly projektu</p>
-								<h3 className={styles.detailsTitle}>{activeProject.name}</h3>
+				{activeProject && (
+					<article id="realizacje-szczegoly" className={styles.detailsPanel} aria-live="polite">
+						<div className={styles.detailsHeader}>
+							<p className={styles.detailsEyebrow}>{ui.detailsEyebrow}</p>
+							<h3 className={styles.detailsTitle}>{activeProject.name}</h3>
 						</div>
 						<p className={styles.detailsDescription}>{activeProject.description}</p>
 						<p className={styles.detailsStack}>
-							<span>Stack:</span> {activeProject.stack}
+							<span>{ui.stackLabel}</span> {activeProject.stack}
 						</p>
 						<ul className={styles.featureList}>
 							{activeProject.features.map((feature) => (
@@ -238,3 +367,4 @@ export default function RealizationsSection() {
 		</section>
 	);
 }
+
