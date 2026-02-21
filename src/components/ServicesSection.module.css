@@ -52,9 +52,9 @@
 
 	--srv-cta-border: rgba(148, 163, 184, 0.26);
 	--srv-cta-bg: rgba(11, 21, 34, 0.8);
-	--srv-cta-button-bg: #10b981;
-	--srv-cta-button-hover: #34d399;
-	--srv-cta-button-text: #032013;
+	--srv-cta-button-bg: #ffffff;
+	--srv-cta-button-hover: #e5e7eb;
+	--srv-cta-button-text: #0f172a;
 	--srv-cta-text: rgba(226, 232, 240, 0.82);
 	--srv-cta-shadow: 0 10px 24px rgba(0, 8, 18, 0.56);
 }
@@ -236,9 +236,38 @@
 	color: var(--srv-cta-text);
 }
 
-@media (max-width: 960px) {
+@media (min-width: 701px) and (max-width: 1100px) {
 	.pricingGrid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.pricingCard:nth-child(3) {
+		grid-column: 1 / -1;
+	}
+
+	.pricingCard:nth-child(3) .featureList {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0.55rem 0.72rem;
+	}
+
+	.pricingCard:nth-child(3) .featureItem {
+		align-items: center;
+	}
+
+	.cardDescription {
+		font-size: 0.84rem;
+	}
+
+	.featureTooltip {
+		width: min(270px, 52vw);
+	}
+
+	.ctaRow {
+		padding: 0.92rem;
+	}
+
+	.ctaButton {
+		min-height: 2.72rem;
 	}
 }
 

@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 :root {
-	--background: #f6f8fb;
+	--background: #ffffff;
 	--foreground: #0f172a;
-	--main-bg: radial-gradient(circle at 80% 18%, rgba(15, 23, 42, 0.08), transparent 44%), #f6f8fb;
-	--hero-bg: linear-gradient(180deg, #f8fbff 0%, #f3f7fc 100%);
+	--main-bg: #ffffff;
+	--hero-bg: #ffffff;
 
 	--text-primary: #0f172a;
 	--text-strong: rgba(15, 23, 42, 0.95);
@@ -22,10 +22,10 @@
 	--accent-green-strong: #047857;
 	--hero-gradient: linear-gradient(96deg, #064e3b 0%, #047857 46%, #10b981 100%);
 
-	--btn-primary-bg: #0f172a;
-	--btn-primary-border: #0f172a;
+	--btn-primary-bg: #0a0a0a;
+	--btn-primary-border: #0a0a0a;
 	--btn-primary-text: #f8fafc;
-	--btn-primary-hover: #1e293b;
+	--btn-primary-hover: #27272a;
 
 	--btn-secondary-bg: rgba(255, 255, 255, 0.58);
 	--btn-secondary-border: rgba(15, 23, 42, 0.2);
@@ -50,19 +50,18 @@
 }
 
 html[data-theme-preview="dark"] {
-	--background: #07111a;
+	--background: #09090b;
 	--foreground: #e2e8f0;
-	--main-bg: radial-gradient(circle at 14% 14%, rgba(16, 185, 129, 0.1), transparent 44%),
-		radial-gradient(circle at 86% 16%, rgba(56, 189, 248, 0.12), transparent 42%), #07111a;
-	--hero-bg: linear-gradient(180deg, #08131f 0%, #0a1623 100%);
+	--main-bg: #09090b;
+	--hero-bg: #09090b;
 
 	--text-primary: #e6edf4;
 	--text-strong: rgba(241, 245, 249, 0.95);
 	--text-secondary: rgba(226, 232, 240, 0.84);
 	--text-muted: rgba(203, 213, 225, 0.68);
 
-	--surface-glass: rgba(9, 18, 30, 0.76);
-	--surface-glass-strong: rgba(11, 21, 34, 0.9);
+	--surface-glass: rgba(17, 17, 19, 0.76);
+	--surface-glass-strong: rgba(22, 22, 24, 0.9);
 	--surface-border: rgba(148, 163, 184, 0.26);
 	--surface-border-strong: rgba(203, 213, 225, 0.42);
 
@@ -72,15 +71,15 @@ html[data-theme-preview="dark"] {
 	--accent-green-strong: #10b981;
 	--hero-gradient: linear-gradient(96deg, #34d399 0%, #10b981 42%, #6ee7b7 100%);
 
-	--btn-primary-bg: #10b981;
-	--btn-primary-border: #10b981;
-	--btn-primary-text: #032013;
-	--btn-primary-hover: #34d399;
+	--btn-primary-bg: #ffffff;
+	--btn-primary-border: #ffffff;
+	--btn-primary-text: #0f172a;
+	--btn-primary-hover: #e5e7eb;
 
-	--btn-secondary-bg: rgba(15, 23, 42, 0.46);
-	--btn-secondary-border: rgba(148, 163, 184, 0.34);
+	--btn-secondary-bg: rgba(255, 255, 255, 0.06);
+	--btn-secondary-border: rgba(226, 232, 240, 0.34);
 	--btn-secondary-text: #e2e8f0;
-	--btn-secondary-hover-bg: rgba(148, 163, 184, 0.14);
+	--btn-secondary-hover-bg: rgba(255, 255, 255, 0.14);
 
 	--rail-track-gradient: linear-gradient(
 		180deg,
@@ -750,57 +749,6 @@ main {
 	background: var(--accent-green-strong);
 }
 
-/* Per-section backgrounds (light) */
-#realizacje.page-section {
-	background: radial-gradient(circle at 18% 16%, rgba(59, 130, 246, 0.08), transparent 46%),
-		linear-gradient(180deg, #f9fbff 0%, #f4f8fe 100%);
-}
-
-#uslugi.page-section {
-	background: radial-gradient(circle at 84% 18%, rgba(16, 185, 129, 0.1), transparent 46%),
-		linear-gradient(180deg, #f7fbf9 0%, #f2f8f4 100%);
-}
-
-#dlaczego-ja.page-section {
-	background: radial-gradient(circle at 18% 18%, rgba(14, 165, 233, 0.08), transparent 44%),
-		linear-gradient(180deg, #f7f9fd 0%, #f3f6fb 100%);
-}
-
-#faq.page-section {
-	background: radial-gradient(circle at 86% 20%, rgba(245, 158, 11, 0.1), transparent 45%),
-		linear-gradient(180deg, #fdfaf5 0%, #f8f4ed 100%);
-}
-
-#kontakt.page-section {
-	background: radial-gradient(circle at 20% 22%, rgba(16, 185, 129, 0.09), transparent 45%),
-		linear-gradient(180deg, #f7fbf8 0%, #f2f8f4 100%);
-}
-
-/* Per-section backgrounds (dark) */
-html[data-theme-preview="dark"] #realizacje.page-section {
-	background: radial-gradient(circle at 16% 16%, rgba(56, 189, 248, 0.15), transparent 44%),
-		linear-gradient(180deg, #091826 0%, #081522 100%);
-}
-
-html[data-theme-preview="dark"] #uslugi.page-section {
-	background: radial-gradient(circle at 84% 16%, rgba(16, 185, 129, 0.16), transparent 42%),
-		linear-gradient(180deg, #081b1f 0%, #07161b 100%);
-}
-
-html[data-theme-preview="dark"] #dlaczego-ja.page-section {
-	background: radial-gradient(circle at 18% 20%, rgba(14, 165, 233, 0.12), transparent 42%),
-		linear-gradient(180deg, #0a1722 0%, #08131d 100%);
-}
-
-html[data-theme-preview="dark"] #faq.page-section {
-	background: radial-gradient(circle at 86% 20%, rgba(251, 191, 36, 0.14), transparent 44%),
-		linear-gradient(180deg, #141628 0%, #101321 100%);
-}
-
-html[data-theme-preview="dark"] #kontakt.page-section {
-	background: radial-gradient(circle at 20% 22%, rgba(52, 211, 153, 0.14), transparent 44%),
-		linear-gradient(180deg, #081a18 0%, #071613 100%);
-}
 
 @media (max-width: 1023px) {
 	body {
@@ -874,6 +822,129 @@ html[data-theme-preview="dark"] #kontakt.page-section {
 
 	.page-section-points li {
 		font-size: 0.88rem;
+	}
+}
+
+@media (min-width: 641px) and (max-width: 1023px) {
+	html {
+		scroll-padding-top: 5rem;
+	}
+
+	#start,
+	.page-section {
+		scroll-margin-top: 5rem;
+	}
+
+	body {
+		padding-bottom: calc(4.55rem + env(safe-area-inset-bottom));
+	}
+
+	.brand-wordmark {
+		top: max(0.82rem, env(safe-area-inset-top));
+		left: 0.9rem;
+		max-width: calc(100vw - 10.4rem);
+		padding: 0.44rem 0.68rem;
+	}
+
+	.brand-wordmark-role {
+		display: block;
+		font-size: 0.56rem;
+	}
+
+	.top-controls {
+		top: max(0.78rem, env(safe-area-inset-top));
+		right: 0.85rem;
+		gap: 0.5rem;
+	}
+
+	.top-icon-button {
+		height: 2.56rem;
+	}
+
+	.theme-switch {
+		width: 3.4rem;
+		height: 1.92rem;
+	}
+
+	.theme-switch-thumb {
+		left: 0.17rem;
+		width: 1.54rem;
+		height: 1.54rem;
+	}
+
+	.theme-switch.is-dark .theme-switch-thumb {
+		transform: translate(1.52rem, -50%);
+	}
+
+	.language-toggle {
+		min-width: 3.3rem;
+	}
+
+	.language-menu {
+		min-width: 9.6rem;
+	}
+
+	.section-dock {
+		padding-inline: 0.9rem;
+		padding-top: 0.46rem;
+	}
+
+	.section-dock-list {
+		justify-content: center;
+	}
+
+	.section-dock-link {
+		min-height: 2.08rem;
+		font-size: 0.7rem;
+		padding: 0.42rem 0.68rem;
+	}
+
+	.hero {
+		min-height: 740px;
+	}
+
+	.hero-content {
+		width: min(100%, 52rem);
+		padding-top: 4.2rem;
+		padding-bottom: 2.2rem;
+		gap: 1.7rem;
+	}
+
+	.hero-title {
+		font-size: clamp(2.36rem, 6.8vw, 3.85rem);
+	}
+
+	.hero-buttons {
+		width: auto;
+		max-width: 100%;
+	}
+
+	.hero-btn {
+		min-height: 2.75rem;
+		padding-inline: 1.35rem;
+	}
+
+	.page-section {
+		padding: clamp(3.7rem, 7.2vw, 5.1rem) 1.1rem;
+	}
+
+	.page-section-title {
+		font-size: clamp(2rem, 5.2vw, 2.9rem);
+	}
+
+	.page-section-description {
+		max-width: 72ch;
+		font-size: 0.96rem;
+	}
+
+	.page-section-points {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0.65rem;
+	}
+
+	.page-section-points li {
+		font-size: 0.84rem;
+		line-height: 1.42;
 	}
 }
 

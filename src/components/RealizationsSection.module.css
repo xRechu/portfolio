@@ -87,9 +87,9 @@
 	--rz-info-bg: rgba(10, 20, 32, 0.78);
 	--rz-info-border: rgba(148, 163, 184, 0.38);
 	--rz-info-text: rgba(226, 232, 240, 0.95);
-	--rz-visit-bg: #10b981;
-	--rz-visit-border: #10b981;
-	--rz-visit-text: #032013;
+	--rz-visit-bg: #ffffff;
+	--rz-visit-border: #ffffff;
+	--rz-visit-text: #0f172a;
 	--rz-action-shadow: 0 8px 20px rgba(0, 8, 18, 0.52);
 	--rz-question-bg: rgba(148, 163, 184, 0.24);
 
@@ -497,6 +497,43 @@
 @media (max-width: 900px) {
 	.stage {
 		min-height: 314px;
+	}
+}
+
+@media (min-width: 721px) and (max-width: 1023px) {
+	.inner {
+		gap: 1.65rem;
+	}
+
+	.stageShell {
+		padding: 1.7rem 0.62rem 1.45rem;
+		border-radius: 24px;
+	}
+
+	.stage {
+		width: min(100%, 760px);
+		min-height: 300px;
+		padding: 0.45rem 0;
+	}
+
+	.swapControls {
+		inset-inline: 0.45rem;
+		width: calc(100% - 0.9rem);
+	}
+
+	.swapArrow {
+		width: 2.46rem;
+		height: 2.46rem;
+		font-size: 1.04rem;
+	}
+
+	.detailsPanel {
+		padding: 1.08rem 1.12rem;
+	}
+
+	.detailsDescription {
+		font-size: 0.91rem;
+		line-height: 1.56;
 	}
 }
 

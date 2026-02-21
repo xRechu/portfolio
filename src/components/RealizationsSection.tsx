@@ -264,12 +264,21 @@ export default function RealizationsSection() {
 			};
 		}
 
-		if (viewportWidth < 1024) {
+		if (viewportWidth < 900) {
 			return {
-				width: 360,
-				height: 255,
-				cardDistance: 28,
-				verticalDistance: 22,
+				width: Math.max(320, Math.min(380, viewportWidth - 94)),
+				height: 252,
+				cardDistance: 26,
+				verticalDistance: 20,
+			};
+		}
+
+		if (viewportWidth < 1200) {
+			return {
+				width: Math.max(390, Math.min(442, viewportWidth - 182)),
+				height: 272,
+				cardDistance: 31,
+				verticalDistance: 24,
 			};
 		}
 
