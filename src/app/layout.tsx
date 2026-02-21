@@ -16,8 +16,53 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: "Portfolio",
-	description: "Portfolio",
+	title: {
+		default: "Jakub Reszka | Strony internetowe Next.js, Medusa.js i WooCommerce",
+		template: "%s | Jakub Reszka",
+	},
+	description:
+		"Tworzę szybkie strony internetowe i sklepy e-commerce: Next.js, Medusa.js, WooCommerce oraz automatyzacje AI. Zobacz realizacje i umów darmową konsultację.",
+	keywords: [
+		"strony internetowe Next.js",
+		"sklepy Medusa.js",
+		"WooCommerce",
+		"tworzenie stron www",
+		"e-commerce",
+		"automatyzacje AI",
+		"freelance web developer",
+	],
+	authors: [{ name: "Jakub Reszka" }],
+	creator: "Jakub Reszka",
+	publisher: "Jakub Reszka",
+	openGraph: {
+		type: "website",
+		locale: "pl_PL",
+		siteName: "Jakub Reszka Portfolio",
+		title: "Jakub Reszka | Strony internetowe Next.js, Medusa.js i WooCommerce",
+		description:
+			"Nowoczesne strony i sklepy nastawione na konwersję, leady i wydajność. Next.js, Medusa.js, WooCommerce, automatyzacje AI.",
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: "Jakub Reszka | Strony internetowe Next.js, Medusa.js i WooCommerce",
+		description:
+			"Nowoczesne strony i sklepy nastawione na konwersję, leady i wydajność. Next.js, Medusa.js, WooCommerce, automatyzacje AI.",
+	},
+	robots: {
+		index: true,
+		follow: true,
+		googleBot: {
+			index: true,
+			follow: true,
+			"max-image-preview": "large",
+			"max-snippet": -1,
+			"max-video-preview": -1,
+		},
+	},
+	icons: {
+		icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+		shortcut: ["/favicon.svg"],
+	},
 };
 
 function resolveInitialLanguage(acceptLanguageHeader: string | null) {
@@ -39,9 +84,6 @@ export default async function RootLayout({
 
 	return (
 		<html lang={initialLanguage} data-theme-preview="light">
-			<head>
-				<link rel="icon" href="/favicon.svg" type="image/svg+xml"></link>
-			</head>
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
 				<LanguageProvider initialLanguage={initialLanguage}>
 					{children}

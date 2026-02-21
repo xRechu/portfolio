@@ -52,11 +52,11 @@
 	--shadow-float: 0 10px 22px rgba(15, 23, 42, 0.18);
 
 	--hero-dynamic-color: #065f46;
-	--control-size: 2.7rem;
+	--control-size: 2.42rem;
 	--theme-switch-width: 4.38rem;
-	--theme-thumb-size: 2.22rem;
-	--theme-thumb-offset: 0.2rem;
-	--theme-thumb-dark-x: 1.76rem;
+	--theme-thumb-size: 2rem;
+	--theme-thumb-offset: 0.18rem;
+	--theme-thumb-dark-x: 2.02rem;
 }
 
 html[data-theme-preview="dark"] {
@@ -995,11 +995,11 @@ main {
 
 @media (max-width: 1023px) {
 	:root {
-		--control-size: 2.5rem;
+		--control-size: 2.3rem;
 		--theme-switch-width: 4.04rem;
-		--theme-thumb-size: 2rem;
-		--theme-thumb-offset: 0.17rem;
-		--theme-thumb-dark-x: 1.7rem;
+		--theme-thumb-size: 1.88rem;
+		--theme-thumb-offset: 0.16rem;
+		--theme-thumb-dark-x: 1.84rem;
 	}
 
 	body {
@@ -1092,11 +1092,11 @@ main {
 
 @media (min-width: 641px) and (max-width: 1023px) {
 	:root {
-		--control-size: 2.56rem;
+		--control-size: 2.34rem;
 		--theme-switch-width: 4.14rem;
-		--theme-thumb-size: 2.06rem;
-		--theme-thumb-offset: 0.18rem;
-		--theme-thumb-dark-x: 1.72rem;
+		--theme-thumb-size: 1.92rem;
+		--theme-thumb-offset: 0.17rem;
+		--theme-thumb-dark-x: 1.88rem;
 	}
 
 	html {
@@ -1212,11 +1212,11 @@ main {
 
 @media (max-width: 640px) {
 	:root {
-		--control-size: 2.25rem;
+		--control-size: 2.12rem;
 		--theme-switch-width: 3.62rem;
-		--theme-thumb-size: 1.77rem;
+		--theme-thumb-size: 1.68rem;
 		--theme-thumb-offset: 0.14rem;
-		--theme-thumb-dark-x: 1.57rem;
+		--theme-thumb-dark-x: 1.66rem;
 	}
 
 	html {
