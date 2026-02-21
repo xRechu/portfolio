@@ -84,18 +84,18 @@ main {
 }
 
 .hero-title-line-dynamic .text-type__content {
-	background: linear-gradient(95deg, #0f172a 0%, #1d4ed8 44%, #0ea5a5 100%);
+	background: linear-gradient(96deg, #052e16 0%, #065f46 45%, #10b981 100%);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	background-clip: text;
 	color: transparent;
-	filter: drop-shadow(0 8px 20px rgba(29, 78, 216, 0.2));
+	filter: drop-shadow(0 8px 20px rgba(6, 95, 70, 0.24));
 }
 
 .hero-title-cursor {
-	color: #1d4ed8;
-	-webkit-text-fill-color: #1d4ed8;
-	text-shadow: 0 0 12px rgba(29, 78, 216, 0.28);
+	color: #065f46;
+	-webkit-text-fill-color: #065f46;
+	text-shadow: 0 0 12px rgba(6, 95, 70, 0.34);
 }
 
 .hero-buttons {

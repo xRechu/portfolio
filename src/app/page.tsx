@@ -48,7 +48,7 @@ export default function Home() {
 	return (
 		<main>
 			<a href="#start" className="brand-wordmark" aria-label="Przejdz do sekcji startowej">
-				<span className="brand-wordmark-name">Imie Nazwisko</span>
+				<span className="brand-wordmark-name">JAKUB RESZKA</span>
 				<span className="brand-wordmark-role">Next.js · E-commerce · AI</span>
 			</a>
 
