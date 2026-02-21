@@ -1,5 +1,6 @@
 "use client";
 
+import TextType from "@/components/TextType";
 import Waves from "@/components/Waves";
 
 export default function Hero() {
@@ -23,8 +24,22 @@ export default function Hero() {
 
             <div className="hero-content">
                 <h1 className="hero-title">
-                    <span className="hero-title-line">Background lights</span>
-                    <span className="hero-title-line">are cool you know.</span>
+                    <span className="hero-title-line">Tworze dla ciebie</span>
+                    <TextType
+                        as="span"
+                        className="hero-title-line"
+                        text={[
+                            "szybkie strony internetowe",
+                            "sklepy e-commerce (Medusa / WooCommerce)",
+                            "automatyzacje procesow",
+                            "wdrozenia AI",
+                        ]}
+                        typingSpeed={60}
+                        deletingSpeed={35}
+                        pauseDuration={1800}
+                        showCursor
+                        cursorCharacter="|"
+                    />
                 </h1>
 
                 <div className="hero-buttons">
