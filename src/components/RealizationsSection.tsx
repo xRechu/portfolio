@@ -257,17 +257,17 @@ export default function RealizationsSection() {
 	const cardLayout = useMemo(() => {
 		if (viewportWidth < 720) {
 			return {
-				width: Math.max(262, Math.min(322, viewportWidth - 52)),
-				height: 246,
-				cardDistance: 22,
+				width: Math.max(274, Math.min(340, viewportWidth - 44)),
+				height: 292,
+				cardDistance: 24,
 				verticalDistance: 18,
 			};
 		}
 
 		if (viewportWidth < 900) {
 			return {
-				width: Math.max(320, Math.min(380, viewportWidth - 94)),
-				height: 252,
+				width: Math.max(336, Math.min(396, viewportWidth - 88)),
+				height: 302,
 				cardDistance: 26,
 				verticalDistance: 20,
 			};
