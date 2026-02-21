@@ -89,13 +89,13 @@ main {
 	-webkit-text-fill-color: transparent;
 	background-clip: text;
 	color: transparent;
-	filter: drop-shadow(0 8px 20px rgba(6, 95, 70, 0.24));
+	filter: none;
 }
 
 .hero-title-cursor {
 	color: #065f46;
 	-webkit-text-fill-color: #065f46;
-	text-shadow: 0 0 12px rgba(6, 95, 70, 0.34);
+	text-shadow: none;
 }
 
 .hero-buttons {
@@ -303,6 +303,37 @@ main {
 	color: rgba(12, 12, 12, 0.76);
 }
 
+.page-section-points {
+	margin: 1.2rem 0 0;
+	padding: 0;
+	list-style: none;
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.72rem;
+}
+
+.page-section-points li {
+	position: relative;
+	padding: 0.82rem 0.9rem 0.82rem 1.55rem;
+	border-radius: 12px;
+	background: rgba(255, 255, 255, 0.76);
+	border: 1px solid rgba(12, 12, 12, 0.1);
+	font-size: 0.92rem;
+	line-height: 1.52;
+	color: rgba(12, 12, 12, 0.82);
+}
+
+.page-section-points li::before {
+	content: "";
+	position: absolute;
+	left: 0.88rem;
+	top: 1.23rem;
+	width: 0.42rem;
+	height: 0.42rem;
+	border-radius: 999px;
+	background: rgba(6, 95, 70, 0.9);
+}
+
 @media (max-width: 1023px) {
 	.brand-wordmark {
 		top: 1rem;
@@ -311,5 +342,9 @@ main {
 
 	.section-rail {
 		display: none;
+	}
+
+	.page-section-points {
+		grid-template-columns: 1fr;
 	}
 }

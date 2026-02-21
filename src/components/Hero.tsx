@@ -45,7 +45,7 @@ export default function Hero() {
 
                 <div className="hero-buttons">
                     <a href="#kontakt" className="hero-btn hero-btn-primary">
-                        Porozmawiajmy
+                        Darmowa konsultacja
                     </a>
                     <a href="#realizacje" className="hero-btn hero-btn-secondary">
                         Zobacz realizacje

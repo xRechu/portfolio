@@ -106,10 +106,6 @@ export default function ServicesSection() {
 		<section id="uslugi" className={`page-section ${styles.section}`}>
 			<div className={`page-section-inner ${styles.inner}`}>
 				<p className="page-section-eyebrow">Uslugi</p>
-				<h2 className="page-section-title">3 kierunki wspolpracy</h2>
-				<p className="page-section-description">
-					Zamiast sztywnego cennika dostajesz precyzyjny zakres i wycene pod projekt.
-				</p>
 
 				<div className={styles.pricingGrid}>
 					{serviceOffers.map((offer) => (
@@ -139,9 +135,9 @@ export default function ServicesSection() {
 
 				<div className={styles.ctaRow}>
 					<a href="#kontakt" className={styles.ctaButton}>
-						Umow bezplatna konsultacje
+						Darmowa konsultacja i wycena
 					</a>
-					<p>Po rozmowie dostajesz zakres, estymacje i rekomendowany wariant wdrozenia.</p>
+					<p>Przestan tracic potencjalnych klientow przez zepsuty workflow.</p>
 				</div>
 			</div>
 		</section>
