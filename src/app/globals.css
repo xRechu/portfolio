@@ -68,20 +68,34 @@ main {
 	letter-spacing: -0.03em;
 	margin: 0;
 	padding: 0 1rem;
-	/* Premium gradient text — dark with subtle mid-tone glow */
-	background: linear-gradient(
-		180deg,
-		rgba(10, 10, 10, 1) 0%,
-		rgba(80, 80, 80, 1) 40%,
-		rgba(10, 10, 10, 1) 100%
-	);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	background-clip: text;
+	color: #0f1117;
 }
 
 .hero-title-line {
 	display: block;
+}
+
+.hero-title-line-static {
+	color: rgba(10, 12, 18, 0.92);
+}
+
+.hero-title-line-dynamic {
+	margin-top: 0.12em;
+}
+
+.hero-title-line-dynamic .text-type__content {
+	background: linear-gradient(95deg, #0f172a 0%, #1d4ed8 44%, #0ea5a5 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+	color: transparent;
+	filter: drop-shadow(0 8px 20px rgba(29, 78, 216, 0.2));
+}
+
+.hero-title-cursor {
+	color: #1d4ed8;
+	-webkit-text-fill-color: #1d4ed8;
+	text-shadow: 0 0 12px rgba(29, 78, 216, 0.28);
 }
 
 .hero-buttons {

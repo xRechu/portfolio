@@ -1,0 +1,159 @@
+.section {
+	padding-top: clamp(4.5rem, 8vw, 7.5rem);
+	padding-bottom: clamp(4.5rem, 8vw, 7.5rem);
+}
+
+.inner {
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+}
+
+.notice {
+	padding: 1rem 1.1rem;
+	border-radius: 16px;
+	border: 1px solid rgba(13, 15, 23, 0.12);
+	background: linear-gradient(120deg, rgba(236, 245, 255, 0.75), rgba(243, 255, 250, 0.78));
+}
+
+.notice p {
+	margin: 0;
+	font-size: 0.93rem;
+	line-height: 1.6;
+	color: rgba(13, 15, 23, 0.84);
+}
+
+.pillarGrid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 0.9rem;
+}
+
+.pillarCard {
+	padding: 1rem;
+	border-radius: 16px;
+	border: 1px solid rgba(13, 15, 23, 0.1);
+	background: rgba(255, 255, 255, 0.82);
+}
+
+.pillarCard h3 {
+	margin: 0;
+	font-size: 1.03rem;
+	line-height: 1.2;
+	letter-spacing: -0.015em;
+}
+
+.pillarCard p {
+	margin: 0.58rem 0 0;
+	font-size: 0.86rem;
+	line-height: 1.55;
+	color: rgba(13, 15, 23, 0.74);
+}
+
+.packageGrid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 0.9rem;
+}
+
+.packageCard {
+	padding: 1rem;
+	border-radius: 16px;
+	border: 1px solid rgba(13, 15, 23, 0.13);
+	background: rgba(255, 255, 255, 0.9);
+	box-shadow: 0 12px 26px rgba(13, 18, 30, 0.08);
+}
+
+.packageScope {
+	margin: 0;
+	font-size: 0.67rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: rgba(13, 15, 23, 0.56);
+}
+
+.packageCard h3 {
+	margin: 0.35rem 0 0;
+	font-size: 1.15rem;
+	line-height: 1.2;
+}
+
+.packageCard p {
+	margin: 0.55rem 0 0;
+	font-size: 0.85rem;
+	line-height: 1.55;
+	color: rgba(13, 15, 23, 0.74);
+}
+
+.packageBadge {
+	display: inline-flex;
+	margin-top: 0.85rem;
+	padding: 0.3rem 0.65rem;
+	border-radius: 999px;
+	border: 1px solid rgba(13, 15, 23, 0.15);
+	font-size: 0.67rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: rgba(13, 15, 23, 0.72);
+}
+
+.ctaRow {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 1rem;
+	border-radius: 16px;
+	border: 1px solid rgba(13, 15, 23, 0.1);
+	background: rgba(255, 255, 255, 0.72);
+}
+
+.ctaButton {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.75rem 1.25rem;
+	border-radius: 999px;
+	text-decoration: none;
+	background: #0f172a;
+	color: #ffffff;
+	font-size: 0.85rem;
+	font-weight: 600;
+	letter-spacing: 0.01em;
+	white-space: nowrap;
+	transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.ctaButton:hover {
+	background: #1e293b;
+	transform: translateY(-1px);
+	box-shadow: 0 10px 22px rgba(13, 15, 23, 0.18);
+}
+
+.ctaRow p {
+	margin: 0;
+	font-size: 0.86rem;
+	line-height: 1.55;
+	color: rgba(13, 15, 23, 0.74);
+}
+
+@media (max-width: 960px) {
+	.pillarGrid,
+	.packageGrid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 700px) {
+	.pillarGrid,
+	.packageGrid {
+		grid-template-columns: 1fr;
+	}
+
+	.ctaRow {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+}

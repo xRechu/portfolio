@@ -1,6 +1,7 @@
 import Hero from "@/components/Hero";
 import RealizationsSection from "@/components/RealizationsSection";
 import SectionRail from "@/components/SectionRail";
+import ServicesSection from "@/components/ServicesSection";
 
 const sectionNavigation = [
 	{ id: "start", label: "Start" },
@@ -13,13 +14,6 @@ const sectionNavigation = [
 ];
 
 const contentSections = [
-	{
-		id: "uslugi",
-		eyebrow: "Uslugi",
-		title: "Strony, e-commerce, automatyzacje i AI",
-		description:
-			"Jasno pokazujesz glowny filar: nowoczesne strony WWW. Obok tego dodajesz sklepy Medusa.js / WooCommerce i wdrozenia AI jako rozszerzenie.",
-	},
 	{
 		id: "proces",
 		eyebrow: "Proces",
@@ -62,6 +56,7 @@ export default function Home() {
 
 			<Hero />
 			<RealizationsSection />
+			<ServicesSection />
 
 			{contentSections.map((section) => (
 				<section key={section.id} id={section.id} className="page-section">

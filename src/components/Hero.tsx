@@ -24,10 +24,10 @@ export default function Hero() {
 
             <div className="hero-content">
                 <h1 className="hero-title">
-                    <span className="hero-title-line">Tworzę dla Ciebie</span>
+                    <span className="hero-title-line hero-title-line-static">Tworzę dla Ciebie</span>
                     <TextType
                         as="span"
-                        className="hero-title-line"
+                        className="hero-title-line hero-title-line-dynamic"
                         text={[
                             "szybkie strony internetowe",
                             "sklepy e-commerce",
@@ -39,6 +39,7 @@ export default function Hero() {
                         pauseDuration={1800}
                         showCursor
                         cursorCharacter="|"
+                        cursorClassName="hero-title-cursor"
                     />
                 </h1>
 
