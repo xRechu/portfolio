@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import HomePage from "@/components/HomePage";
 
-const HOME_TITLE = "Strony internetowe Next.js, Medusa.js i aplikacje mobilne";
+const HOME_TITLE_BASE = "Strony internetowe Next.js, Medusa.js i aplikacje mobilne";
+const HOME_TITLE = `${HOME_TITLE_BASE} | JAKUB RESZKA`;
 const HOME_DESCRIPTION =
 	"Tworzę szybkie strony internetowe Next.js, sklepy Medusa.js i aplikacje mobilne. Projektuję, wdrażam i rozwijam produkty cyfrowe oraz automatyzacje AI.";
 
@@ -31,12 +32,12 @@ export const metadata: Metadata = {
 		alternateLocale: ["en_US"],
 		url: "https://jakubreszka.pl/",
 		siteName: "Jakub Reszka Portfolio",
-		title: `${HOME_TITLE} | JAKUB RESZKA`,
+			title: HOME_TITLE,
 		description: HOME_DESCRIPTION,
 	},
 	twitter: {
 		card: "summary_large_image",
-		title: `${HOME_TITLE} | JAKUB RESZKA`,
+			title: HOME_TITLE,
 		description: HOME_DESCRIPTION,
 	},
 };
