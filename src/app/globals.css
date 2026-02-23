@@ -33,12 +33,10 @@
 	--btn-secondary-text: #0f172a;
 	--btn-secondary-hover-bg: rgba(15, 23, 42, 0.06);
 
-	--rail-track-gradient: linear-gradient(
-		180deg,
-		rgba(15, 23, 42, 0.08) 0%,
-		rgba(15, 23, 42, 0.26) 52%,
-		rgba(15, 23, 42, 0.08) 100%
-	);
+	--rail-track-gradient: linear-gradient(180deg,
+			rgba(15, 23, 42, 0.08) 0%,
+			rgba(15, 23, 42, 0.26) 52%,
+			rgba(15, 23, 42, 0.08) 100%);
 	--rail-dot-bg: #ffffff;
 	--rail-dot-border: rgba(15, 23, 42, 0.26);
 	--rail-dot-ring: rgba(255, 255, 255, 0.95);
@@ -74,12 +72,10 @@ html[data-theme-preview="dark"] {
 	--surface-border-strong: rgba(255, 255, 255, 0.32);
 
 	--section-divider: rgba(255, 255, 255, 0.14);
-	--section-bg: linear-gradient(
-		180deg,
-		rgba(255, 255, 255, 0.018) 0%,
-		rgba(255, 255, 255, 0.008) 44%,
-		rgba(0, 0, 0, 0.06) 100%
-	);
+	--section-bg: linear-gradient(180deg,
+			rgba(255, 255, 255, 0.018) 0%,
+			rgba(255, 255, 255, 0.008) 44%,
+			rgba(0, 0, 0, 0.06) 100%);
 	--focus-ring: rgba(52, 211, 153, 0.5);
 	--accent-green: #34d399;
 	--accent-green-strong: #10b981;
@@ -97,12 +93,10 @@ html[data-theme-preview="dark"] {
 	--btn-secondary-text: #ecf0f4;
 	--btn-secondary-hover-bg: rgba(255, 255, 255, 0.13);
 
-	--rail-track-gradient: linear-gradient(
-		180deg,
-		rgba(255, 255, 255, 0.09) 0%,
-		rgba(255, 255, 255, 0.28) 52%,
-		rgba(255, 255, 255, 0.09) 100%
-	);
+	--rail-track-gradient: linear-gradient(180deg,
+			rgba(255, 255, 255, 0.09) 0%,
+			rgba(255, 255, 255, 0.28) 52%,
+			rgba(255, 255, 255, 0.09) 100%);
 	--rail-dot-bg: #121214;
 	--rail-dot-border: rgba(255, 255, 255, 0.5);
 	--rail-dot-ring: rgba(7, 7, 8, 0.96);
@@ -798,14 +792,12 @@ main {
 	min-height: 280px;
 	border-radius: 20px;
 	border: 1px dashed var(--surface-border);
-	background: linear-gradient(
-		120deg,
-		transparent 0%,
-		rgba(148, 163, 184, 0.08) 28%,
-		rgba(148, 163, 184, 0.16) 48%,
-		rgba(148, 163, 184, 0.08) 68%,
-		transparent 100%
-	);
+	background: linear-gradient(120deg,
+			transparent 0%,
+			rgba(148, 163, 184, 0.08) 28%,
+			rgba(148, 163, 184, 0.16) 48%,
+			rgba(148, 163, 184, 0.08) 68%,
+			transparent 100%);
 	background-size: 220% 100%;
 	animation: deferred-skeleton-shimmer 1.6s ease-in-out infinite;
 }
@@ -1410,15 +1402,21 @@ main {
 
 	.why-me-section-inner {
 		grid-template-columns: 1fr;
-		gap: 0.72rem;
+		gap: 1.5rem;
 	}
 
 	.why-me-photo-wrap {
-		justify-content: flex-start;
+		grid-row: 2;
+		justify-content: center;
 	}
 
 	.why-me-photo-shell {
-		width: min(46vw, 150px);
+		width: min(55vw, 180px);
+	}
+
+	.why-me-points {
+		grid-row: 3;
+		margin-top: 0;
 	}
 
 	.faq-list {
