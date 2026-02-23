@@ -51,36 +51,86 @@ export default function SectionRail({ sections }: SectionRailProps) {
 	}, [sectionIds]);
 
 	useEffect(() => {
-		const sectionElements = sectionIds
-			.map((id) => document.getElementById(id))
-			.filter((section): section is HTMLElement => section !== null);
-
-		if (sectionElements.length === 0) {
+		if (sectionIds.length === 0) {
 			return;
 		}
 
-		const observer = new IntersectionObserver(
-			(entries) => {
-				const visibleEntries = entries.filter((entry) => entry.isIntersecting);
-				if (visibleEntries.length === 0) {
-					return;
+		let frameId: number | null = null;
+		let observer: IntersectionObserver | null = null;
+		let observedElements = new Map<string, HTMLElement>();
+
+		const handleIntersections: IntersectionObserverCallback = (entries) => {
+			const visibleEntries = entries.filter((entry) => entry.isIntersecting);
+			if (visibleEntries.length === 0) {
+				return;
+			}
+
+			const mostVisibleEntry = visibleEntries.reduce((bestEntry, currentEntry) =>
+				currentEntry.intersectionRatio > bestEntry.intersectionRatio ? currentEntry : bestEntry
+			);
+
+			setActiveId(mostVisibleEntry.target.id);
+		};
+
+		const connectObserver = () => {
+			const currentElements = new Map<string, HTMLElement>();
+			sectionIds.forEach((id) => {
+				const element = document.getElementById(id);
+				if (element) {
+					currentElements.set(id, element);
 				}
+			});
 
-				const mostVisibleEntry = visibleEntries.reduce((bestEntry, currentEntry) =>
-					currentEntry.intersectionRatio > bestEntry.intersectionRatio ? currentEntry : bestEntry
-				);
+			const hasChanged =
+				currentElements.size !== observedElements.size ||
+				Array.from(currentElements.entries()).some(([id, element]) => observedElements.get(id) !== element);
 
-				setActiveId(mostVisibleEntry.target.id);
-			},
-			{
+			if (!hasChanged) {
+				return;
+			}
+
+			observer?.disconnect();
+			observer = null;
+			observedElements = currentElements;
+
+			if (observedElements.size === 0) {
+				return;
+			}
+
+			observer = new IntersectionObserver(handleIntersections, {
 				threshold: [0.2, 0.35, 0.5, 0.7],
 				rootMargin: "-28% 0px -28% 0px",
+			});
+
+			observedElements.forEach((element) => observer?.observe(element));
+		};
+
+		const scheduleReconnect = () => {
+			if (frameId !== null) {
+				return;
 			}
-		);
+			frameId = window.requestAnimationFrame(() => {
+				frameId = null;
+				connectObserver();
+			});
+		};
 
-		sectionElements.forEach((section) => observer.observe(section));
+		connectObserver();
 
-		return () => observer.disconnect();
+		const mutationObserver = new MutationObserver(() => {
+			scheduleReconnect();
+		});
+		mutationObserver.observe(document.body, { childList: true, subtree: true });
+		window.addEventListener("resize", scheduleReconnect);
+
+		return () => {
+			if (frameId !== null) {
+				window.cancelAnimationFrame(frameId);
+			}
+			window.removeEventListener("resize", scheduleReconnect);
+			mutationObserver.disconnect();
+			observer?.disconnect();
+		};
 	}, [sectionIds]);
 
 	if (sections.length === 0) {
