@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import HomePage from "@/components/HomePage";
 
-const HOME_TITLE = "Next.js Websites, Medusa.js and WooCommerce";
+const HOME_TITLE = "Next.js websites, Medusa.js and mobile apps";
 const HOME_DESCRIPTION =
-	"I build fast websites and e-commerce stores with Next.js, Medusa.js, WooCommerce and AI automation. See projects and book a free consultation.";
+	"I build fast Next.js websites, Medusa.js stores and mobile apps. I design, ship and scale digital products with technical SEO and AI automation.";
 
 export const metadata: Metadata = {
 	title: HOME_TITLE,
@@ -11,7 +11,9 @@ export const metadata: Metadata = {
 	keywords: [
 		"Next.js websites",
 		"Medusa.js stores",
-		"WooCommerce",
+		"mobile app development",
+		"mobile apps",
+		"React Native development",
 		"web development",
 		"e-commerce development",
 		"AI automation",
@@ -29,12 +31,12 @@ export const metadata: Metadata = {
 		alternateLocale: ["pl_PL"],
 		url: "https://jakubreszka.pl/en",
 		siteName: "Jakub Reszka Portfolio",
-		title: "Jakub Reszka | Next.js Websites, Medusa.js and WooCommerce",
+		title: `${HOME_TITLE} | JAKUB RESZKA`,
 		description: HOME_DESCRIPTION,
 	},
 	twitter: {
 		card: "summary_large_image",
-		title: HOME_TITLE,
+		title: `${HOME_TITLE} | JAKUB RESZKA`,
 		description: HOME_DESCRIPTION,
 	},
 };

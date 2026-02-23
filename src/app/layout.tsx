@@ -13,15 +13,16 @@ const geistSans = Geist({
 export const metadata: Metadata = {
 	metadataBase: new URL("https://jakubreszka.pl"),
 	title: {
-		default: "Portfolio",
-		template: "%s | Jakub Reszka",
+		default: "JAKUB RESZKA",
+		template: "%s | JAKUB RESZKA",
 	},
 	description:
 		"Portfolio i case studies: Next.js, Medusa.js, WooCommerce oraz automatyzacje AI.",
 	keywords: [
 		"strony internetowe Next.js",
 		"sklepy Medusa.js",
-		"WooCommerce",
+		"aplikacje mobilne",
+		"tworzenie aplikacji mobilnych",
 		"tworzenie stron www",
 		"e-commerce",
 		"automatyzacje AI",
