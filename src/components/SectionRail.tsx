@@ -56,80 +56,65 @@ export default function SectionRail({ sections }: SectionRailProps) {
 		}
 
 		let frameId: number | null = null;
-		let observer: IntersectionObserver | null = null;
-		let observedElements = new Map<string, HTMLElement>();
 
-		const handleIntersections: IntersectionObserverCallback = (entries) => {
-			const visibleEntries = entries.filter((entry) => entry.isIntersecting);
-			if (visibleEntries.length === 0) {
+		const syncActiveSection = () => {
+			const sectionElements = sectionIds
+				.map((id) => document.getElementById(id))
+				.filter((section): section is HTMLElement => section !== null);
+
+			if (sectionElements.length === 0) {
 				return;
 			}
 
-			const mostVisibleEntry = visibleEntries.reduce((bestEntry, currentEntry) =>
-				currentEntry.intersectionRatio > bestEntry.intersectionRatio ? currentEntry : bestEntry
-			);
-
-			setActiveId(mostVisibleEntry.target.id);
-		};
-
-		const connectObserver = () => {
-			const currentElements = new Map<string, HTMLElement>();
-			sectionIds.forEach((id) => {
-				const element = document.getElementById(id);
-				if (element) {
-					currentElements.set(id, element);
-				}
+			const viewportAnchor = window.innerHeight * 0.45;
+			const containingSection = sectionElements.find((section) => {
+				const rect = section.getBoundingClientRect();
+				return rect.top <= viewportAnchor && rect.bottom >= viewportAnchor;
 			});
 
-			const hasChanged =
-				currentElements.size !== observedElements.size ||
-				Array.from(currentElements.entries()).some(([id, element]) => observedElements.get(id) !== element);
-
-			if (!hasChanged) {
+			if (containingSection) {
+				setActiveId(containingSection.id);
 				return;
 			}
 
-			observer?.disconnect();
-			observer = null;
-			observedElements = currentElements;
+			const nearestSection = sectionElements.reduce((closest, section) => {
+				const rect = section.getBoundingClientRect();
+				const sectionCenter = rect.top + rect.height / 2;
+				const distance = Math.abs(sectionCenter - viewportAnchor);
+				return distance < closest.distance ? { id: section.id, distance } : closest;
+			}, { id: sectionElements[0].id, distance: Number.POSITIVE_INFINITY });
 
-			if (observedElements.size === 0) {
-				return;
-			}
-
-			observer = new IntersectionObserver(handleIntersections, {
-				threshold: [0.2, 0.35, 0.5, 0.7],
-				rootMargin: "-28% 0px -28% 0px",
-			});
-
-			observedElements.forEach((element) => observer?.observe(element));
+			setActiveId(nearestSection.id);
 		};
 
-		const scheduleReconnect = () => {
+		const scheduleSync = () => {
 			if (frameId !== null) {
 				return;
 			}
 			frameId = window.requestAnimationFrame(() => {
 				frameId = null;
-				connectObserver();
+				syncActiveSection();
 			});
 		};
 
-		connectObserver();
+		syncActiveSection();
 
 		const mutationObserver = new MutationObserver(() => {
-			scheduleReconnect();
+			scheduleSync();
 		});
 		mutationObserver.observe(document.body, { childList: true, subtree: true });
-		window.addEventListener("resize", scheduleReconnect);
+		window.addEventListener("scroll", scheduleSync, { passive: true });
+		window.addEventListener("resize", scheduleSync);
+		window.addEventListener("hashchange", scheduleSync);
 
 		return () => {
 			if (frameId !== null) {
 				window.cancelAnimationFrame(frameId);
 			}
-			window.removeEventListener("resize", scheduleReconnect);
+			window.removeEventListener("scroll", scheduleSync);
+			window.removeEventListener("resize", scheduleSync);
+			window.removeEventListener("hashchange", scheduleSync);
 			mutationObserver.disconnect();
-			observer?.disconnect();
 		};
 	}, [sectionIds]);
 
