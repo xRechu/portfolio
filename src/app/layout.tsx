@@ -13,11 +13,11 @@ const geistSans = Geist({
 export const metadata: Metadata = {
 	metadataBase: new URL("https://jakubreszka.pl"),
 	title: {
-		default: "Jakub Reszka | Strony internetowe Next.js, Medusa.js i WooCommerce",
+		default: "Portfolio",
 		template: "%s | Jakub Reszka",
 	},
 	description:
-		"Tworzę szybkie strony internetowe i sklepy e-commerce: Next.js, Medusa.js, WooCommerce oraz automatyzacje AI. Zobacz realizacje i umów darmową konsultację.",
+		"Portfolio i case studies: Next.js, Medusa.js, WooCommerce oraz automatyzacje AI.",
 	keywords: [
 		"strony internetowe Next.js",
 		"sklepy Medusa.js",
@@ -33,16 +33,17 @@ export const metadata: Metadata = {
 	openGraph: {
 		type: "website",
 		locale: "pl_PL",
+		alternateLocale: ["en_US"],
 		siteName: "Jakub Reszka Portfolio",
-		title: "Jakub Reszka | Strony internetowe Next.js, Medusa.js i WooCommerce",
+		title: "Jakub Reszka | Next.js, E-commerce, AI",
 		description:
-			"Nowoczesne strony i sklepy nastawione na konwersję, leady i wydajność. Next.js, Medusa.js, WooCommerce, automatyzacje AI.",
+			"Portfolio i case studies: Next.js, Medusa.js, WooCommerce oraz automatyzacje AI.",
 	},
 	twitter: {
 		card: "summary_large_image",
-		title: "Jakub Reszka | Strony internetowe Next.js, Medusa.js i WooCommerce",
+		title: "Jakub Reszka | Next.js, E-commerce, AI",
 		description:
-			"Nowoczesne strony i sklepy nastawione na konwersję, leady i wydajność. Next.js, Medusa.js, WooCommerce, automatyzacje AI.",
+			"Portfolio i case studies: Next.js, Medusa.js, WooCommerce oraz automatyzacje AI.",
 	},
 	robots: {
 		index: true,
@@ -61,9 +62,17 @@ export const metadata: Metadata = {
 	},
 };
 
-function resolveInitialLanguage(acceptLanguageHeader: string | null) {
-	if (!acceptLanguageHeader) {
+function resolveInitialLanguage(pathnameHeader: string | null, acceptLanguageHeader: string | null) {
+	if (pathnameHeader === "/en" || pathnameHeader?.startsWith("/en/")) {
 		return "en";
+	}
+
+	if (pathnameHeader?.startsWith("/")) {
+		return "pl";
+	}
+
+	if (!acceptLanguageHeader) {
+		return "pl";
 	}
 
 	const normalizedHeader = acceptLanguageHeader.toLowerCase();
@@ -76,12 +85,15 @@ export default async function RootLayout({
 	children: React.ReactNode;
 }>) {
 	const headersList = await headers();
-	const initialLanguage = resolveInitialLanguage(headersList.get("accept-language"));
+	const initialLanguage = resolveInitialLanguage(
+		headersList.get("x-url-pathname"),
+		headersList.get("accept-language"),
+	);
 
 	return (
 		<html lang={initialLanguage} data-theme-preview="light">
 			<body className={geistSans.variable}>
-				<LanguageProvider initialLanguage={initialLanguage}>
+				<LanguageProvider initialLanguage={initialLanguage} usePersistedLanguage={false}>
 					{children}
 					<CookieBanner />
 				</LanguageProvider>

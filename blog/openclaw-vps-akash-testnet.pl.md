@@ -7,6 +7,8 @@ tags: "openclaw, vps, tailscale, akash, case-study"
 seoTitle: "OpenClaw + VPS + Akash testnet - case study"
 seoDescription: "Praktyczne wdrozenie OpenClaw na VPS z Tailscale i automatyzacja zadan na Akash testnet."
 slug: "openclaw-vps-akash-testnet"
+lang: "pl"
+translationKey: "openclaw-vps-akash-testnet"
 draft: false
 ---
 
@@ -37,4 +39,3 @@ Kolejny krok to polaczenie tego z automatycznym content pipeline:
 - OpenClaw zbiera notatki po wykonanych taskach.
 - Agent generuje gotowy markdown na blog.
 - Commit trafia do repo i wpis publikuje sie automatycznie po deployu.
-

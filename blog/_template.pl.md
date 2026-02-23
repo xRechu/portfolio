@@ -9,6 +9,8 @@ seoDescription: "Opis SEO wpisu."
 coverImage: "/blog/twoj-slug/cover.webp"
 coverAlt: "Opis obrazka glownego"
 slug: "twoj-slug"
+lang: "pl"
+translationKey: "twoj-slug"
 draft: true
 ---
 

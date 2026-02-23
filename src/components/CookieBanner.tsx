@@ -36,6 +36,8 @@ export default function CookieBanner() {
 						functional: "Akceptuj preferencje",
 						policy: "Polityka prywatności",
 						terms: "Regulamin",
+						policyHref: "/polityka-prywatnosci",
+						termsHref: "/regulamin",
 				  }
 				: {
 						title: "Cookies",
@@ -45,6 +47,8 @@ export default function CookieBanner() {
 						functional: "Accept preferences",
 						policy: "Privacy policy",
 						terms: "Terms",
+						policyHref: "/en/polityka-prywatnosci",
+						termsHref: "/en/regulamin",
 				  },
 		[language]
 	);
@@ -59,9 +63,8 @@ export default function CookieBanner() {
 				<div className="cookie-banner-copy">
 					<p className="cookie-banner-title">{copy.title}</p>
 					<p className="cookie-banner-text">
-						{copy.description}{" "}
-						<Link href="/polityka-prywatnosci">{copy.policy}</Link> ·{" "}
-						<Link href="/regulamin">{copy.terms}</Link>
+						{copy.description} <Link href={copy.policyHref}>{copy.policy}</Link> ·{" "}
+						<Link href={copy.termsHref}>{copy.terms}</Link>
 					</p>
 				</div>
 				<div className="cookie-banner-actions">

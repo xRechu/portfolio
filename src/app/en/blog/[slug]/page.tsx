@@ -3,11 +3,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import TopControls from "@/components/TopControls";
 import { formatBlogDate, getAllBlogPosts, getBlogPostAlternates, getBlogPostBySlug } from "@/lib/blog";
-import styles from "../blog.module.css";
+import styles from "../../../blog/blog.module.css";
 
 const SITE_URL = "https://jakubreszka.pl";
 
-type BlogPostPageProps = {
+type EnglishBlogPostPageProps = {
 	params: Promise<{ slug: string }>;
 };
 
@@ -23,17 +23,17 @@ function toAbsoluteUrl(url: string): string {
 }
 
 export async function generateStaticParams() {
-	const posts = await getAllBlogPosts("pl");
+	const posts = await getAllBlogPosts("en");
 	return posts.map((post) => ({ slug: post.slug }));
 }
 
-export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: EnglishBlogPostPageProps): Promise<Metadata> {
 	const { slug } = await params;
-	const [post, alternates] = await Promise.all([getBlogPostBySlug("pl", slug), getBlogPostAlternates("pl", slug)]);
+	const [post, alternates] = await Promise.all([getBlogPostBySlug("en", slug), getBlogPostAlternates("en", slug)]);
 
 	if (!post) {
 		return {
-			title: "Wpis nie znaleziony",
+			title: "Post not found",
 			robots: {
 				index: false,
 				follow: false,
@@ -45,10 +45,10 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 	const seoDescription = post.seoDescription ?? post.excerpt;
 	const coverImageUrl = post.coverImage ? toAbsoluteUrl(post.coverImage) : null;
 	const languageAlternates: Record<string, string> = {
-		"pl-PL": toAbsoluteUrl(alternates?.pl ?? `/blog/${post.slug}`),
+		"en-US": toAbsoluteUrl(alternates?.en ?? `/en/blog/${post.slug}`),
 	};
-	if (alternates?.en) {
-		languageAlternates["en-US"] = toAbsoluteUrl(alternates.en);
+	if (alternates?.pl) {
+		languageAlternates["pl-PL"] = toAbsoluteUrl(alternates.pl);
 	}
 
 	return {
@@ -62,7 +62,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 		openGraph: {
 			type: "article",
 			url: post.canonicalUrl,
-			locale: "pl_PL",
+			locale: "en_US",
 			title: seoTitle,
 			description: seoDescription,
 			publishedTime: post.publishedAt,
@@ -87,9 +87,9 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 	};
 }
 
-export default async function BlogPostPage({ params }: BlogPostPageProps) {
+export default async function EnglishBlogPostPage({ params }: EnglishBlogPostPageProps) {
 	const { slug } = await params;
-	const [post, alternates] = await Promise.all([getBlogPostBySlug("pl", slug), getBlogPostAlternates("pl", slug)]);
+	const [post, alternates] = await Promise.all([getBlogPostBySlug("en", slug), getBlogPostAlternates("en", slug)]);
 
 	if (!post) {
 		notFound();
@@ -114,31 +114,31 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 		},
 		image: post.coverImage ? [toAbsoluteUrl(post.coverImage)] : undefined,
 		keywords: post.tags.join(", "),
-		inLanguage: "pl-PL",
+		inLanguage: "en-US",
 	};
 
 	return (
 		<main className={styles.blogPage}>
-			<Link href="/" className="brand-wordmark" aria-label="Wroc do strony glownej">
+			<a href="/en" className="brand-wordmark" aria-label="Go back to homepage">
 				<span className="brand-wordmark-name">JAKUB RESZKA</span>
 				<span className="brand-wordmark-role">Next.js · E-commerce · AI</span>
-			</Link>
+			</a>
 			<TopControls />
 
 			<div className={`${styles.blogInner} ${styles.articleInner}`}>
-				<Link href="/blog" className={styles.blogBackLink}>
-					Wroc do listy wpisow
+				<Link href="/en/blog" className={styles.blogBackLink}>
+					Back to blog list
 				</Link>
 
 				<article className={styles.blogArticle}>
 					<header className={styles.articleHeader}>
 						<p className={styles.articleMeta}>
-							{formatBlogDate(post.publishedAt, "pl")} · {post.readingTimeMinutes} min czytania
+							{formatBlogDate(post.publishedAt, "en")} · {post.readingTimeMinutes} min read
 						</p>
 						<h1 className={styles.blogTitle}>{post.title}</h1>
-						{alternates?.en ? (
-							<Link href={alternates.en} className={styles.languageSwitchLink}>
-								English version
+						{alternates?.pl ? (
+							<Link href={alternates.pl} className={styles.languageSwitchLink}>
+								Zobacz polska wersje
 							</Link>
 						) : null}
 						{post.tags.length > 0 ? (

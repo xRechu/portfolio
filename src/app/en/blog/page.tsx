@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import TopControls from "@/components/TopControls";
 import { formatBlogDate, getAllBlogPosts } from "@/lib/blog";
-import styles from "./blog.module.css";
+import styles from "../../blog/blog.module.css";
 
 const BLOG_SEO_TITLE = "Blog";
 const BLOG_SEO_DESCRIPTION =
-	"Case studies i poradniki o wdrozeniach Next.js, automatyzacjach AI, VPS i e-commerce.";
+	"Case studies and practical notes about Next.js, AI automation, VPS and e-commerce implementations.";
 
 export const dynamic = "force-static";
 
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 	title: BLOG_SEO_TITLE,
 	description: BLOG_SEO_DESCRIPTION,
 	alternates: {
-		canonical: "/blog",
+		canonical: "/en/blog",
 		languages: {
 			"pl-PL": "/blog",
 			"en-US": "/en/blog",
@@ -22,8 +22,8 @@ export const metadata: Metadata = {
 	},
 	openGraph: {
 		type: "website",
-		locale: "pl_PL",
-		url: "https://jakubreszka.pl/blog",
+		locale: "en_US",
+		url: "https://jakubreszka.pl/en/blog",
 		title: "Blog | Jakub Reszka",
 		description: BLOG_SEO_DESCRIPTION,
 	},
@@ -34,45 +34,45 @@ export const metadata: Metadata = {
 	},
 };
 
-export default async function BlogIndexPage() {
-	const posts = await getAllBlogPosts("pl");
+export default async function EnglishBlogIndexPage() {
+	const posts = await getAllBlogPosts("en");
 
 	return (
 		<main className={styles.blogPage}>
-			<Link href="/" className="brand-wordmark" aria-label="Wroc do strony glownej">
+			<a href="/en" className="brand-wordmark" aria-label="Go back to homepage">
 				<span className="brand-wordmark-name">JAKUB RESZKA</span>
 				<span className="brand-wordmark-role">Next.js · E-commerce · AI</span>
-			</Link>
+			</a>
 			<TopControls />
 
 			<div className={styles.blogInner}>
-				<Link href="/" className={styles.blogBackLink}>
-					Wroc do strony glownej
+				<Link href="/en" className={styles.blogBackLink}>
+					Back to homepage
 				</Link>
 
 				<header className={styles.blogHeader}>
 					<p className={styles.blogEyebrow}>Blog</p>
-					<h1 className={styles.blogTitle}>Wpisy publikowane automatycznie z Markdown</h1>
+					<h1 className={styles.blogTitle}>Posts published automatically from Markdown</h1>
 					<p className={styles.blogDescription}>
-						Kazdy wpis ma ten sam template i SEO. OpenClaw moze wrzucac gotowe pliki do folderu <code>/blog</code>, a
-						ta strona wygeneruje gotowy artykul.
+						Each post uses the same template and SEO rules. OpenClaw can drop finished files into{" "}
+						<code>/blog</code>, and the site builds a ready article.
 					</p>
-					<Link href="/en/blog" className={styles.languageSwitchLink}>
-						See English version
+					<Link href="/blog" className={styles.languageSwitchLink}>
+						Zobacz polska wersje
 					</Link>
 				</header>
 
 				{posts.length > 0 ? (
-					<section className={styles.postGrid} aria-label="Lista wpisow">
+					<section className={styles.postGrid} aria-label="Blog posts list">
 						{posts.map((post) => (
 							<article key={post.slug} className={styles.postCard}>
 								<p className={styles.postMeta}>
-									{formatBlogDate(post.publishedAt, "pl")} · {post.readingTimeMinutes} min czytania
+									{formatBlogDate(post.publishedAt, "en")} · {post.readingTimeMinutes} min read
 								</p>
 								<h2 className={styles.postTitle}>{post.title}</h2>
 								<p className={styles.postExcerpt}>{post.excerpt}</p>
 								{post.tags.length > 0 ? (
-									<div className={styles.postTags} aria-label="Tagi wpisu">
+									<div className={styles.postTags} aria-label="Post tags">
 										{post.tags.map((tag) => (
 											<span key={`${post.slug}-${tag}`} className={styles.postTag}>
 												{tag}
@@ -80,15 +80,15 @@ export default async function BlogIndexPage() {
 										))}
 									</div>
 								) : null}
-								<Link href={`/blog/${post.slug}`} className={styles.postLink}>
-									Czytaj wpis
+								<Link href={`/en/blog/${post.slug}`} className={styles.postLink}>
+									Read post
 								</Link>
 							</article>
 						))}
 					</section>
 				) : (
 					<section className={styles.emptyState}>
-						Brak opublikowanych wpisow. Dodaj plik <code>.md</code> do katalogu <code>/blog</code> i ustaw
+						No published posts yet. Add a <code>.md</code> file to <code>/blog</code> and set{" "}
 						<code>draft: false</code>.
 					</section>
 				)}

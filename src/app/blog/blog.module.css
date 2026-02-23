@@ -53,6 +53,17 @@
 	max-width: 70ch;
 }
 
+.languageSwitchLink {
+	width: fit-content;
+	font-size: 0.82rem;
+	font-weight: 600;
+	color: var(--accent-green-strong);
+}
+
+.languageSwitchLink:hover {
+	color: var(--accent-green);
+}
+
 .postGrid {
 	display: grid;
 	gap: 0.78rem;

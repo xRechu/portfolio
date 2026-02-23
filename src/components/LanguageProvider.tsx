@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { usePathname } from "next/navigation";
 import { CONSENT_EVENT, LANGUAGE_STORAGE_KEY, hasFunctionalConsent } from "@/lib/consent";
 
 export type AppLanguage = "pl" | "en";
@@ -13,6 +14,22 @@ type LanguageContextValue = {
 const LanguageContext = createContext<LanguageContextValue | null>(null);
 
 const isKnownLanguage = (value: string | null): value is AppLanguage => value === "pl" || value === "en";
+
+const resolveLanguageFromPathname = (pathname: string | null): AppLanguage | null => {
+	if (!pathname) {
+		return null;
+	}
+
+	if (pathname === "/en" || pathname.startsWith("/en/")) {
+		return "en";
+	}
+
+	if (pathname.startsWith("/")) {
+		return "pl";
+	}
+
+	return null;
+};
 
 const detectPreferredLanguage = (): AppLanguage => {
 	if (typeof window === "undefined") {
@@ -35,14 +52,23 @@ const detectPreferredLanguage = (): AppLanguage => {
 export function LanguageProvider({
 	children,
 	initialLanguage = "en",
+	usePersistedLanguage = true,
 }: {
 	children: React.ReactNode;
 	initialLanguage?: AppLanguage;
+	usePersistedLanguage?: boolean;
 }) {
+	const pathname = usePathname();
+	const routeLanguage = resolveLanguageFromPathname(pathname);
 	const [language, setLanguageState] = useState<AppLanguage>(initialLanguage);
 
 	useEffect(() => {
-		if (hasFunctionalConsent()) {
+		if (routeLanguage) {
+			setLanguageState(routeLanguage);
+			return;
+		}
+
+		if (usePersistedLanguage && hasFunctionalConsent()) {
 			const persisted = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
 			if (isKnownLanguage(persisted)) {
 				setLanguageState(persisted);
@@ -51,7 +77,7 @@ export function LanguageProvider({
 		}
 
 		setLanguageState(initialLanguage || detectPreferredLanguage());
-	}, [initialLanguage]);
+	}, [initialLanguage, routeLanguage, usePersistedLanguage]);
 
 	useEffect(() => {
 		document.documentElement.lang = language;

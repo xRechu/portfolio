@@ -213,17 +213,18 @@ const policyContentByLanguage: Record<
 export default function PrivacyPolicyPage() {
 	const { language } = useLanguage();
 	const copy = policyContentByLanguage[language];
+	const homeHref = language === "en" ? "/en" : "/";
 
 	return (
 		<main className={styles.legalPage}>
-			<a href="/" className="brand-wordmark" aria-label={copy.back}>
+			<a href={homeHref} className="brand-wordmark" aria-label={copy.back}>
 				<span className="brand-wordmark-name">JAKUB RESZKA</span>
 				<span className="brand-wordmark-role">Next.js · E-commerce · AI</span>
 			</a>
 			<TopControls />
 
 			<div className={styles.legalPageInner}>
-				<Link href="/" className={styles.legalBackLink}>
+				<Link href={homeHref} className={styles.legalBackLink}>
 					{copy.back}
 				</Link>
 

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Globe } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 import { useLanguage, type AppLanguage } from "@/components/LanguageProvider";
 import { CONSENT_EVENT, THEME_STORAGE_KEY, hasFunctionalConsent } from "@/lib/consent";
 
@@ -9,6 +10,29 @@ const languages = [
 	{ code: "pl", label: "Polski" },
 	{ code: "en", label: "English" },
 ] as const;
+
+function mapPathToLanguagePath(pathname: string, language: AppLanguage): string | null {
+	const isEnglishPath = pathname === "/en" || pathname.startsWith("/en/");
+	const basePath = isEnglishPath
+		? pathname.replace(/^\/en(?=\/|$)/, "") || "/"
+		: pathname;
+
+	const hasLocalizedRoute =
+		basePath === "/" ||
+		basePath === "/blog" ||
+		basePath.startsWith("/blog/") ||
+		basePath === "/polityka-prywatnosci" ||
+		basePath === "/regulamin";
+	if (!hasLocalizedRoute) {
+		return null;
+	}
+
+	if (language === "en") {
+		return basePath === "/" ? "/en" : `/en${basePath}`;
+	}
+
+	return basePath;
+}
 
 type IconProps = {
 	className?: string;
@@ -43,6 +67,8 @@ function MoonIcon({ className = "" }: IconProps) {
 }
 
 export default function TopControls() {
+	const pathname = usePathname();
+	const router = useRouter();
 	const { language, setLanguage } = useLanguage();
 	const [isDarkPreview, setIsDarkPreview] = useState(false);
 	const [isLanguageOpen, setIsLanguageOpen] = useState(false);
@@ -123,9 +149,14 @@ export default function TopControls() {
 	}, []);
 
 	const handleLanguageSelect = useCallback((code: AppLanguage) => {
+		const nextPathname = mapPathToLanguagePath(pathname, code);
+
 		setLanguage(code);
 		setIsLanguageOpen(false);
-	}, [setLanguage]);
+		if (nextPathname && nextPathname !== pathname) {
+			router.push(nextPathname);
+		}
+	}, [pathname, router, setLanguage]);
 
 	const labels =
 		language === "pl"

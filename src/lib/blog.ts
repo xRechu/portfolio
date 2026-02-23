@@ -6,6 +6,14 @@ const SITE_URL = "https://jakubreszka.pl";
 const BLOG_DIR = path.join(process.cwd(), "blog");
 const FRONTMATTER_PATTERN = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/;
 const SUPPORTED_EXTENSIONS = new Set([".md", ".markdown"]);
+const BLOG_PATH_BY_LANGUAGE = {
+	pl: "/blog",
+	en: "/en/blog",
+} as const;
+
+export type BlogLanguage = "pl" | "en";
+
+const BLOG_LANGUAGE_SET = new Set<BlogLanguage>(["pl", "en"]);
 
 type Frontmatter = {
 	title?: string;
@@ -20,6 +28,8 @@ type Frontmatter = {
 	canonicalUrl?: string;
 	slug?: string;
 	draft?: string;
+	lang?: string;
+	translationKey?: string;
 };
 
 type MarkdownContext = {
@@ -28,6 +38,8 @@ type MarkdownContext = {
 
 type ParsedBlogPost = {
 	draft: boolean;
+	language: BlogLanguage;
+	translationKey: string;
 	slug: string;
 	title: string;
 	excerpt: string;
@@ -103,6 +115,8 @@ function parseFrontmatter(content: string): { frontmatter: Frontmatter; body: st
 			canonicalUrl: entries.canonicalurl ?? entries.canonical_url,
 			slug: entries.slug,
 			draft: entries.draft,
+			lang: entries.lang,
+			translationKey: entries.translationkey ?? entries.translation_key,
 		},
 		body: match[2].trim(),
 	};
@@ -124,6 +138,45 @@ function slugify(value: string): string {
 function normalizeSlug(frontmatterSlug: string | undefined, fileName: string): string {
 	const source = frontmatterSlug?.trim() || fileName;
 	return slugify(source);
+}
+
+function normalizeTranslationKey(
+	frontmatterTranslationKey: string | undefined,
+	fileName: string,
+	fallbackSlug: string,
+): string {
+	const source = frontmatterTranslationKey?.trim() || fileName || fallbackSlug;
+	return slugify(source);
+}
+
+function parseLanguage(rawLanguage: string | undefined, fileLanguage: BlogLanguage | null): BlogLanguage {
+	if (fileLanguage) {
+		return fileLanguage;
+	}
+
+	const normalized = rawLanguage?.trim().toLowerCase();
+	if (normalized && BLOG_LANGUAGE_SET.has(normalized as BlogLanguage)) {
+		return normalized as BlogLanguage;
+	}
+
+	return "pl";
+}
+
+function parseFileIdentity(fileName: string): { baseName: string; fileLanguage: BlogLanguage | null } {
+	const extension = path.extname(fileName);
+	const stem = extension ? fileName.slice(0, -extension.length) : fileName;
+	const languageMatch = stem.match(/^(.*)\.(pl|en)$/i);
+	if (!languageMatch) {
+		return {
+			baseName: stem,
+			fileLanguage: null,
+		};
+	}
+
+	return {
+		baseName: languageMatch[1],
+		fileLanguage: languageMatch[2].toLowerCase() as BlogLanguage,
+	};
 }
 
 function titleFromSlug(slug: string): string {
@@ -218,7 +271,7 @@ function escapeHtml(value: string): string {
 		.replaceAll("'", "&#39;");
 }
 
-function sanitizeAbsoluteUrl(url: string, kind: "link" | "image"): string | null {
+function sanitizeAbsoluteUrl(url: string, kind: "link" | "image" | "canonical"): string | null {
 	try {
 		const parsed = new URL(url);
 		const allowedProtocols =
@@ -496,13 +549,31 @@ function renderMarkdownToHtml(markdown: string, context: MarkdownContext): strin
 	return htmlChunks.join("\n");
 }
 
-function normalizeCanonicalUrl(value: string | undefined, slug: string): string {
+export function getBlogPath(language: BlogLanguage, slug: string): string {
+	const normalizedSlug = slugify(slug);
+	return `${BLOG_PATH_BY_LANGUAGE[language]}/${normalizedSlug}`;
+}
+
+export function getAbsoluteBlogPath(language: BlogLanguage, slug: string): string {
+	return `${SITE_URL}${getBlogPath(language, slug)}`;
+}
+
+function normalizeCanonicalUrl(value: string | undefined, language: BlogLanguage, slug: string): string {
 	if (!value) {
-		return `${SITE_URL}/blog/${slug}`;
+		return getAbsoluteBlogPath(language, slug);
 	}
 
-	const absolute = sanitizeAbsoluteUrl(value, "link");
-	return absolute ?? `${SITE_URL}/blog/${slug}`;
+	const trimmedValue = value.trim();
+	if (!trimmedValue) {
+		return getAbsoluteBlogPath(language, slug);
+	}
+
+	if (trimmedValue.startsWith("/")) {
+		return `${SITE_URL}${trimmedValue}`;
+	}
+
+	const absolute = sanitizeAbsoluteUrl(trimmedValue, "canonical");
+	return absolute ?? getAbsoluteBlogPath(language, slug);
 }
 
 async function parseFileToPost(fileName: string): Promise<ParsedBlogPost> {
@@ -510,7 +581,10 @@ async function parseFileToPost(fileName: string): Promise<ParsedBlogPost> {
 	const [rawContent, stats] = await Promise.all([fs.readFile(absolutePath, "utf8"), fs.stat(absolutePath)]);
 	const { frontmatter, body } = parseFrontmatter(rawContent);
 
-	const slug = normalizeSlug(frontmatter.slug, fileName);
+	const fileIdentity = parseFileIdentity(fileName);
+	const language = parseLanguage(frontmatter.lang, fileIdentity.fileLanguage);
+	const slug = normalizeSlug(frontmatter.slug, fileIdentity.baseName || fileName);
+	const translationKey = normalizeTranslationKey(frontmatter.translationKey, fileIdentity.baseName || slug, slug);
 	const title = frontmatter.title?.trim() || titleFromSlug(slug);
 	const publishedAt = parseDate(frontmatter.date, stats.birthtime || stats.mtime);
 	const updatedAt = parseDate(frontmatter.updated, stats.mtime);
@@ -522,13 +596,15 @@ async function parseFileToPost(fileName: string): Promise<ParsedBlogPost> {
 	const coverAlt = frontmatter.coverAlt?.trim() || null;
 	const seoTitle = frontmatter.seoTitle?.trim() || null;
 	const seoDescription = frontmatter.seoDescription?.trim() || null;
-	const canonicalUrl = normalizeCanonicalUrl(frontmatter.canonicalUrl, slug);
+	const canonicalUrl = normalizeCanonicalUrl(frontmatter.canonicalUrl, language, slug);
 	const readingTimeMinutes = estimateReadingTime(body);
 	const contentHtml = renderMarkdownToHtml(body, { slug });
 	const draft = parseBoolean(frontmatter.draft);
 
 	return {
 		draft,
+		language,
+		translationKey,
 		slug,
 		title,
 		excerpt,
@@ -572,6 +648,8 @@ const loadAllPosts = cache(async (): Promise<ParsedBlogPost[]> => {
 
 function toSummary(post: ParsedBlogPost): BlogPostSummary {
 	return {
+		language: post.language,
+		translationKey: post.translationKey,
 		slug: post.slug,
 		title: post.title,
 		excerpt: post.excerpt,
@@ -589,6 +667,8 @@ function toSummary(post: ParsedBlogPost): BlogPostSummary {
 
 function toPost(post: ParsedBlogPost): BlogPost {
 	return {
+		language: post.language,
+		translationKey: post.translationKey,
 		slug: post.slug,
 		title: post.title,
 		excerpt: post.excerpt,
@@ -606,19 +686,49 @@ function toPost(post: ParsedBlogPost): BlogPost {
 	};
 }
 
-export const getAllBlogPosts = cache(async (): Promise<BlogPostSummary[]> => {
+export const getAllBlogPosts = cache(async (language: BlogLanguage): Promise<BlogPostSummary[]> => {
 	const posts = await loadAllPosts();
-	return posts.filter((post) => !post.draft).map((post) => toSummary(post));
+	return posts
+		.filter((post) => !post.draft && post.language === language)
+		.map((post) => toSummary(post));
 });
 
-export const getBlogPostBySlug = cache(async (slug: string): Promise<BlogPost | null> => {
+export const getBlogPostBySlug = cache(async (language: BlogLanguage, slug: string): Promise<BlogPost | null> => {
 	const normalizedSlug = slugify(slug);
 	const posts = await loadAllPosts();
-	const post = posts.find((candidate) => candidate.slug === normalizedSlug && !candidate.draft);
+	const post = posts.find(
+		(candidate) => candidate.language === language && candidate.slug === normalizedSlug && !candidate.draft,
+	);
 	return post ? toPost(post) : null;
 });
 
-export function formatBlogDate(dateIsoString: string, locale = "pl-PL"): string {
+export const getBlogPostAlternates = cache(
+	async (language: BlogLanguage, slug: string): Promise<Partial<Record<BlogLanguage, string>> | null> => {
+		const normalizedSlug = slugify(slug);
+		const posts = await loadAllPosts();
+		const post = posts.find(
+			(candidate) => candidate.language === language && candidate.slug === normalizedSlug && !candidate.draft,
+		);
+		if (!post) {
+			return null;
+		}
+
+		const translations = posts.filter(
+			(candidate) => candidate.translationKey === post.translationKey && !candidate.draft,
+		);
+		const alternates: Partial<Record<BlogLanguage, string>> = {};
+
+		for (const translation of translations) {
+			alternates[translation.language] = getBlogPath(translation.language, translation.slug);
+		}
+
+		return alternates;
+	},
+);
+
+export function formatBlogDate(dateIsoString: string, language: BlogLanguage = "pl"): string {
+	const locale = language === "pl" ? "pl-PL" : "en-US";
+
 	return new Intl.DateTimeFormat(locale, {
 		day: "numeric",
 		month: "long",
@@ -626,4 +736,3 @@ export function formatBlogDate(dateIsoString: string, locale = "pl-PL"): string 
 		timeZone: "UTC",
 	}).format(new Date(dateIsoString));
 }
-
