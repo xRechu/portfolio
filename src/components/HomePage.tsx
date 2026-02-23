@@ -1,8 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Hero from "@/components/Hero";
+import jakubPortrait from "@/assets/jakub-reszka.webp";
 import { useLanguage, type AppLanguage } from "@/components/LanguageProvider";
 import DeferredClientSection from "@/components/DeferredClientSection";
 import SectionRail from "@/components/SectionRail";
@@ -260,22 +262,51 @@ export default function Home() {
 				minHeight={760}
 			/>
 
-			{contentSections.map((section) => (
-				<section key={section.id} id={section.id} className="page-section">
-					<div className="page-section-inner">
-						<p className="page-section-eyebrow">{section.eyebrow}</p>
-						{section.title ? <h2 className="page-section-title">{section.title}</h2> : null}
-						{section.description ? <p className="page-section-description">{section.description}</p> : null}
-						{section.points && section.points.length > 0 ? (
-							<ul className="page-section-points">
-								{section.points.map((point) => (
-									<li key={point}>{point}</li>
-								))}
-							</ul>
-						) : null}
-					</div>
-				</section>
-			))}
+			{contentSections.map((section) => {
+				const isWhyMeSection = section.id === "dlaczego-ja";
+				const pointsList =
+					section.points && section.points.length > 0 ? (
+						<ul className={`page-section-points${isWhyMeSection ? " why-me-points" : ""}`}>
+							{section.points.map((point) => (
+								<li key={point}>{point}</li>
+							))}
+						</ul>
+					) : null;
+
+				return (
+					<section key={section.id} id={section.id} className="page-section">
+						<div className={`page-section-inner ${isWhyMeSection ? "why-me-section-inner" : ""}`}>
+							{isWhyMeSection ? (
+								<>
+									<div className="why-me-content">
+										<p className="page-section-eyebrow">{section.eyebrow}</p>
+										{section.title ? <h2 className="page-section-title">{section.title}</h2> : null}
+										{section.description ? <p className="page-section-description">{section.description}</p> : null}
+									</div>
+									<aside className="why-me-photo-wrap" aria-hidden="true">
+										<div className="why-me-photo-shell">
+											<Image
+												src={jakubPortrait}
+												alt=""
+												className="why-me-photo"
+												sizes="(max-width: 700px) 140px, (max-width: 1023px) 180px, 220px"
+											/>
+										</div>
+									</aside>
+									{pointsList}
+								</>
+							) : (
+								<div>
+									<p className="page-section-eyebrow">{section.eyebrow}</p>
+									{section.title ? <h2 className="page-section-title">{section.title}</h2> : null}
+									{section.description ? <p className="page-section-description">{section.description}</p> : null}
+									{pointsList}
+								</div>
+							)}
+						</div>
+					</section>
+				);
+			})}
 
 			<section id="faq" className="page-section faq-section">
 				<div className="page-section-inner">
