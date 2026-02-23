@@ -160,6 +160,7 @@ const footerCopyByLanguage: Record<
 	AppLanguage,
 	{
 		rights: string;
+		blog: string;
 		privacy: string;
 		terms: string;
 		cookies: string;
@@ -167,12 +168,14 @@ const footerCopyByLanguage: Record<
 > = {
 	pl: {
 		rights: "Wszelkie prawa zastrzeżone.",
+		blog: "Blog",
 		privacy: "Polityka prywatności",
 		terms: "Regulamin",
 		cookies: "Ustawienia cookies",
 	},
 	en: {
 		rights: "All rights reserved.",
+		blog: "Blog",
 		privacy: "Privacy policy",
 		terms: "Terms",
 		cookies: "Cookie settings",
@@ -314,6 +317,7 @@ export default function Home() {
 					© {new Date().getFullYear()} Jakub Reszka. {footerCopy.rights}
 				</p>
 				<div className="site-legal-footer-links">
+					<Link href="/blog">{footerCopy.blog}</Link>
 					<Link href="/polityka-prywatnosci">{footerCopy.privacy}</Link>
 					<Link href="/regulamin">{footerCopy.terms}</Link>
 					<button type="button" onClick={handleCookieSettingsClick}>

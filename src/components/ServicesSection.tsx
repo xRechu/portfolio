@@ -99,6 +99,33 @@ const offersByLanguage: Record<AppLanguage, ServiceOffer[]> = {
 				},
 			],
 		},
+		{
+			name: "Aplikacje mobilne",
+			scope: "iOS + Android + publikacja",
+			description: "Projektuję i wdrażam aplikacje mobilne end-to-end, od koncepcji po publikację w sklepach.",
+			features: [
+				{
+					summary: "Kompleksowe wdrożenie produktu mobilnego.",
+					detail:
+						"Prowadzę proces od makiet i UX po gotową aplikację, backend, testy i przygotowanie do uruchomienia.",
+				},
+				{
+					summary: "Aplikacje na iOS i Android.",
+					detail:
+						"Buduję rozwiązania działające na obu platformach, z naciskiem na wydajność, stabilność i spójne doświadczenie użytkownika.",
+				},
+				{
+					summary: "Integracje z API, płatnościami i usługami zewnętrznymi.",
+					detail:
+						"Łączę aplikację z systemami, których potrzebujesz: logowanie, płatności, powiadomienia, analityka i automatyzacje.",
+				},
+				{
+					summary: "Publikacja i wsparcie po starcie.",
+					detail:
+						"Przygotowuję aplikację do publikacji w App Store i Google Play oraz mogę przejąć dalszy rozwój i utrzymanie.",
+				},
+			],
+		},
 	],
 	en: [
 		{
@@ -179,6 +206,33 @@ const offersByLanguage: Record<AppLanguage, ServiceOffer[]> = {
 					summary: "Safe rollout and process control.",
 					detail:
 						"I set guardrails, monitoring and usage boundaries so AI supports the business without operational risk.",
+				},
+			],
+		},
+		{
+			name: "Mobile apps",
+			scope: "iOS + Android + store release",
+			description: "I deliver mobile applications end-to-end, from concept and UX to production release.",
+			features: [
+				{
+					summary: "End-to-end mobile product delivery.",
+					detail:
+						"I can run the full flow: UX planning, implementation, backend integration, testing and launch preparation.",
+				},
+				{
+					summary: "Apps for both iOS and Android.",
+					detail:
+						"I build cross-platform solutions focused on performance, stability and consistent user experience.",
+				},
+				{
+					summary: "Integrations with APIs, payments and external tools.",
+					detail:
+						"I connect your app with the services you need: auth, payments, notifications, analytics and automation.",
+				},
+				{
+					summary: "Store submission and post-launch support.",
+					detail:
+						"I prepare and publish the app to App Store and Google Play, then support maintenance and feature growth.",
 				},
 			],
 		},
