@@ -154,7 +154,7 @@ export default function TopControls() {
 		setLanguage(code);
 		setIsLanguageOpen(false);
 		if (nextPathname && nextPathname !== pathname) {
-			router.push(nextPathname);
+			router.push(nextPathname, { scroll: false });
 		}
 	}, [pathname, router, setLanguage]);
 
