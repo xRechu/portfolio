@@ -10,6 +10,8 @@ const geistSans = Geist({
 	subsets: ["latin"],
 });
 
+const SOCIAL_IMAGE = "/social-share.png";
+
 export const metadata: Metadata = {
 	metadataBase: new URL("https://jakubreszka.pl"),
 	title: {
@@ -39,12 +41,21 @@ export const metadata: Metadata = {
 		title: "Jakub Reszka | Next.js, E-commerce, AI",
 		description:
 			"Portfolio i case studies: Next.js, Medusa.js, aplikacje mobilne oraz automatyzacje AI.",
+		images: [
+			{
+				url: SOCIAL_IMAGE,
+				width: 1200,
+				height: 630,
+				alt: "Jakub Reszka - strony internetowe, aplikacje mobilne i automatyzacje AI",
+			},
+		],
 	},
 	twitter: {
 		card: "summary_large_image",
 		title: "Jakub Reszka | Next.js, E-commerce, AI",
 		description:
 			"Portfolio i case studies: Next.js, Medusa.js, aplikacje mobilne oraz automatyzacje AI.",
+		images: [SOCIAL_IMAGE],
 	},
 	robots: {
 		index: true,

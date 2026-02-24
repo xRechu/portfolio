@@ -5,6 +5,7 @@ const HOME_TITLE_BASE = "Strony internetowe Next.js, Medusa.js i aplikacje mobil
 const HOME_TITLE = `${HOME_TITLE_BASE} | JAKUB RESZKA`;
 const HOME_DESCRIPTION =
 	"Tworzę szybkie strony internetowe Next.js, sklepy Medusa.js i aplikacje mobilne. Projektuję, wdrażam i rozwijam produkty cyfrowe oraz automatyzacje AI.";
+const SOCIAL_IMAGE = "/social-share.png";
 
 export const metadata: Metadata = {
 	title: HOME_TITLE,
@@ -34,11 +35,20 @@ export const metadata: Metadata = {
 		siteName: "Jakub Reszka Portfolio",
 			title: HOME_TITLE,
 		description: HOME_DESCRIPTION,
+		images: [
+			{
+				url: SOCIAL_IMAGE,
+				width: 1200,
+				height: 630,
+				alt: "Jakub Reszka - strony internetowe, aplikacje mobilne i automatyzacje AI",
+			},
+		],
 	},
 	twitter: {
 		card: "summary_large_image",
 			title: HOME_TITLE,
 		description: HOME_DESCRIPTION,
+		images: [SOCIAL_IMAGE],
 	},
 };
 

@@ -53,7 +53,7 @@ export default function TwitterImage() {
 							maxWidth: 980,
 						}}
 					>
-						Strony internetowe i sklepy, ktore dowoza wynik
+						Strony internetowe i sklepy, które dowożą wynik
 					</div>
 					<div
 						style={{
