@@ -30,6 +30,7 @@ export default function Hero() {
                 titleDynamic: [
                     "szybkie strony firmowe",
                     "sklepy e-commerce",
+                    "aplikacje mobilne",
                     "automatyzacje procesów",
                     "wdrożenia AI",
                 ],
@@ -41,6 +42,7 @@ export default function Hero() {
                 titleDynamic: [
                     "fast business websites",
                     "e-commerce stores",
+                    "mobile apps",
                     "process automations",
                     "AI implementations",
                 ],

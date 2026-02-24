@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Jakub Reszka - strony internetowe i sklepy e-commerce";
+export const alt = "Jakub Reszka - strony internetowe, aplikacje mobilne i automatyzacje AI";
 export const size = {
 	width: 1200,
 	height: 630,
@@ -63,7 +63,7 @@ export default function OpenGraphImage() {
 							color: "rgba(234, 244, 239, 0.88)",
 						}}
 					>
-						Next.js · Medusa.js · WooCommerce · Automatyzacje AI
+						Next.js · Medusa.js · Aplikacje mobilne · Automatyzacje AI
 					</div>
 				</div>
 

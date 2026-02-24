@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 		template: "%s | JAKUB RESZKA",
 	},
 	description:
-		"Portfolio i case studies: Next.js, Medusa.js, WooCommerce oraz automatyzacje AI.",
+		"Portfolio i case studies: Next.js, Medusa.js, aplikacje mobilne oraz automatyzacje AI.",
 	keywords: [
 		"strony internetowe Next.js",
 		"sklepy Medusa.js",
@@ -38,13 +38,13 @@ export const metadata: Metadata = {
 		siteName: "Jakub Reszka Portfolio",
 		title: "Jakub Reszka | Next.js, E-commerce, AI",
 		description:
-			"Portfolio i case studies: Next.js, Medusa.js, WooCommerce oraz automatyzacje AI.",
+			"Portfolio i case studies: Next.js, Medusa.js, aplikacje mobilne oraz automatyzacje AI.",
 	},
 	twitter: {
 		card: "summary_large_image",
 		title: "Jakub Reszka | Next.js, E-commerce, AI",
 		description:
-			"Portfolio i case studies: Next.js, Medusa.js, WooCommerce oraz automatyzacje AI.",
+			"Portfolio i case studies: Next.js, Medusa.js, aplikacje mobilne oraz automatyzacje AI.",
 	},
 	robots: {
 		index: true,

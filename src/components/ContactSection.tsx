@@ -4,7 +4,13 @@ import { FormEvent, useMemo, useRef, useState } from "react";
 import { useLanguage, type AppLanguage } from "@/components/LanguageProvider";
 import styles from "./ContactSection.module.css";
 
-type ContactReason = "business_website" | "ecommerce_store" | "automation_ai" | "audit_improvements" | "other";
+type ContactReason =
+	| "business_website"
+	| "ecommerce_store"
+	| "mobile_app"
+	| "automation_ai"
+	| "audit_improvements"
+	| "other";
 
 type FormValues = {
 	name: string;
@@ -74,6 +80,7 @@ const copyByLanguage: Record<AppLanguage, ContactCopy> = {
 		reasons: [
 			{ value: "business_website", label: "Nowa strona firmowa" },
 			{ value: "ecommerce_store", label: "Sklep e-commerce" },
+			{ value: "mobile_app", label: "Aplikacja mobilna" },
 			{ value: "automation_ai", label: "Automatyzacje / AI" },
 			{ value: "audit_improvements", label: "Audyt i poprawki" },
 			{ value: "other", label: "Inny temat" },
@@ -114,6 +121,7 @@ const copyByLanguage: Record<AppLanguage, ContactCopy> = {
 		reasons: [
 			{ value: "business_website", label: "New business website" },
 			{ value: "ecommerce_store", label: "E-commerce store" },
+			{ value: "mobile_app", label: "Mobile app" },
 			{ value: "automation_ai", label: "Automation / AI" },
 			{ value: "audit_improvements", label: "Audit and improvements" },
 			{ value: "other", label: "Other topic" },

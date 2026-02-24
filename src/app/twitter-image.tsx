@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Jakub Reszka - websites, e-commerce and AI automation";
+export const alt = "Jakub Reszka - websites, mobile apps and AI automation";
 export const size = {
 	width: 1200,
 	height: 630,
@@ -63,7 +63,7 @@ export default function TwitterImage() {
 							color: "rgba(234, 244, 239, 0.88)",
 						}}
 					>
-						Next.js · Medusa.js · WooCommerce · Automatyzacje AI
+						Next.js · Medusa.js · Mobile apps · AI automation
 					</div>
 				</div>
 

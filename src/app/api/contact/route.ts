@@ -4,7 +4,13 @@ import { Resend } from "resend";
 export const runtime = "nodejs";
 
 type AppLanguage = "pl" | "en";
-type ContactReason = "business_website" | "ecommerce_store" | "automation_ai" | "audit_improvements" | "other";
+type ContactReason =
+	| "business_website"
+	| "ecommerce_store"
+	| "mobile_app"
+	| "automation_ai"
+	| "audit_improvements"
+	| "other";
 
 type ContactPayload = {
 	name?: unknown;
@@ -26,6 +32,7 @@ const reasonsLabels: Record<AppLanguage, Record<ContactReason, string>> = {
 	pl: {
 		business_website: "Nowa strona firmowa",
 		ecommerce_store: "Sklep e-commerce",
+		mobile_app: "Aplikacja mobilna",
 		automation_ai: "Automatyzacje / AI",
 		audit_improvements: "Audyt i poprawki",
 		other: "Inny temat",
@@ -33,6 +40,7 @@ const reasonsLabels: Record<AppLanguage, Record<ContactReason, string>> = {
 	en: {
 		business_website: "New business website",
 		ecommerce_store: "E-commerce store",
+		mobile_app: "Mobile app",
 		automation_ai: "Automation / AI",
 		audit_improvements: "Audit and improvements",
 		other: "Other topic",
@@ -76,7 +84,14 @@ function escapeHtml(value: string) {
 }
 
 function isReason(value: string): value is ContactReason {
-	return value === "business_website" || value === "ecommerce_store" || value === "automation_ai" || value === "audit_improvements" || value === "other";
+	return (
+		value === "business_website" ||
+		value === "ecommerce_store" ||
+		value === "mobile_app" ||
+		value === "automation_ai" ||
+		value === "audit_improvements" ||
+		value === "other"
+	);
 }
 
 function isRateLimited(key: string) {

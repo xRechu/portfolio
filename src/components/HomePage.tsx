@@ -242,7 +242,7 @@ export default function Home() {
 				aria-label={language === "pl" ? "Przejdź do sekcji startowej" : "Go to hero section"}
 			>
 				<span className="brand-wordmark-name">JAKUB RESZKA</span>
-				<span className="brand-wordmark-role">Next.js · E-commerce · AI</span>
+				<span className="brand-wordmark-role">Next.js · E-commerce · Mobile Apps · AI</span>
 			</a>
 			<TopControls />
 
