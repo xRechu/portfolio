@@ -670,7 +670,7 @@ main {
 
 .section-dock-list {
 	margin: 0;
-	padding: 0;
+	padding: 0 2.6rem 0 0;
 	list-style: none;
 	display: grid;
 	grid-auto-flow: column;
@@ -710,6 +710,34 @@ main {
 	color: color-mix(in srgb, var(--text-primary) 94%, white 6%);
 	background: color-mix(in srgb, var(--accent-green) 20%, var(--surface-glass-strong) 80%);
 	border-color: color-mix(in srgb, var(--accent-green) 48%, transparent);
+}
+
+.section-dock-more {
+	position: absolute;
+	right: 0.36rem;
+	top: calc(50% - env(safe-area-inset-bottom) * 0.24);
+	transform: translateY(-50%);
+	width: 1.9rem;
+	height: 1.9rem;
+	border-radius: 999px;
+	border: 1px solid var(--surface-border);
+	background: color-mix(in srgb, var(--background) 90%, transparent);
+	color: var(--text-secondary);
+	font-size: 1rem;
+	font-weight: 700;
+	line-height: 1;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.section-dock-more.is-visible {
+	opacity: 1;
+	pointer-events: auto;
+	transform: translateY(-50%) translateX(0);
 }
 
 /* Base sections */

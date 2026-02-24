@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 
 type SectionItem = {
@@ -18,7 +18,10 @@ export default function SectionRail({ sections }: SectionRailProps) {
 	const { language } = useLanguage();
 	const [activeId, setActiveId] = useState(sections[0]?.id ?? "");
 	const [isVisible, setIsVisible] = useState(false);
+	const [showDockMore, setShowDockMore] = useState(false);
 	const sectionIds = useMemo(() => sections.map((section) => section.id), [sections]);
+	const dockListRef = useRef<HTMLUListElement | null>(null);
+	const dockItemRefs = useRef(new Map<string, HTMLAnchorElement>());
 
 	useEffect(() => {
 		if (sectionIds.length === 0) {
@@ -118,6 +121,58 @@ export default function SectionRail({ sections }: SectionRailProps) {
 		};
 	}, [sectionIds]);
 
+	useEffect(() => {
+		const dockList = dockListRef.current;
+		if (!dockList) {
+			return;
+		}
+
+		const updateDockMoreIndicator = () => {
+			const maxScrollLeft = Math.max(0, dockList.scrollWidth - dockList.clientWidth);
+			const hasOverflow = maxScrollLeft > 2;
+			const canScrollRight = dockList.scrollLeft < maxScrollLeft - 2;
+			setShowDockMore(hasOverflow && canScrollRight);
+		};
+
+		updateDockMoreIndicator();
+		dockList.addEventListener("scroll", updateDockMoreIndicator, { passive: true });
+		window.addEventListener("resize", updateDockMoreIndicator);
+
+		return () => {
+			dockList.removeEventListener("scroll", updateDockMoreIndicator);
+			window.removeEventListener("resize", updateDockMoreIndicator);
+		};
+	}, [sections]);
+
+	useEffect(() => {
+		if (!activeId) {
+			return;
+		}
+
+		const targetLink = dockItemRefs.current.get(activeId);
+		if (!targetLink) {
+			return;
+		}
+
+		targetLink.scrollIntoView({
+			behavior: "smooth",
+			block: "nearest",
+			inline: "center",
+		});
+	}, [activeId]);
+
+	const handleDockMoreClick = () => {
+		const dockList = dockListRef.current;
+		if (!dockList) {
+			return;
+		}
+
+		dockList.scrollBy({
+			left: Math.max(140, Math.round(dockList.clientWidth * 0.55)),
+			behavior: "smooth",
+		});
+	};
+
 	if (sections.length === 0) {
 		return null;
 	}
@@ -150,18 +205,37 @@ export default function SectionRail({ sections }: SectionRailProps) {
 			</nav>
 
 			<nav className="section-dock" aria-label={language === "pl" ? "Nawigacja mobilna" : "Mobile navigation"}>
-				<ul className="section-dock-list">
+				<ul ref={dockListRef} className="section-dock-list">
 					{sections.map((section) => {
 						const isActive = section.id === activeId;
 						return (
 							<li key={`dock-${section.id}`} className="section-dock-item">
-								<a href={`#${section.id}`} className={`section-dock-link ${isActive ? "is-active" : ""}`}>
+								<a
+									href={`#${section.id}`}
+									className={`section-dock-link ${isActive ? "is-active" : ""}`}
+									ref={(element) => {
+										if (element) {
+											dockItemRefs.current.set(section.id, element);
+											return;
+										}
+										dockItemRefs.current.delete(section.id);
+									}}
+								>
 									{section.label}
 								</a>
 							</li>
 						);
 					})}
 				</ul>
+				<button
+					type="button"
+					onClick={handleDockMoreClick}
+					className={`section-dock-more ${showDockMore ? "is-visible" : ""}`}
+					aria-label={language === "pl" ? "Przewiń nawigację w prawo" : "Scroll navigation right"}
+					tabIndex={showDockMore ? 0 : -1}
+				>
+					→
+				</button>
 			</nav>
 		</>
 	);
