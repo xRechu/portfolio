@@ -668,9 +668,25 @@ main {
 	border-top: 1px solid var(--surface-border);
 }
 
+.section-dock::after {
+	content: "";
+	position: absolute;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	width: 3.2rem;
+	pointer-events: none;
+	background: linear-gradient(
+		90deg,
+		color-mix(in srgb, var(--background) 0%, transparent) 0%,
+		color-mix(in srgb, var(--background) 94%, transparent) 38%,
+		color-mix(in srgb, var(--background) 98%, transparent) 100%
+	);
+}
+
 .section-dock-list {
 	margin: 0;
-	padding: 0 2.6rem 0 0;
+	padding: 0 3.6rem 0 0;
 	list-style: none;
 	display: grid;
 	grid-auto-flow: column;
@@ -714,8 +730,8 @@ main {
 
 .section-dock-more {
 	position: absolute;
-	right: 0.36rem;
-	top: calc(50% - env(safe-area-inset-bottom) * 0.24);
+	right: 0.52rem;
+	top: calc((100% - env(safe-area-inset-bottom)) / 2);
 	transform: translateY(-50%);
 	width: 1.9rem;
 	height: 1.9rem;
@@ -729,6 +745,7 @@ main {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+	z-index: 1;
 	opacity: 0;
 	pointer-events: none;
 	transition: opacity 0.2s ease, transform 0.2s ease;
