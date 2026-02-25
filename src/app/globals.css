@@ -674,19 +674,19 @@ main {
 	right: 0;
 	top: 0;
 	bottom: 0;
-	width: 3.2rem;
+	width: 4rem;
 	pointer-events: none;
 	background: linear-gradient(
 		90deg,
 		color-mix(in srgb, var(--background) 0%, transparent) 0%,
-		color-mix(in srgb, var(--background) 94%, transparent) 38%,
-		color-mix(in srgb, var(--background) 98%, transparent) 100%
+		color-mix(in srgb, var(--background) 96%, transparent) 28%,
+		color-mix(in srgb, var(--background) 99%, transparent) 100%
 	);
 }
 
 .section-dock-list {
 	margin: 0;
-	padding: 0 3.6rem 0 0;
+	padding: 0 4.3rem 0 0;
 	list-style: none;
 	display: grid;
 	grid-auto-flow: column;
