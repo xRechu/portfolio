@@ -2,32 +2,32 @@
 	padding-top: clamp(4.5rem, 8vw, 7.5rem);
 	padding-bottom: clamp(4.5rem, 8vw, 7.5rem);
 
-	--srv-card-border: rgba(13, 15, 23, 0.13);
+	--srv-card-border: rgba(10, 10, 10, 0.13);
 	--srv-card-bg: linear-gradient(165deg, rgba(255, 255, 255, 0.96), rgba(247, 251, 255, 0.93));
-	--srv-card-shadow: 0 16px 36px rgba(13, 18, 30, 0.08);
+	--srv-card-shadow: 0 16px 36px rgba(10, 10, 10, 0.08);
 
-	--srv-scope: rgba(13, 15, 23, 0.56);
-	--srv-title: rgba(13, 15, 23, 0.96);
-	--srv-description: rgba(13, 15, 23, 0.74);
-	--srv-feature: rgba(13, 15, 23, 0.8);
+	--srv-scope: rgba(10, 10, 10, 0.56);
+	--srv-title: rgba(10, 10, 10, 0.96);
+	--srv-description: rgba(10, 10, 10, 0.74);
+	--srv-feature: rgba(10, 10, 10, 0.8);
 
 	--srv-hint-bg: rgba(255, 255, 255, 0.94);
-	--srv-hint-border: rgba(13, 15, 23, 0.22);
-	--srv-hint-text: rgba(13, 15, 23, 0.74);
+	--srv-hint-border: rgba(10, 10, 10, 0.22);
+	--srv-hint-text: rgba(10, 10, 10, 0.74);
 	--srv-tooltip-bg: rgba(8, 12, 20, 0.94);
 	--srv-tooltip-text: rgba(255, 255, 255, 0.93);
 	--srv-tooltip-shadow: 0 14px 30px rgba(8, 12, 20, 0.3);
 
-	--srv-badge-border: rgba(13, 15, 23, 0.16);
-	--srv-badge-text: rgba(13, 15, 23, 0.72);
+	--srv-badge-border: rgba(10, 10, 10, 0.16);
+	--srv-badge-text: rgba(10, 10, 10, 0.72);
 
-	--srv-cta-border: rgba(13, 15, 23, 0.1);
+	--srv-cta-border: rgba(10, 10, 10, 0.1);
 	--srv-cta-bg: rgba(255, 255, 255, 0.72);
 	--srv-cta-button-bg: var(--btn-primary-bg);
 	--srv-cta-button-hover: var(--btn-primary-hover);
 	--srv-cta-button-text: var(--btn-primary-text);
-	--srv-cta-text: rgba(13, 15, 23, 0.74);
-	--srv-cta-shadow: 0 10px 22px rgba(13, 15, 23, 0.18);
+	--srv-cta-text: rgba(10, 10, 10, 0.74);
+	--srv-cta-shadow: 0 10px 22px rgba(10, 10, 10, 0.18);
 }
 
 :global(html[data-theme-preview="dark"]) .section {

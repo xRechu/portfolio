@@ -3,53 +3,53 @@
 	padding-bottom: clamp(5rem, 9vw, 8rem);
 
 	--rz-shell-bg: rgba(255, 255, 255, 0.76);
-	--rz-shell-border: rgba(10, 12, 18, 0.08);
-	--rz-shell-glow: radial-gradient(circle at 50% 50%, rgba(16, 29, 63, 0.16), rgba(16, 29, 63, 0.03) 45%, transparent 74%);
+	--rz-shell-border: rgba(10, 10, 10, 0.08);
+	--rz-shell-glow: radial-gradient(circle at 50% 50%, rgba(10, 10, 10, 0.14), rgba(10, 10, 10, 0.03) 45%, transparent 74%);
 	--rz-shell-mask-top: rgba(255, 255, 255, 0.94);
 	--rz-shell-mask-bottom: rgba(255, 255, 255, 0.94);
 
 	--rz-arrow-bg: rgba(255, 255, 255, 0.92);
-	--rz-arrow-border: rgba(10, 12, 18, 0.22);
-	--rz-arrow-border-hover: rgba(10, 12, 18, 0.34);
-	--rz-arrow-text: rgba(10, 12, 18, 0.86);
-	--rz-arrow-shadow: 0 10px 22px rgba(10, 12, 18, 0.12);
+	--rz-arrow-border: rgba(10, 10, 10, 0.22);
+	--rz-arrow-border-hover: rgba(10, 10, 10, 0.34);
+	--rz-arrow-text: rgba(10, 10, 10, 0.86);
+	--rz-arrow-shadow: 0 10px 22px rgba(10, 10, 10, 0.12);
 
 	--rz-card-bg: #ffffff;
-	--rz-card-border: rgba(11, 14, 24, 0.14);
-	--rz-card-shadow: 0 20px 48px rgba(11, 18, 40, 0.12);
+	--rz-card-border: rgba(10, 10, 10, 0.14);
+	--rz-card-shadow: 0 20px 48px rgba(10, 10, 10, 0.12);
 
-	--rz-preview-divider: rgba(10, 12, 20, 0.1);
+	--rz-preview-divider: rgba(10, 10, 10, 0.1);
 	--rz-preview-topbar-bg: rgba(255, 255, 255, 0.78);
-	--rz-preview-dot: rgba(14, 14, 18, 0.24);
+	--rz-preview-dot: rgba(10, 10, 10, 0.24);
 	--rz-preview-pill-bg: rgba(255, 255, 255, 0.78);
-	--rz-preview-pill-text: rgba(12, 12, 16, 0.72);
-	--rz-preview-headline: rgba(10, 11, 18, 0.86);
-	--rz-preview-line: rgba(10, 12, 20, 0.12);
+	--rz-preview-pill-text: rgba(10, 10, 10, 0.72);
+	--rz-preview-headline: rgba(10, 10, 10, 0.86);
+	--rz-preview-line: rgba(10, 10, 10, 0.12);
 	--rz-preview-image-bg: rgba(255, 255, 255, 0.64);
-	--rz-preview-image-text: rgba(10, 12, 18, 0.6);
+	--rz-preview-image-text: rgba(10, 10, 10, 0.6);
 
-	--rz-stack: rgba(10, 12, 20, 0.62);
-	--rz-title: rgba(10, 12, 18, 0.96);
-	--rz-short: rgba(10, 12, 18, 0.72);
+	--rz-stack: rgba(10, 10, 10, 0.62);
+	--rz-title: rgba(10, 10, 10, 0.96);
+	--rz-short: rgba(10, 10, 10, 0.72);
 
 	--rz-info-bg: #ffffff;
-	--rz-info-border: rgba(10, 12, 18, 0.2);
-	--rz-info-text: rgba(10, 12, 18, 0.9);
-	--rz-visit-bg: #111827;
-	--rz-visit-border: #111827;
+	--rz-info-border: rgba(10, 10, 10, 0.2);
+	--rz-info-text: rgba(10, 10, 10, 0.9);
+	--rz-visit-bg: #0a0a0a;
+	--rz-visit-border: #0a0a0a;
 	--rz-visit-text: #ffffff;
-	--rz-action-shadow: 0 6px 18px rgba(10, 12, 20, 0.16);
+	--rz-action-shadow: 0 6px 18px rgba(10, 10, 10, 0.16);
 
 	--rz-details-bg: rgba(255, 255, 255, 0.85);
-	--rz-details-border: rgba(10, 12, 18, 0.12);
-	--rz-details-shadow: 0 18px 40px rgba(10, 12, 20, 0.1);
-	--rz-details-eyebrow: rgba(10, 12, 18, 0.58);
-	--rz-details-title: rgba(10, 12, 18, 0.95);
-	--rz-details-description: rgba(10, 12, 18, 0.8);
-	--rz-details-stack: rgba(10, 12, 18, 0.85);
-	--rz-details-stack-muted: rgba(10, 12, 18, 0.58);
-	--rz-feature-text: rgba(10, 12, 18, 0.78);
-	--rz-feature-dot: rgba(10, 12, 18, 0.55);
+	--rz-details-border: rgba(10, 10, 10, 0.12);
+	--rz-details-shadow: 0 18px 40px rgba(10, 10, 10, 0.1);
+	--rz-details-eyebrow: rgba(10, 10, 10, 0.58);
+	--rz-details-title: rgba(10, 10, 10, 0.95);
+	--rz-details-description: rgba(10, 10, 10, 0.8);
+	--rz-details-stack: rgba(10, 10, 10, 0.85);
+	--rz-details-stack-muted: rgba(10, 10, 10, 0.58);
+	--rz-feature-text: rgba(10, 10, 10, 0.78);
+	--rz-feature-dot: rgba(10, 10, 10, 0.55);
 }
 
 :global(html[data-theme-preview="dark"]) .section {

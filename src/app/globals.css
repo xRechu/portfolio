@@ -1,20 +1,20 @@
 :root {
 	--background: #ffffff;
-	--foreground: #0f172a;
+	--foreground: #0a0a0a;
 	--main-bg: #ffffff;
 	--hero-bg: #ffffff;
 
-	--text-primary: #0f172a;
-	--text-strong: rgba(15, 23, 42, 0.95);
-	--text-secondary: rgba(15, 23, 42, 0.8);
-	--text-muted: rgba(15, 23, 42, 0.62);
+	--text-primary: #0a0a0a;
+	--text-strong: rgba(10, 10, 10, 0.95);
+	--text-secondary: rgba(10, 10, 10, 0.8);
+	--text-muted: rgba(10, 10, 10, 0.62);
 
 	--surface-glass: rgba(255, 255, 255, 0.74);
 	--surface-glass-strong: rgba(255, 255, 255, 0.9);
-	--surface-border: rgba(15, 23, 42, 0.13);
-	--surface-border-strong: rgba(15, 23, 42, 0.24);
+	--surface-border: rgba(10, 10, 10, 0.13);
+	--surface-border-strong: rgba(10, 10, 10, 0.24);
 
-	--section-divider: rgba(15, 23, 42, 0.09);
+	--section-divider: rgba(10, 10, 10, 0.09);
 	--section-bg: transparent;
 	--focus-ring: rgba(16, 185, 129, 0.44);
 	--accent-green: #065f46;
@@ -29,23 +29,23 @@
 	--btn-primary-hover: #27272a;
 
 	--btn-secondary-bg: rgba(255, 255, 255, 0.58);
-	--btn-secondary-border: rgba(15, 23, 42, 0.2);
-	--btn-secondary-text: #0f172a;
-	--btn-secondary-hover-bg: rgba(15, 23, 42, 0.06);
+	--btn-secondary-border: rgba(10, 10, 10, 0.2);
+	--btn-secondary-text: #0a0a0a;
+	--btn-secondary-hover-bg: rgba(10, 10, 10, 0.06);
 
 	--rail-track-gradient: linear-gradient(180deg,
-			rgba(15, 23, 42, 0.08) 0%,
-			rgba(15, 23, 42, 0.26) 52%,
-			rgba(15, 23, 42, 0.08) 100%);
+			rgba(10, 10, 10, 0.08) 0%,
+			rgba(10, 10, 10, 0.26) 52%,
+			rgba(10, 10, 10, 0.08) 100%);
 	--rail-dot-bg: #ffffff;
-	--rail-dot-border: rgba(15, 23, 42, 0.26);
+	--rail-dot-border: rgba(10, 10, 10, 0.26);
 	--rail-dot-ring: rgba(255, 255, 255, 0.95);
-	--rail-dot-active-bg: #0f172a;
-	--rail-dot-active-ring: rgba(15, 23, 42, 0.2);
+	--rail-dot-active-bg: #0a0a0a;
+	--rail-dot-active-ring: rgba(10, 10, 10, 0.2);
 
-	--shadow-soft: 0 18px 42px rgba(15, 23, 42, 0.12);
-	--shadow-hover: 0 8px 18px rgba(15, 23, 42, 0.16);
-	--shadow-float: 0 10px 22px rgba(15, 23, 42, 0.18);
+	--shadow-soft: 0 18px 42px rgba(10, 10, 10, 0.12);
+	--shadow-hover: 0 8px 18px rgba(10, 10, 10, 0.16);
+	--shadow-float: 0 10px 22px rgba(10, 10, 10, 0.18);
 
 	--hero-dynamic-color: #065f46;
 	--control-size: 2.42rem;
@@ -412,7 +412,7 @@ html[data-theme-preview="dark"] .hero-title-line-static {
 }
 
 .theme-track-icon-moon {
-	color: #1e3a8a;
+	color: #0a0a0a;
 	opacity: 0.16;
 }
 
@@ -424,7 +424,7 @@ html[data-theme-preview="dark"] .hero-title-line-static {
 	height: var(--theme-thumb-size);
 	border-radius: 999px;
 	background: #ffffff;
-	box-shadow: 0 3px 10px rgba(15, 23, 42, 0.18);
+	box-shadow: 0 3px 10px rgba(10, 10, 10, 0.18);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -457,7 +457,7 @@ html[data-theme-preview="dark"] .hero-title-line-static {
 }
 
 .theme-thumb-icon-moon {
-	color: #1e3a8a;
+	color: #0a0a0a;
 	opacity: 0;
 	transform: rotate(-80deg) scale(0.66);
 }
