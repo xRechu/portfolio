@@ -24,10 +24,10 @@
 	--ct-counter: rgba(12, 12, 12, 0.46);
 	--ct-disclaimer: rgba(12, 12, 12, 0.58);
 
-	--ct-submit-bg: #111827;
-	--ct-submit-border: #111827;
-	--ct-submit-text: #ffffff;
-	--ct-submit-hover: #1f2937;
+	--ct-submit-bg: var(--btn-primary-bg);
+	--ct-submit-border: var(--btn-primary-border);
+	--ct-submit-text: var(--btn-primary-text);
+	--ct-submit-hover: var(--btn-primary-hover);
 	--ct-submit-shadow: 0 10px 20px rgba(11, 17, 30, 0.2);
 
 	--ct-success-bg: rgba(22, 163, 74, 0.08);
@@ -62,10 +62,10 @@
 	--ct-counter: rgba(203, 213, 225, 0.66);
 	--ct-disclaimer: rgba(203, 213, 225, 0.68);
 
-	--ct-submit-bg: #ffffff;
-	--ct-submit-border: #ffffff;
-	--ct-submit-text: #111111;
-	--ct-submit-hover: #e5e7eb;
+	--ct-submit-bg: var(--btn-primary-bg);
+	--ct-submit-border: var(--btn-primary-border);
+	--ct-submit-text: var(--btn-primary-text);
+	--ct-submit-hover: var(--btn-primary-hover);
 	--ct-submit-shadow: 0 10px 22px rgba(0, 0, 0, 0.56);
 
 	--ct-success-bg: rgba(34, 197, 94, 0.16);

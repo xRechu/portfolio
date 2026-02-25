@@ -213,6 +213,10 @@ main {
 }
 
 .hero-title-line-static {
+	color: #0a0a0a;
+}
+
+html[data-theme-preview="dark"] .hero-title-line-static {
 	color: var(--text-strong);
 }
 
