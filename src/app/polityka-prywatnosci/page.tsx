@@ -28,7 +28,7 @@ const policyContentByLanguage: Record<
 		updatedAt: "Ostatnia aktualizacja: 21 lutego 2026 r.",
 		back: "Wróć do strony głównej",
 		notice:
-			"Przed publikacją doprecyzuj dane administratora: imię i nazwisko (lub firmę), adres do kontaktu oraz kanał kontaktowy (formularz i/lub e-mail).",
+			"Jakub Reszka; kontakt poprzez formularz dostępny na stronie głównej.",
 		sections: [
 			{
 				title: "1. Administrator danych",
