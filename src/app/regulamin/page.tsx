@@ -27,7 +27,7 @@ const termsContentByLanguage: Record<
 		title: "Regulamin serwisu",
 		updatedAt: "Ostatnia aktualizacja: 21 lutego 2026 r.",
 		back: "Wróć do strony głównej",
-		notice: "Przed publikacją uzupełnij pełne dane usługodawcy (imię i nazwisko lub nazwa, adres, kanał kontaktowy).",
+		notice: "Jakub Reszka; kontakt poprzez formularz dostępny na stronie głównej.",
 		sections: [
 			{
 				title: "1. Postanowienia ogólne",
